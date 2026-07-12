@@ -12,7 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
+import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppSetorSetorRouteImport } from './routes/_authenticated/app.setor.$setor'
 import { Route as AuthenticatedAppAdminPageRouteImport } from './routes/_authenticated/app.admin.$page'
 
@@ -30,35 +30,35 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
-  id: '/app',
-  path: '/app',
+const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
+  id: '/app/',
+  path: '/app/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAppSetorSetorRoute =
   AuthenticatedAppSetorSetorRouteImport.update({
-    id: '/setor/$setor',
-    path: '/setor/$setor',
-    getParentRoute: () => AuthenticatedAppRoute,
+    id: '/app/setor/$setor',
+    path: '/app/setor/$setor',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAppAdminPageRoute =
   AuthenticatedAppAdminPageRouteImport.update({
-    id: '/admin/$page',
-    path: '/admin/$page',
-    getParentRoute: () => AuthenticatedAppRoute,
+    id: '/app/admin/$page',
+    path: '/app/admin/$page',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/app': typeof AuthenticatedAppRouteWithChildren
+  '/app/': typeof AuthenticatedAppIndexRoute
   '/app/admin/$page': typeof AuthenticatedAppAdminPageRoute
   '/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/app': typeof AuthenticatedAppRouteWithChildren
+  '/app': typeof AuthenticatedAppIndexRoute
   '/app/admin/$page': typeof AuthenticatedAppAdminPageRoute
   '/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
 }
@@ -67,13 +67,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
-  '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
+  '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/app/admin/$page': typeof AuthenticatedAppAdminPageRoute
   '/_authenticated/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/app' | '/app/admin/$page' | '/app/setor/$setor'
+  fullPaths: '/' | '/auth' | '/app/' | '/app/admin/$page' | '/app/setor/$setor'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/auth' | '/app' | '/app/admin/$page' | '/app/setor/$setor'
   id:
@@ -81,7 +81,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
-    | '/_authenticated/app'
+    | '/_authenticated/app/'
     | '/_authenticated/app/admin/$page'
     | '/_authenticated/app/setor/$setor'
   fileRoutesById: FileRoutesById
@@ -115,49 +115,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/app': {
-      id: '/_authenticated/app'
+    '/_authenticated/app/': {
+      id: '/_authenticated/app/'
       path: '/app'
-      fullPath: '/app'
-      preLoaderRoute: typeof AuthenticatedAppRouteImport
+      fullPath: '/app/'
+      preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/app/setor/$setor': {
       id: '/_authenticated/app/setor/$setor'
-      path: '/setor/$setor'
+      path: '/app/setor/$setor'
       fullPath: '/app/setor/$setor'
       preLoaderRoute: typeof AuthenticatedAppSetorSetorRouteImport
-      parentRoute: typeof AuthenticatedAppRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/app/admin/$page': {
       id: '/_authenticated/app/admin/$page'
-      path: '/admin/$page'
+      path: '/app/admin/$page'
       fullPath: '/app/admin/$page'
       preLoaderRoute: typeof AuthenticatedAppAdminPageRouteImport
-      parentRoute: typeof AuthenticatedAppRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
-interface AuthenticatedAppRouteChildren {
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
   AuthenticatedAppAdminPageRoute: typeof AuthenticatedAppAdminPageRoute
   AuthenticatedAppSetorSetorRoute: typeof AuthenticatedAppSetorSetorRoute
 }
 
-const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
   AuthenticatedAppAdminPageRoute: AuthenticatedAppAdminPageRoute,
   AuthenticatedAppSetorSetorRoute: AuthenticatedAppSetorSetorRoute,
-}
-
-const AuthenticatedAppRouteWithChildren =
-  AuthenticatedAppRoute._addFileChildren(AuthenticatedAppRouteChildren)
-
-interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
-}
-
-const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =

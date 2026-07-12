@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { SETORES, podeAcessarSetor, podeIntervir } from "@/lib/setores";
 import { useCurrentUser } from "@/lib/use-current-user";
 
-export const Route = createFileRoute("/_authenticated/app")({
+export const Route = createFileRoute("/_authenticated/app/")({
   component: Dashboard,
 });
 
