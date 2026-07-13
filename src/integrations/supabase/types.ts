@@ -14,6 +14,115 @@ export type Database = {
   }
   public: {
     Tables: {
+      ordens_servico: {
+        Row: {
+          created_at: string
+          created_by: string
+          data_entrada: string
+          data_prevista_entrega: string | null
+          data_saida: string | null
+          etapa_atual: Database["public"]["Enums"]["os_etapa"]
+          id: string
+          nivel_blindagem: string | null
+          numero: string
+          observacoes: string | null
+          prioridade: string
+          responsavel_id: string | null
+          status: Database["public"]["Enums"]["os_status"]
+          updated_at: string
+          veiculo_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string
+          data_entrada?: string
+          data_prevista_entrega?: string | null
+          data_saida?: string | null
+          etapa_atual?: Database["public"]["Enums"]["os_etapa"]
+          id?: string
+          nivel_blindagem?: string | null
+          numero?: string
+          observacoes?: string | null
+          prioridade?: string
+          responsavel_id?: string | null
+          status?: Database["public"]["Enums"]["os_status"]
+          updated_at?: string
+          veiculo_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          data_entrada?: string
+          data_prevista_entrega?: string | null
+          data_saida?: string | null
+          etapa_atual?: Database["public"]["Enums"]["os_etapa"]
+          id?: string
+          nivel_blindagem?: string | null
+          numero?: string
+          observacoes?: string | null
+          prioridade?: string
+          responsavel_id?: string | null
+          status?: Database["public"]["Enums"]["os_status"]
+          updated_at?: string
+          veiculo_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ordens_servico_veiculo_id_fkey"
+            columns: ["veiculo_id"]
+            isOneToOne: false
+            referencedRelation: "veiculos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      os_timeline: {
+        Row: {
+          autor_id: string
+          autor_nome: string | null
+          created_at: string
+          descricao: string | null
+          etapa_de: Database["public"]["Enums"]["os_etapa"] | null
+          etapa_para: Database["public"]["Enums"]["os_etapa"] | null
+          evento: Database["public"]["Enums"]["os_evento"]
+          id: string
+          metadata: Json
+          os_id: string
+        }
+        Insert: {
+          autor_id?: string
+          autor_nome?: string | null
+          created_at?: string
+          descricao?: string | null
+          etapa_de?: Database["public"]["Enums"]["os_etapa"] | null
+          etapa_para?: Database["public"]["Enums"]["os_etapa"] | null
+          evento: Database["public"]["Enums"]["os_evento"]
+          id?: string
+          metadata?: Json
+          os_id: string
+        }
+        Update: {
+          autor_id?: string
+          autor_nome?: string | null
+          created_at?: string
+          descricao?: string | null
+          etapa_de?: Database["public"]["Enums"]["os_etapa"] | null
+          etapa_para?: Database["public"]["Enums"]["os_etapa"] | null
+          evento?: Database["public"]["Enums"]["os_evento"]
+          id?: string
+          metadata?: Json
+          os_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "os_timeline_os_id_fkey"
+            columns: ["os_id"]
+            isOneToOne: false
+            referencedRelation: "ordens_servico"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           ativo: boolean
@@ -68,6 +177,54 @@ export type Database = {
         }
         Relationships: []
       }
+      veiculos: {
+        Row: {
+          ano: number | null
+          chassi: string | null
+          cliente_contato: string | null
+          cliente_documento: string | null
+          cliente_nome: string
+          cor: string | null
+          created_at: string
+          id: string
+          marca: string
+          modelo: string
+          observacoes: string | null
+          placa: string
+          updated_at: string
+        }
+        Insert: {
+          ano?: number | null
+          chassi?: string | null
+          cliente_contato?: string | null
+          cliente_documento?: string | null
+          cliente_nome: string
+          cor?: string | null
+          created_at?: string
+          id?: string
+          marca: string
+          modelo: string
+          observacoes?: string | null
+          placa: string
+          updated_at?: string
+        }
+        Update: {
+          ano?: number | null
+          chassi?: string | null
+          cliente_contato?: string | null
+          cliente_documento?: string | null
+          cliente_nome?: string
+          cor?: string | null
+          created_at?: string
+          id?: string
+          marca?: string
+          modelo?: string
+          observacoes?: string | null
+          placa?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -94,6 +251,34 @@ export type Database = {
         | "seguranca"
         | "fiscal"
         | "recepcao"
+      os_etapa:
+        | "recepcao"
+        | "engenharia"
+        | "desmontagem"
+        | "blindagem"
+        | "montagem"
+        | "acabamento"
+        | "qualidade"
+        | "entrega"
+        | "concluida"
+      os_evento:
+        | "criacao"
+        | "avanco_etapa"
+        | "retorno_etapa"
+        | "nota"
+        | "intervencao_diretoria"
+        | "nao_conformidade"
+        | "anexo"
+        | "pausa"
+        | "retomada"
+        | "conclusao"
+        | "cancelamento"
+      os_status:
+        | "aberta"
+        | "em_andamento"
+        | "pausada"
+        | "concluida"
+        | "cancelada"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -233,6 +418,37 @@ export const Constants = {
         "seguranca",
         "fiscal",
         "recepcao",
+      ],
+      os_etapa: [
+        "recepcao",
+        "engenharia",
+        "desmontagem",
+        "blindagem",
+        "montagem",
+        "acabamento",
+        "qualidade",
+        "entrega",
+        "concluida",
+      ],
+      os_evento: [
+        "criacao",
+        "avanco_etapa",
+        "retorno_etapa",
+        "nota",
+        "intervencao_diretoria",
+        "nao_conformidade",
+        "anexo",
+        "pausa",
+        "retomada",
+        "conclusao",
+        "cancelamento",
+      ],
+      os_status: [
+        "aberta",
+        "em_andamento",
+        "pausada",
+        "concluida",
+        "cancelada",
       ],
     },
   },
