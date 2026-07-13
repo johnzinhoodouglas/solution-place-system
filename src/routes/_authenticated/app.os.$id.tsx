@@ -146,7 +146,11 @@ function OsDetailPage() {
 
   async function mover(target: OsEtapa) {
     if (!os) return;
-    const updates: Record<string, unknown> = { etapa_atual: target };
+    const updates: {
+      etapa_atual: OsEtapa;
+      status?: OsStatus;
+      data_saida?: string;
+    } = { etapa_atual: target };
     if (target === "concluida") {
       updates.status = "concluida";
       updates.data_saida = new Date().toISOString();
