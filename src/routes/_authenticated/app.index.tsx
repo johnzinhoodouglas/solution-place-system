@@ -1,26 +1,66 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Activity, AlertTriangle, CheckCircle2, Recycle } from "lucide-react";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SETORES, podeAcessarSetor, podeIntervir } from "@/lib/setores";
 import { useCurrentUser } from "@/lib/use-current-user";
+import { supabase } from "@/integrations/supabase/client";
+import { ETAPA_LABEL, ETAPAS_ORDEM, type OsEtapa } from "@/lib/os";
 
 export const Route = createFileRoute("/_authenticated/app/")({
   component: Dashboard,
 });
 
-const KPIS = [
-  { label: "OS em produção", value: "0", icon: Activity, tone: "primary" as const },
-  { label: "Não conformidades abertas", value: "0", icon: AlertTriangle, tone: "warning" as const },
-  { label: "Entregues no mês", value: "0", icon: CheckCircle2, tone: "success" as const },
-  { label: "Sucata reciclada (kg)", value: "0", icon: Recycle, tone: "accent" as const },
-];
-
 function Dashboard() {
   const { profile, roles, loading } = useCurrentUser();
   const setoresVisiveis = SETORES.filter((s) => podeAcessarSetor(roles, s));
   const admin = podeIntervir(roles);
+
+  const [stats, setStats] = useState({
+    emProducao: 0,
+    entreguesMes: 0,
+    porEtapa: {} as Record<OsEtapa, number>,
+  });
+
+  useEffect(() => {
+    (async () => {
+      const inicioMes = new Date();
+      inicioMes.setDate(1);
+      inicioMes.setHours(0, 0, 0, 0);
+
+      const [{ data: emProdData }, { count: entregues }] = await Promise.all([
+        supabase
+          .from("ordens_servico")
+          .select("etapa_atual, status")
+          .in("status", ["aberta", "em_andamento", "pausada"]),
+        supabase
+          .from("ordens_servico")
+          .select("id", { count: "exact", head: true })
+          .eq("status", "concluida")
+          .gte("data_saida", inicioMes.toISOString()),
+      ]);
+
+      const porEtapa = {} as Record<OsEtapa, number>;
+      (emProdData ?? []).forEach((r: { etapa_atual: OsEtapa }) => {
+        porEtapa[r.etapa_atual] = (porEtapa[r.etapa_atual] ?? 0) + 1;
+      });
+
+      setStats({
+        emProducao: emProdData?.length ?? 0,
+        entreguesMes: entregues ?? 0,
+        porEtapa,
+      });
+    })();
+  }, []);
+
+  const KPIS = [
+    { label: "OS em produção", value: String(stats.emProducao), icon: Activity, tone: "primary" as const },
+    { label: "Não conformidades abertas", value: "0", icon: AlertTriangle, tone: "warning" as const },
+    { label: "Entregues no mês", value: String(stats.entreguesMes), icon: CheckCircle2, tone: "success" as const },
+    { label: "Sucata reciclada (kg)", value: "0", icon: Recycle, tone: "accent" as const },
+  ];
 
   return (
     <div className="mx-auto max-w-7xl space-y-8">
