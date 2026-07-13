@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Shield } from "lucide-react";
+import { Shield, ClipboardList } from "lucide-react";
 
 import {
   Sidebar,
@@ -61,6 +61,18 @@ export function AppSidebar() {
                   <Link to="/app">
                     <Shield className="h-4 w-4" />
                     <span>Dashboard</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname.startsWith("/app/os")}
+                  tooltip="Ordens de Serviço"
+                >
+                  <Link to="/app/os">
+                    <ClipboardList className="h-4 w-4" />
+                    <span>Ordens de Serviço</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
