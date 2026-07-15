@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Shield, ClipboardList } from "lucide-react";
+import { Shield, ClipboardList, ShieldCheck, HardHat } from "lucide-react";
 
 import {
   Sidebar,
@@ -76,6 +76,34 @@ export function AppSidebar() {
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              {(roles.includes("qualidade") || roles.includes("diretoria") || roles.includes("master")) && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname.startsWith("/app/qualidade")}
+                    tooltip="Qualidade"
+                  >
+                    <Link to="/app/qualidade">
+                      <ShieldCheck className="h-4 w-4" />
+                      <span>Qualidade / NCs</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
+              {(roles.includes("seguranca") || roles.includes("diretoria") || roles.includes("master")) && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname.startsWith("/app/seguranca")}
+                    tooltip="Segurança do Trabalho"
+                  >
+                    <Link to="/app/seguranca">
+                      <HardHat className="h-4 w-4" />
+                      <span>Segurança</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

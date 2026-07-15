@@ -13,8 +13,11 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedAppSegurancaIndexRouteImport } from './routes/_authenticated/app.seguranca.index'
+import { Route as AuthenticatedAppQualidadeIndexRouteImport } from './routes/_authenticated/app.qualidade.index'
 import { Route as AuthenticatedAppOsIndexRouteImport } from './routes/_authenticated/app.os.index'
 import { Route as AuthenticatedAppSetorSetorRouteImport } from './routes/_authenticated/app.setor.$setor'
+import { Route as AuthenticatedAppQualidadeIdRouteImport } from './routes/_authenticated/app.qualidade.$id'
 import { Route as AuthenticatedAppOsNovaRouteImport } from './routes/_authenticated/app.os.nova'
 import { Route as AuthenticatedAppOsIdRouteImport } from './routes/_authenticated/app.os.$id'
 import { Route as AuthenticatedAppAdminPageRouteImport } from './routes/_authenticated/app.admin.$page'
@@ -38,6 +41,18 @@ const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   path: '/app/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAppSegurancaIndexRoute =
+  AuthenticatedAppSegurancaIndexRouteImport.update({
+    id: '/app/seguranca/',
+    path: '/app/seguranca/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppQualidadeIndexRoute =
+  AuthenticatedAppQualidadeIndexRouteImport.update({
+    id: '/app/qualidade/',
+    path: '/app/qualidade/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppOsIndexRoute = AuthenticatedAppOsIndexRouteImport.update({
   id: '/app/os/',
   path: '/app/os/',
@@ -47,6 +62,12 @@ const AuthenticatedAppSetorSetorRoute =
   AuthenticatedAppSetorSetorRouteImport.update({
     id: '/app/setor/$setor',
     path: '/app/setor/$setor',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppQualidadeIdRoute =
+  AuthenticatedAppQualidadeIdRouteImport.update({
+    id: '/app/qualidade/$id',
+    path: '/app/qualidade/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAppOsNovaRoute = AuthenticatedAppOsNovaRouteImport.update({
@@ -73,8 +94,11 @@ export interface FileRoutesByFullPath {
   '/app/admin/$page': typeof AuthenticatedAppAdminPageRoute
   '/app/os/$id': typeof AuthenticatedAppOsIdRoute
   '/app/os/nova': typeof AuthenticatedAppOsNovaRoute
+  '/app/qualidade/$id': typeof AuthenticatedAppQualidadeIdRoute
   '/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
   '/app/os/': typeof AuthenticatedAppOsIndexRoute
+  '/app/qualidade/': typeof AuthenticatedAppQualidadeIndexRoute
+  '/app/seguranca/': typeof AuthenticatedAppSegurancaIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -83,8 +107,11 @@ export interface FileRoutesByTo {
   '/app/admin/$page': typeof AuthenticatedAppAdminPageRoute
   '/app/os/$id': typeof AuthenticatedAppOsIdRoute
   '/app/os/nova': typeof AuthenticatedAppOsNovaRoute
+  '/app/qualidade/$id': typeof AuthenticatedAppQualidadeIdRoute
   '/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
   '/app/os': typeof AuthenticatedAppOsIndexRoute
+  '/app/qualidade': typeof AuthenticatedAppQualidadeIndexRoute
+  '/app/seguranca': typeof AuthenticatedAppSegurancaIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -95,8 +122,11 @@ export interface FileRoutesById {
   '/_authenticated/app/admin/$page': typeof AuthenticatedAppAdminPageRoute
   '/_authenticated/app/os/$id': typeof AuthenticatedAppOsIdRoute
   '/_authenticated/app/os/nova': typeof AuthenticatedAppOsNovaRoute
+  '/_authenticated/app/qualidade/$id': typeof AuthenticatedAppQualidadeIdRoute
   '/_authenticated/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
   '/_authenticated/app/os/': typeof AuthenticatedAppOsIndexRoute
+  '/_authenticated/app/qualidade/': typeof AuthenticatedAppQualidadeIndexRoute
+  '/_authenticated/app/seguranca/': typeof AuthenticatedAppSegurancaIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -107,8 +137,11 @@ export interface FileRouteTypes {
     | '/app/admin/$page'
     | '/app/os/$id'
     | '/app/os/nova'
+    | '/app/qualidade/$id'
     | '/app/setor/$setor'
     | '/app/os/'
+    | '/app/qualidade/'
+    | '/app/seguranca/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -117,8 +150,11 @@ export interface FileRouteTypes {
     | '/app/admin/$page'
     | '/app/os/$id'
     | '/app/os/nova'
+    | '/app/qualidade/$id'
     | '/app/setor/$setor'
     | '/app/os'
+    | '/app/qualidade'
+    | '/app/seguranca'
   id:
     | '__root__'
     | '/'
@@ -128,8 +164,11 @@ export interface FileRouteTypes {
     | '/_authenticated/app/admin/$page'
     | '/_authenticated/app/os/$id'
     | '/_authenticated/app/os/nova'
+    | '/_authenticated/app/qualidade/$id'
     | '/_authenticated/app/setor/$setor'
     | '/_authenticated/app/os/'
+    | '/_authenticated/app/qualidade/'
+    | '/_authenticated/app/seguranca/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -168,6 +207,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/app/seguranca/': {
+      id: '/_authenticated/app/seguranca/'
+      path: '/app/seguranca'
+      fullPath: '/app/seguranca/'
+      preLoaderRoute: typeof AuthenticatedAppSegurancaIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/qualidade/': {
+      id: '/_authenticated/app/qualidade/'
+      path: '/app/qualidade'
+      fullPath: '/app/qualidade/'
+      preLoaderRoute: typeof AuthenticatedAppQualidadeIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/app/os/': {
       id: '/_authenticated/app/os/'
       path: '/app/os'
@@ -180,6 +233,13 @@ declare module '@tanstack/react-router' {
       path: '/app/setor/$setor'
       fullPath: '/app/setor/$setor'
       preLoaderRoute: typeof AuthenticatedAppSetorSetorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/qualidade/$id': {
+      id: '/_authenticated/app/qualidade/$id'
+      path: '/app/qualidade/$id'
+      fullPath: '/app/qualidade/$id'
+      preLoaderRoute: typeof AuthenticatedAppQualidadeIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/app/os/nova': {
@@ -211,8 +271,11 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppAdminPageRoute: typeof AuthenticatedAppAdminPageRoute
   AuthenticatedAppOsIdRoute: typeof AuthenticatedAppOsIdRoute
   AuthenticatedAppOsNovaRoute: typeof AuthenticatedAppOsNovaRoute
+  AuthenticatedAppQualidadeIdRoute: typeof AuthenticatedAppQualidadeIdRoute
   AuthenticatedAppSetorSetorRoute: typeof AuthenticatedAppSetorSetorRoute
   AuthenticatedAppOsIndexRoute: typeof AuthenticatedAppOsIndexRoute
+  AuthenticatedAppQualidadeIndexRoute: typeof AuthenticatedAppQualidadeIndexRoute
+  AuthenticatedAppSegurancaIndexRoute: typeof AuthenticatedAppSegurancaIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -220,8 +283,11 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppAdminPageRoute: AuthenticatedAppAdminPageRoute,
   AuthenticatedAppOsIdRoute: AuthenticatedAppOsIdRoute,
   AuthenticatedAppOsNovaRoute: AuthenticatedAppOsNovaRoute,
+  AuthenticatedAppQualidadeIdRoute: AuthenticatedAppQualidadeIdRoute,
   AuthenticatedAppSetorSetorRoute: AuthenticatedAppSetorSetorRoute,
   AuthenticatedAppOsIndexRoute: AuthenticatedAppOsIndexRoute,
+  AuthenticatedAppQualidadeIndexRoute: AuthenticatedAppQualidadeIndexRoute,
+  AuthenticatedAppSegurancaIndexRoute: AuthenticatedAppSegurancaIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
