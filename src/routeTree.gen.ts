@@ -13,6 +13,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedAppQualidadeIndexRouteImport } from './routes/_authenticated/app.qualidade.index'
 import { Route as AuthenticatedAppOsIndexRouteImport } from './routes/_authenticated/app.os.index'
 import { Route as AuthenticatedAppSetorSetorRouteImport } from './routes/_authenticated/app.setor.$setor'
 import { Route as AuthenticatedAppOsNovaRouteImport } from './routes/_authenticated/app.os.nova'
@@ -38,6 +39,12 @@ const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   path: '/app/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAppQualidadeIndexRoute =
+  AuthenticatedAppQualidadeIndexRouteImport.update({
+    id: '/app/qualidade/',
+    path: '/app/qualidade/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppOsIndexRoute = AuthenticatedAppOsIndexRouteImport.update({
   id: '/app/os/',
   path: '/app/os/',
@@ -75,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/app/os/nova': typeof AuthenticatedAppOsNovaRoute
   '/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
   '/app/os/': typeof AuthenticatedAppOsIndexRoute
+  '/app/qualidade/': typeof AuthenticatedAppQualidadeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -85,6 +93,7 @@ export interface FileRoutesByTo {
   '/app/os/nova': typeof AuthenticatedAppOsNovaRoute
   '/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
   '/app/os': typeof AuthenticatedAppOsIndexRoute
+  '/app/qualidade': typeof AuthenticatedAppQualidadeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -97,6 +106,7 @@ export interface FileRoutesById {
   '/_authenticated/app/os/nova': typeof AuthenticatedAppOsNovaRoute
   '/_authenticated/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
   '/_authenticated/app/os/': typeof AuthenticatedAppOsIndexRoute
+  '/_authenticated/app/qualidade/': typeof AuthenticatedAppQualidadeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/app/os/nova'
     | '/app/setor/$setor'
     | '/app/os/'
+    | '/app/qualidade/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/app/os/nova'
     | '/app/setor/$setor'
     | '/app/os'
+    | '/app/qualidade'
   id:
     | '__root__'
     | '/'
@@ -130,6 +142,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/os/nova'
     | '/_authenticated/app/setor/$setor'
     | '/_authenticated/app/os/'
+    | '/_authenticated/app/qualidade/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -166,6 +179,13 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app/'
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/qualidade/': {
+      id: '/_authenticated/app/qualidade/'
+      path: '/app/qualidade'
+      fullPath: '/app/qualidade/'
+      preLoaderRoute: typeof AuthenticatedAppQualidadeIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/app/os/': {
@@ -213,6 +233,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppOsNovaRoute: typeof AuthenticatedAppOsNovaRoute
   AuthenticatedAppSetorSetorRoute: typeof AuthenticatedAppSetorSetorRoute
   AuthenticatedAppOsIndexRoute: typeof AuthenticatedAppOsIndexRoute
+  AuthenticatedAppQualidadeIndexRoute: typeof AuthenticatedAppQualidadeIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -222,6 +243,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppOsNovaRoute: AuthenticatedAppOsNovaRoute,
   AuthenticatedAppSetorSetorRoute: AuthenticatedAppSetorSetorRoute,
   AuthenticatedAppOsIndexRoute: AuthenticatedAppOsIndexRoute,
+  AuthenticatedAppQualidadeIndexRoute: AuthenticatedAppQualidadeIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

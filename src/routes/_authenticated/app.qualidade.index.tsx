@@ -168,7 +168,7 @@ function NcForm({ onSaved, userId }: { onSaved: () => void; userId: string | nul
     e.preventDefault();
     setSaving(true);
     const { error } = await supabase.from("nao_conformidades").insert({
-      titulo, descricao: descricao || null, origem, severidade,
+      numero: "", titulo, descricao: descricao || null, origem, severidade,
       setor: setor || null, aberta_por: userId, responsavel_id: userId,
     });
     setSaving(false);
