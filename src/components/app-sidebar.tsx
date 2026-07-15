@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Shield, ClipboardList } from "lucide-react";
+import { Shield, ClipboardList, ShieldCheck, HardHat } from "lucide-react";
 
 import {
   Sidebar,
