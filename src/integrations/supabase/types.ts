@@ -14,6 +14,342 @@ export type Database = {
   }
   public: {
     Tables: {
+      acoes_corretivas: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          eficacia_verificada: boolean
+          how_como: string | null
+          how_much: number | null
+          id: string
+          nc_id: string
+          observacoes: string | null
+          status: Database["public"]["Enums"]["acao_status"]
+          updated_at: string
+          what: string
+          when_prazo: string | null
+          where_local: string | null
+          who: string | null
+          why: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          eficacia_verificada?: boolean
+          how_como?: string | null
+          how_much?: number | null
+          id?: string
+          nc_id: string
+          observacoes?: string | null
+          status?: Database["public"]["Enums"]["acao_status"]
+          updated_at?: string
+          what: string
+          when_prazo?: string | null
+          where_local?: string | null
+          who?: string | null
+          why?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          eficacia_verificada?: boolean
+          how_como?: string | null
+          how_much?: number | null
+          id?: string
+          nc_id?: string
+          observacoes?: string | null
+          status?: Database["public"]["Enums"]["acao_status"]
+          updated_at?: string
+          what?: string
+          when_prazo?: string | null
+          where_local?: string | null
+          who?: string | null
+          why?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "acoes_corretivas_nc_id_fkey"
+            columns: ["nc_id"]
+            isOneToOne: false
+            referencedRelation: "nao_conformidades"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dds: {
+        Row: {
+          conteudo: string | null
+          created_at: string
+          data: string
+          id: string
+          participantes: string | null
+          qtd_participantes: number
+          responsavel_id: string | null
+          responsavel_nome: string | null
+          setor: string | null
+          tema: string
+          updated_at: string
+        }
+        Insert: {
+          conteudo?: string | null
+          created_at?: string
+          data?: string
+          id?: string
+          participantes?: string | null
+          qtd_participantes?: number
+          responsavel_id?: string | null
+          responsavel_nome?: string | null
+          setor?: string | null
+          tema: string
+          updated_at?: string
+        }
+        Update: {
+          conteudo?: string | null
+          created_at?: string
+          data?: string
+          id?: string
+          participantes?: string | null
+          qtd_participantes?: number
+          responsavel_id?: string | null
+          responsavel_nome?: string | null
+          setor?: string | null
+          tema?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      entregas_epi: {
+        Row: {
+          assinado: boolean
+          colaborador_id: string | null
+          colaborador_nome: string
+          created_at: string
+          data_entrega: string
+          epi_id: string
+          id: string
+          observacoes: string | null
+          quantidade: number
+          registrado_por: string | null
+          updated_at: string
+        }
+        Insert: {
+          assinado?: boolean
+          colaborador_id?: string | null
+          colaborador_nome: string
+          created_at?: string
+          data_entrega?: string
+          epi_id: string
+          id?: string
+          observacoes?: string | null
+          quantidade?: number
+          registrado_por?: string | null
+          updated_at?: string
+        }
+        Update: {
+          assinado?: boolean
+          colaborador_id?: string | null
+          colaborador_nome?: string
+          created_at?: string
+          data_entrega?: string
+          epi_id?: string
+          id?: string
+          observacoes?: string | null
+          quantidade?: number
+          registrado_por?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "entregas_epi_epi_id_fkey"
+            columns: ["epi_id"]
+            isOneToOne: false
+            referencedRelation: "epis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      epis: {
+        Row: {
+          ativo: boolean
+          ca: string | null
+          created_at: string
+          estoque: number
+          estoque_minimo: number
+          id: string
+          nome: string
+          observacoes: string | null
+          tamanho: string | null
+          updated_at: string
+          validade_ca: string | null
+        }
+        Insert: {
+          ativo?: boolean
+          ca?: string | null
+          created_at?: string
+          estoque?: number
+          estoque_minimo?: number
+          id?: string
+          nome: string
+          observacoes?: string | null
+          tamanho?: string | null
+          updated_at?: string
+          validade_ca?: string | null
+        }
+        Update: {
+          ativo?: boolean
+          ca?: string | null
+          created_at?: string
+          estoque?: number
+          estoque_minimo?: number
+          id?: string
+          nome?: string
+          observacoes?: string | null
+          tamanho?: string | null
+          updated_at?: string
+          validade_ca?: string | null
+        }
+        Relationships: []
+      }
+      incidentes_seguranca: {
+        Row: {
+          created_at: string
+          data_ocorrencia: string
+          descricao: string
+          dias_afastamento: number
+          envolvidos: string | null
+          gravidade: Database["public"]["Enums"]["incidente_gravidade"]
+          id: string
+          investigacao: string | null
+          local: string | null
+          medidas_imediatas: string | null
+          nc_id: string | null
+          os_id: string | null
+          registrado_por: string | null
+          setor: string | null
+          tipo: Database["public"]["Enums"]["incidente_tipo"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          data_ocorrencia?: string
+          descricao: string
+          dias_afastamento?: number
+          envolvidos?: string | null
+          gravidade?: Database["public"]["Enums"]["incidente_gravidade"]
+          id?: string
+          investigacao?: string | null
+          local?: string | null
+          medidas_imediatas?: string | null
+          nc_id?: string | null
+          os_id?: string | null
+          registrado_por?: string | null
+          setor?: string | null
+          tipo: Database["public"]["Enums"]["incidente_tipo"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          data_ocorrencia?: string
+          descricao?: string
+          dias_afastamento?: number
+          envolvidos?: string | null
+          gravidade?: Database["public"]["Enums"]["incidente_gravidade"]
+          id?: string
+          investigacao?: string | null
+          local?: string | null
+          medidas_imediatas?: string | null
+          nc_id?: string | null
+          os_id?: string | null
+          registrado_por?: string | null
+          setor?: string | null
+          tipo?: Database["public"]["Enums"]["incidente_tipo"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "incidentes_seguranca_nc_id_fkey"
+            columns: ["nc_id"]
+            isOneToOne: false
+            referencedRelation: "nao_conformidades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "incidentes_seguranca_os_id_fkey"
+            columns: ["os_id"]
+            isOneToOne: false
+            referencedRelation: "ordens_servico"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      nao_conformidades: {
+        Row: {
+          aberta_por: string | null
+          created_at: string
+          data_abertura: string
+          data_fechamento: string | null
+          descricao: string | null
+          etapa: Database["public"]["Enums"]["os_etapa"] | null
+          evidencias: Json
+          id: string
+          numero: string
+          origem: Database["public"]["Enums"]["nc_origem"]
+          os_id: string | null
+          responsavel_id: string | null
+          setor: string | null
+          severidade: Database["public"]["Enums"]["nc_severidade"]
+          status: Database["public"]["Enums"]["nc_status"]
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          aberta_por?: string | null
+          created_at?: string
+          data_abertura?: string
+          data_fechamento?: string | null
+          descricao?: string | null
+          etapa?: Database["public"]["Enums"]["os_etapa"] | null
+          evidencias?: Json
+          id?: string
+          numero: string
+          origem?: Database["public"]["Enums"]["nc_origem"]
+          os_id?: string | null
+          responsavel_id?: string | null
+          setor?: string | null
+          severidade?: Database["public"]["Enums"]["nc_severidade"]
+          status?: Database["public"]["Enums"]["nc_status"]
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          aberta_por?: string | null
+          created_at?: string
+          data_abertura?: string
+          data_fechamento?: string | null
+          descricao?: string | null
+          etapa?: Database["public"]["Enums"]["os_etapa"] | null
+          evidencias?: Json
+          id?: string
+          numero?: string
+          origem?: Database["public"]["Enums"]["nc_origem"]
+          os_id?: string | null
+          responsavel_id?: string | null
+          setor?: string | null
+          severidade?: Database["public"]["Enums"]["nc_severidade"]
+          status?: Database["public"]["Enums"]["nc_status"]
+          titulo?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nao_conformidades_os_id_fkey"
+            columns: ["os_id"]
+            isOneToOne: false
+            referencedRelation: "ordens_servico"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ordens_servico: {
         Row: {
           created_at: string
@@ -239,6 +575,12 @@ export type Database = {
       }
     }
     Enums: {
+      acao_status:
+        | "planejada"
+        | "em_execucao"
+        | "concluida"
+        | "verificada"
+        | "cancelada"
       app_role:
         | "master"
         | "diretoria"
@@ -251,6 +593,30 @@ export type Database = {
         | "seguranca"
         | "fiscal"
         | "recepcao"
+      incidente_gravidade: "leve" | "moderada" | "grave" | "gravissima"
+      incidente_tipo:
+        | "quase_acidente"
+        | "primeiros_socorros"
+        | "com_afastamento"
+        | "sem_afastamento"
+        | "ambiental"
+        | "patrimonial"
+      nc_origem:
+        | "auditoria_interna"
+        | "auditoria_externa"
+        | "producao"
+        | "cliente"
+        | "fornecedor"
+        | "inspecao"
+        | "outro"
+      nc_severidade: "baixa" | "media" | "alta" | "critica"
+      nc_status:
+        | "aberta"
+        | "em_analise"
+        | "em_acao"
+        | "resolvida"
+        | "verificada"
+        | "fechada"
       os_etapa:
         | "recepcao"
         | "engenharia"
@@ -406,6 +772,13 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      acao_status: [
+        "planejada",
+        "em_execucao",
+        "concluida",
+        "verificada",
+        "cancelada",
+      ],
       app_role: [
         "master",
         "diretoria",
@@ -418,6 +791,33 @@ export const Constants = {
         "seguranca",
         "fiscal",
         "recepcao",
+      ],
+      incidente_gravidade: ["leve", "moderada", "grave", "gravissima"],
+      incidente_tipo: [
+        "quase_acidente",
+        "primeiros_socorros",
+        "com_afastamento",
+        "sem_afastamento",
+        "ambiental",
+        "patrimonial",
+      ],
+      nc_origem: [
+        "auditoria_interna",
+        "auditoria_externa",
+        "producao",
+        "cliente",
+        "fornecedor",
+        "inspecao",
+        "outro",
+      ],
+      nc_severidade: ["baixa", "media", "alta", "critica"],
+      nc_status: [
+        "aberta",
+        "em_analise",
+        "em_acao",
+        "resolvida",
+        "verificada",
+        "fechada",
       ],
       os_etapa: [
         "recepcao",
