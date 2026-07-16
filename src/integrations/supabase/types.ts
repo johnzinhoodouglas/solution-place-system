@@ -76,6 +76,292 @@ export type Database = {
           },
         ]
       }
+      clientes: {
+        Row: {
+          ativo: boolean
+          cidade: string | null
+          created_at: string
+          created_by: string | null
+          documento: string | null
+          email: string | null
+          endereco: string | null
+          id: string
+          nome: string
+          observacoes: string | null
+          telefone: string | null
+          tipo_pessoa: string | null
+          uf: string | null
+          updated_at: string
+        }
+        Insert: {
+          ativo?: boolean
+          cidade?: string | null
+          created_at?: string
+          created_by?: string | null
+          documento?: string | null
+          email?: string | null
+          endereco?: string | null
+          id?: string
+          nome: string
+          observacoes?: string | null
+          telefone?: string | null
+          tipo_pessoa?: string | null
+          uf?: string | null
+          updated_at?: string
+        }
+        Update: {
+          ativo?: boolean
+          cidade?: string | null
+          created_at?: string
+          created_by?: string | null
+          documento?: string | null
+          email?: string | null
+          endereco?: string | null
+          id?: string
+          nome?: string
+          observacoes?: string | null
+          telefone?: string | null
+          tipo_pessoa?: string | null
+          uf?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      contas_pagar: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          data_emissao: string
+          data_pagamento: string | null
+          data_vencimento: string
+          descricao: string
+          fornecedor_id: string | null
+          id: string
+          nota_fiscal_id: string | null
+          observacoes: string | null
+          pedido_compra_id: string | null
+          status: Database["public"]["Enums"]["titulo_status"]
+          updated_at: string
+          valor: number
+          valor_pago: number | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          data_emissao?: string
+          data_pagamento?: string | null
+          data_vencimento: string
+          descricao: string
+          fornecedor_id?: string | null
+          id?: string
+          nota_fiscal_id?: string | null
+          observacoes?: string | null
+          pedido_compra_id?: string | null
+          status?: Database["public"]["Enums"]["titulo_status"]
+          updated_at?: string
+          valor: number
+          valor_pago?: number | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          data_emissao?: string
+          data_pagamento?: string | null
+          data_vencimento?: string
+          descricao?: string
+          fornecedor_id?: string | null
+          id?: string
+          nota_fiscal_id?: string | null
+          observacoes?: string | null
+          pedido_compra_id?: string | null
+          status?: Database["public"]["Enums"]["titulo_status"]
+          updated_at?: string
+          valor?: number
+          valor_pago?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contas_pagar_fornecedor_id_fkey"
+            columns: ["fornecedor_id"]
+            isOneToOne: false
+            referencedRelation: "fornecedores"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contas_pagar_nota_fiscal_id_fkey"
+            columns: ["nota_fiscal_id"]
+            isOneToOne: false
+            referencedRelation: "notas_fiscais"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contas_pagar_pedido_compra_id_fkey"
+            columns: ["pedido_compra_id"]
+            isOneToOne: false
+            referencedRelation: "pedidos_compra"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contas_receber: {
+        Row: {
+          cliente_id: string | null
+          contrato_id: string | null
+          created_at: string
+          created_by: string | null
+          data_emissao: string
+          data_recebimento: string | null
+          data_vencimento: string
+          descricao: string
+          id: string
+          nota_fiscal_id: string | null
+          observacoes: string | null
+          os_id: string | null
+          status: Database["public"]["Enums"]["titulo_status"]
+          updated_at: string
+          valor: number
+          valor_recebido: number | null
+        }
+        Insert: {
+          cliente_id?: string | null
+          contrato_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          data_emissao?: string
+          data_recebimento?: string | null
+          data_vencimento: string
+          descricao: string
+          id?: string
+          nota_fiscal_id?: string | null
+          observacoes?: string | null
+          os_id?: string | null
+          status?: Database["public"]["Enums"]["titulo_status"]
+          updated_at?: string
+          valor: number
+          valor_recebido?: number | null
+        }
+        Update: {
+          cliente_id?: string | null
+          contrato_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          data_emissao?: string
+          data_recebimento?: string | null
+          data_vencimento?: string
+          descricao?: string
+          id?: string
+          nota_fiscal_id?: string | null
+          observacoes?: string | null
+          os_id?: string | null
+          status?: Database["public"]["Enums"]["titulo_status"]
+          updated_at?: string
+          valor?: number
+          valor_recebido?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contas_receber_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contas_receber_contrato_id_fkey"
+            columns: ["contrato_id"]
+            isOneToOne: false
+            referencedRelation: "contratos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contas_receber_nota_fiscal_id_fkey"
+            columns: ["nota_fiscal_id"]
+            isOneToOne: false
+            referencedRelation: "notas_fiscais"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contas_receber_os_id_fkey"
+            columns: ["os_id"]
+            isOneToOne: false
+            referencedRelation: "ordens_servico"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contratos: {
+        Row: {
+          cliente_id: string | null
+          created_at: string
+          created_by: string | null
+          data_fim: string | null
+          data_inicio: string | null
+          id: string
+          numero: string | null
+          objeto: string
+          observacoes: string | null
+          orcamento_id: string | null
+          os_id: string | null
+          status: Database["public"]["Enums"]["contrato_status"]
+          updated_at: string
+          valor: number
+        }
+        Insert: {
+          cliente_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          data_fim?: string | null
+          data_inicio?: string | null
+          id?: string
+          numero?: string | null
+          objeto: string
+          observacoes?: string | null
+          orcamento_id?: string | null
+          os_id?: string | null
+          status?: Database["public"]["Enums"]["contrato_status"]
+          updated_at?: string
+          valor?: number
+        }
+        Update: {
+          cliente_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          data_fim?: string | null
+          data_inicio?: string | null
+          id?: string
+          numero?: string | null
+          objeto?: string
+          observacoes?: string | null
+          orcamento_id?: string | null
+          os_id?: string | null
+          status?: Database["public"]["Enums"]["contrato_status"]
+          updated_at?: string
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contratos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contratos_orcamento_id_fkey"
+            columns: ["orcamento_id"]
+            isOneToOne: false
+            referencedRelation: "orcamentos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contratos_os_id_fkey"
+            columns: ["os_id"]
+            isOneToOne: false
+            referencedRelation: "ordens_servico"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       dds: {
         Row: {
           conteudo: string | null
@@ -207,6 +493,60 @@ export type Database = {
           tamanho?: string | null
           updated_at?: string
           validade_ca?: string | null
+        }
+        Relationships: []
+      }
+      fornecedores: {
+        Row: {
+          ativo: boolean
+          categoria: string | null
+          cidade: string | null
+          contato: string | null
+          created_at: string
+          created_by: string | null
+          documento: string | null
+          email: string | null
+          endereco: string | null
+          id: string
+          nome: string
+          observacoes: string | null
+          telefone: string | null
+          uf: string | null
+          updated_at: string
+        }
+        Insert: {
+          ativo?: boolean
+          categoria?: string | null
+          cidade?: string | null
+          contato?: string | null
+          created_at?: string
+          created_by?: string | null
+          documento?: string | null
+          email?: string | null
+          endereco?: string | null
+          id?: string
+          nome: string
+          observacoes?: string | null
+          telefone?: string | null
+          uf?: string | null
+          updated_at?: string
+        }
+        Update: {
+          ativo?: boolean
+          categoria?: string | null
+          cidade?: string | null
+          contato?: string | null
+          created_at?: string
+          created_by?: string | null
+          documento?: string | null
+          email?: string | null
+          endereco?: string | null
+          id?: string
+          nome?: string
+          observacoes?: string | null
+          telefone?: string | null
+          uf?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -350,6 +690,168 @@ export type Database = {
           },
         ]
       }
+      notas_fiscais: {
+        Row: {
+          chave: string | null
+          cliente_id: string | null
+          contrato_id: string | null
+          created_at: string
+          created_by: string | null
+          data_emissao: string
+          fornecedor_id: string | null
+          id: string
+          natureza: string | null
+          numero: string
+          observacoes: string | null
+          os_id: string | null
+          pedido_compra_id: string | null
+          serie: string | null
+          status: Database["public"]["Enums"]["nf_status"]
+          tipo: Database["public"]["Enums"]["nf_tipo"]
+          updated_at: string
+          valor: number
+        }
+        Insert: {
+          chave?: string | null
+          cliente_id?: string | null
+          contrato_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          data_emissao?: string
+          fornecedor_id?: string | null
+          id?: string
+          natureza?: string | null
+          numero: string
+          observacoes?: string | null
+          os_id?: string | null
+          pedido_compra_id?: string | null
+          serie?: string | null
+          status?: Database["public"]["Enums"]["nf_status"]
+          tipo: Database["public"]["Enums"]["nf_tipo"]
+          updated_at?: string
+          valor?: number
+        }
+        Update: {
+          chave?: string | null
+          cliente_id?: string | null
+          contrato_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          data_emissao?: string
+          fornecedor_id?: string | null
+          id?: string
+          natureza?: string | null
+          numero?: string
+          observacoes?: string | null
+          os_id?: string | null
+          pedido_compra_id?: string | null
+          serie?: string | null
+          status?: Database["public"]["Enums"]["nf_status"]
+          tipo?: Database["public"]["Enums"]["nf_tipo"]
+          updated_at?: string
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notas_fiscais_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notas_fiscais_contrato_id_fkey"
+            columns: ["contrato_id"]
+            isOneToOne: false
+            referencedRelation: "contratos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notas_fiscais_fornecedor_id_fkey"
+            columns: ["fornecedor_id"]
+            isOneToOne: false
+            referencedRelation: "fornecedores"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notas_fiscais_os_id_fkey"
+            columns: ["os_id"]
+            isOneToOne: false
+            referencedRelation: "ordens_servico"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notas_fiscais_pedido_compra_id_fkey"
+            columns: ["pedido_compra_id"]
+            isOneToOne: false
+            referencedRelation: "pedidos_compra"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orcamentos: {
+        Row: {
+          cliente_id: string | null
+          created_at: string
+          created_by: string | null
+          descricao: string | null
+          id: string
+          itens: Json
+          numero: string | null
+          observacoes: string | null
+          os_id: string | null
+          status: Database["public"]["Enums"]["orcamento_status"]
+          updated_at: string
+          validade: string | null
+          valor_total: number
+        }
+        Insert: {
+          cliente_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          descricao?: string | null
+          id?: string
+          itens?: Json
+          numero?: string | null
+          observacoes?: string | null
+          os_id?: string | null
+          status?: Database["public"]["Enums"]["orcamento_status"]
+          updated_at?: string
+          validade?: string | null
+          valor_total?: number
+        }
+        Update: {
+          cliente_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          descricao?: string | null
+          id?: string
+          itens?: Json
+          numero?: string | null
+          observacoes?: string | null
+          os_id?: string | null
+          status?: Database["public"]["Enums"]["orcamento_status"]
+          updated_at?: string
+          validade?: string | null
+          valor_total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orcamentos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orcamentos_os_id_fkey"
+            columns: ["os_id"]
+            isOneToOne: false
+            referencedRelation: "ordens_servico"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ordens_servico: {
         Row: {
           created_at: string
@@ -452,6 +954,69 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "os_timeline_os_id_fkey"
+            columns: ["os_id"]
+            isOneToOne: false
+            referencedRelation: "ordens_servico"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pedidos_compra: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          data_pedido: string
+          data_prev_entrega: string | null
+          fornecedor_id: string | null
+          id: string
+          itens: Json
+          numero: string | null
+          observacoes: string | null
+          os_id: string | null
+          status: Database["public"]["Enums"]["pedido_compra_status"]
+          updated_at: string
+          valor_total: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          data_pedido?: string
+          data_prev_entrega?: string | null
+          fornecedor_id?: string | null
+          id?: string
+          itens?: Json
+          numero?: string | null
+          observacoes?: string | null
+          os_id?: string | null
+          status?: Database["public"]["Enums"]["pedido_compra_status"]
+          updated_at?: string
+          valor_total?: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          data_pedido?: string
+          data_prev_entrega?: string | null
+          fornecedor_id?: string | null
+          id?: string
+          itens?: Json
+          numero?: string | null
+          observacoes?: string | null
+          os_id?: string | null
+          status?: Database["public"]["Enums"]["pedido_compra_status"]
+          updated_at?: string
+          valor_total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pedidos_compra_fornecedor_id_fkey"
+            columns: ["fornecedor_id"]
+            isOneToOne: false
+            referencedRelation: "fornecedores"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pedidos_compra_os_id_fkey"
             columns: ["os_id"]
             isOneToOne: false
             referencedRelation: "ordens_servico"
@@ -593,6 +1158,7 @@ export type Database = {
         | "seguranca"
         | "fiscal"
         | "recepcao"
+      contrato_status: "ativo" | "concluido" | "cancelado" | "suspenso"
       incidente_gravidade: "leve" | "moderada" | "grave" | "gravissima"
       incidente_tipo:
         | "quase_acidente"
@@ -617,6 +1183,15 @@ export type Database = {
         | "resolvida"
         | "verificada"
         | "fechada"
+      nf_status: "emitida" | "autorizada" | "cancelada" | "denegada"
+      nf_tipo: "entrada" | "saida"
+      orcamento_status:
+        | "rascunho"
+        | "enviado"
+        | "aprovado"
+        | "recusado"
+        | "expirado"
+        | "convertido"
       os_etapa:
         | "recepcao"
         | "engenharia"
@@ -645,6 +1220,14 @@ export type Database = {
         | "pausada"
         | "concluida"
         | "cancelada"
+      pedido_compra_status:
+        | "rascunho"
+        | "aprovado"
+        | "enviado"
+        | "parcial"
+        | "recebido"
+        | "cancelado"
+      titulo_status: "aberto" | "pago" | "parcial" | "vencido" | "cancelado"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -792,6 +1375,7 @@ export const Constants = {
         "fiscal",
         "recepcao",
       ],
+      contrato_status: ["ativo", "concluido", "cancelado", "suspenso"],
       incidente_gravidade: ["leve", "moderada", "grave", "gravissima"],
       incidente_tipo: [
         "quase_acidente",
@@ -818,6 +1402,16 @@ export const Constants = {
         "resolvida",
         "verificada",
         "fechada",
+      ],
+      nf_status: ["emitida", "autorizada", "cancelada", "denegada"],
+      nf_tipo: ["entrada", "saida"],
+      orcamento_status: [
+        "rascunho",
+        "enviado",
+        "aprovado",
+        "recusado",
+        "expirado",
+        "convertido",
       ],
       os_etapa: [
         "recepcao",
@@ -850,6 +1444,15 @@ export const Constants = {
         "concluida",
         "cancelada",
       ],
+      pedido_compra_status: [
+        "rascunho",
+        "aprovado",
+        "enviado",
+        "parcial",
+        "recebido",
+        "cancelado",
+      ],
+      titulo_status: ["aberto", "pago", "parcial", "vencido", "cancelado"],
     },
   },
 } as const
