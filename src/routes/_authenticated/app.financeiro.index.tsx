@@ -155,15 +155,14 @@ function TituloForm({ tipo, refs, refLabel, onSaved, userId }: { tipo: "pagar" |
   const [saving, setSaving] = useState(false);
   async function submit(e: React.FormEvent) {
     e.preventDefault(); setSaving(true);
-    const table = tipo === "pagar" ? "contas_pagar" : "contas_receber";
-    const payload: Record<string, unknown> = {
+    const base = {
       descricao: f.descricao, valor: Number(f.valor) || 0,
       data_vencimento: f.data_vencimento, observacoes: f.observacoes || null,
       status: f.status, created_by: userId,
     };
-    if (tipo === "pagar") payload.fornecedor_id = f.ref_id || null;
-    else payload.cliente_id = f.ref_id || null;
-    const { error } = await supabase.from(table).insert(payload);
+    const { error } = tipo === "pagar"
+      ? await supabase.from("contas_pagar").insert({ ...base, fornecedor_id: f.ref_id || null })
+      : await supabase.from("contas_receber").insert({ ...base, cliente_id: f.ref_id || null });
     setSaving(false);
     if (error) return toast.error(error.message);
     toast.success("Título registrado"); onSaved();
