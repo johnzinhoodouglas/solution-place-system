@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Shield, ClipboardList, ShieldCheck, HardHat } from "lucide-react";
+import { Shield, ClipboardList, ShieldCheck, HardHat, ShoppingCart, ShoppingBag, DollarSign, FileText } from "lucide-react";
 
 import {
   Sidebar,
@@ -101,6 +101,34 @@ export function AppSidebar() {
                       <HardHat className="h-4 w-4" />
                       <span>Segurança</span>
                     </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
+              {(roles.includes("vendas") || roles.includes("diretoria") || roles.includes("master")) && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild isActive={pathname.startsWith("/app/vendas")} tooltip="Vendas">
+                    <Link to="/app/vendas"><ShoppingCart className="h-4 w-4" /><span>Vendas</span></Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
+              {(roles.includes("compras") || roles.includes("diretoria") || roles.includes("master")) && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild isActive={pathname.startsWith("/app/compras")} tooltip="Compras">
+                    <Link to="/app/compras"><ShoppingBag className="h-4 w-4" /><span>Compras</span></Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
+              {(roles.includes("financeiro") || roles.includes("diretoria") || roles.includes("master")) && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild isActive={pathname.startsWith("/app/financeiro")} tooltip="Financeiro">
+                    <Link to="/app/financeiro"><DollarSign className="h-4 w-4" /><span>Financeiro</span></Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
+              {(roles.includes("fiscal") || roles.includes("diretoria") || roles.includes("master")) && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild isActive={pathname.startsWith("/app/fiscal")} tooltip="Fiscal">
+                    <Link to="/app/fiscal"><FileText className="h-4 w-4" /><span>Fiscal / NFs</span></Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               )}
