@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Shield, ClipboardList, ShieldCheck, HardHat, ShoppingCart, ShoppingBag, DollarSign, FileText } from "lucide-react";
+import { Shield, ClipboardList, ShieldCheck, HardHat, ShoppingCart, ShoppingBag, DollarSign, FileText, Factory, ClipboardCheck, TrendingUp, Users } from "lucide-react";
 
 import {
   Sidebar,
@@ -132,6 +132,26 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               )}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith("/app/producao")} tooltip="Produção">
+                  <Link to="/app/producao"><Factory className="h-4 w-4" /><span>Produção</span></Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname === "/app/qualidade/inspecoes"} tooltip="Inspeções">
+                  <Link to="/app/qualidade/inspecoes"><ClipboardCheck className="h-4 w-4" /><span>Inspeções</span></Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith("/app/melhoria")} tooltip="Melhoria Contínua">
+                  <Link to="/app/melhoria"><TrendingUp className="h-4 w-4" /><span>Melhoria Contínua</span></Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith("/app/rh")} tooltip="Recursos Humanos">
+                  <Link to="/app/rh"><Users className="h-4 w-4" /><span>Recursos Humanos</span></Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
