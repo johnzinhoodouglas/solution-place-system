@@ -127,6 +127,60 @@ export type Database = {
         }
         Relationships: []
       }
+      colaboradores: {
+        Row: {
+          ativo: boolean
+          cargo: string | null
+          cpf: string | null
+          created_at: string
+          data_admissao: string | null
+          data_demissao: string | null
+          email: string | null
+          id: string
+          matricula: string | null
+          nome: string
+          observacoes: string | null
+          setor: string | null
+          telefone: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          ativo?: boolean
+          cargo?: string | null
+          cpf?: string | null
+          created_at?: string
+          data_admissao?: string | null
+          data_demissao?: string | null
+          email?: string | null
+          id?: string
+          matricula?: string | null
+          nome: string
+          observacoes?: string | null
+          setor?: string | null
+          telefone?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          ativo?: boolean
+          cargo?: string | null
+          cpf?: string | null
+          created_at?: string
+          data_admissao?: string | null
+          data_demissao?: string | null
+          email?: string | null
+          id?: string
+          matricula?: string | null
+          nome?: string
+          observacoes?: string | null
+          setor?: string | null
+          telefone?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       contas_pagar: {
         Row: {
           created_at: string
@@ -404,6 +458,51 @@ export type Database = {
         }
         Relationships: []
       }
+      economia_registros: {
+        Row: {
+          categoria: string
+          created_at: string
+          custo_evitado: number
+          custo_unitario: number
+          id: string
+          item: string
+          mes: string
+          observacoes: string | null
+          origem: string | null
+          quantidade: number
+          unidade: string
+          updated_at: string
+        }
+        Insert: {
+          categoria?: string
+          created_at?: string
+          custo_evitado?: number
+          custo_unitario?: number
+          id?: string
+          item: string
+          mes?: string
+          observacoes?: string | null
+          origem?: string | null
+          quantidade?: number
+          unidade?: string
+          updated_at?: string
+        }
+        Update: {
+          categoria?: string
+          created_at?: string
+          custo_evitado?: number
+          custo_unitario?: number
+          id?: string
+          item?: string
+          mes?: string
+          observacoes?: string | null
+          origem?: string | null
+          quantidade?: number
+          unidade?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       entregas_epi: {
         Row: {
           assinado: boolean
@@ -618,6 +717,94 @@ export type Database = {
             columns: ["os_id"]
             isOneToOne: false
             referencedRelation: "ordens_servico"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      inspecoes: {
+        Row: {
+          checklist: Json
+          combustivel: string | null
+          created_at: string
+          created_by: string | null
+          data_inspecao: string
+          fornecedor_id: string | null
+          fotos: Json
+          id: string
+          inspetor_id: string | null
+          inspetor_nome: string | null
+          itens_recebidos: string | null
+          km: number | null
+          numero: string | null
+          observacoes: string | null
+          os_id: string | null
+          resultado: Database["public"]["Enums"]["inspecao_resultado"]
+          tipo: Database["public"]["Enums"]["inspecao_tipo"]
+          updated_at: string
+          veiculo_id: string | null
+        }
+        Insert: {
+          checklist?: Json
+          combustivel?: string | null
+          created_at?: string
+          created_by?: string | null
+          data_inspecao?: string
+          fornecedor_id?: string | null
+          fotos?: Json
+          id?: string
+          inspetor_id?: string | null
+          inspetor_nome?: string | null
+          itens_recebidos?: string | null
+          km?: number | null
+          numero?: string | null
+          observacoes?: string | null
+          os_id?: string | null
+          resultado?: Database["public"]["Enums"]["inspecao_resultado"]
+          tipo?: Database["public"]["Enums"]["inspecao_tipo"]
+          updated_at?: string
+          veiculo_id?: string | null
+        }
+        Update: {
+          checklist?: Json
+          combustivel?: string | null
+          created_at?: string
+          created_by?: string | null
+          data_inspecao?: string
+          fornecedor_id?: string | null
+          fotos?: Json
+          id?: string
+          inspetor_id?: string | null
+          inspetor_nome?: string | null
+          itens_recebidos?: string | null
+          km?: number | null
+          numero?: string | null
+          observacoes?: string | null
+          os_id?: string | null
+          resultado?: Database["public"]["Enums"]["inspecao_resultado"]
+          tipo?: Database["public"]["Enums"]["inspecao_tipo"]
+          updated_at?: string
+          veiculo_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inspecoes_fornecedor_id_fkey"
+            columns: ["fornecedor_id"]
+            isOneToOne: false
+            referencedRelation: "fornecedores"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inspecoes_os_id_fkey"
+            columns: ["os_id"]
+            isOneToOne: false
+            referencedRelation: "ordens_servico"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inspecoes_veiculo_id_fkey"
+            columns: ["veiculo_id"]
+            isOneToOne: false
+            referencedRelation: "veiculos"
             referencedColumns: ["id"]
           },
         ]
@@ -1024,6 +1211,116 @@ export type Database = {
           },
         ]
       }
+      procedimentos: {
+        Row: {
+          ativo: boolean
+          clausula_iso: string | null
+          codigo: string
+          created_at: string
+          epis: string[]
+          id: string
+          objetivo: string | null
+          passos: Json
+          riscos: Json
+          setor: string
+          titulo: string
+          updated_at: string
+          versao: string
+        }
+        Insert: {
+          ativo?: boolean
+          clausula_iso?: string | null
+          codigo: string
+          created_at?: string
+          epis?: string[]
+          id?: string
+          objetivo?: string | null
+          passos?: Json
+          riscos?: Json
+          setor: string
+          titulo: string
+          updated_at?: string
+          versao?: string
+        }
+        Update: {
+          ativo?: boolean
+          clausula_iso?: string | null
+          codigo?: string
+          created_at?: string
+          epis?: string[]
+          id?: string
+          objetivo?: string | null
+          passos?: Json
+          riscos?: Json
+          setor?: string
+          titulo?: string
+          updated_at?: string
+          versao?: string
+        }
+        Relationships: []
+      }
+      producao_apontamentos: {
+        Row: {
+          assinado_em: string | null
+          assinatura: string | null
+          colaborador_id: string | null
+          colaborador_nome: string
+          created_at: string
+          created_by: string | null
+          data_execucao: string
+          escopos: string[]
+          horas: number | null
+          id: string
+          observacoes: string | null
+          os_id: string | null
+          setor: Database["public"]["Enums"]["setor_producao"]
+          status: Database["public"]["Enums"]["apontamento_status"]
+          updated_at: string
+        }
+        Insert: {
+          assinado_em?: string | null
+          assinatura?: string | null
+          colaborador_id?: string | null
+          colaborador_nome: string
+          created_at?: string
+          created_by?: string | null
+          data_execucao?: string
+          escopos?: string[]
+          horas?: number | null
+          id?: string
+          observacoes?: string | null
+          os_id?: string | null
+          setor: Database["public"]["Enums"]["setor_producao"]
+          status?: Database["public"]["Enums"]["apontamento_status"]
+          updated_at?: string
+        }
+        Update: {
+          assinado_em?: string | null
+          assinatura?: string | null
+          colaborador_id?: string | null
+          colaborador_nome?: string
+          created_at?: string
+          created_by?: string | null
+          data_execucao?: string
+          escopos?: string[]
+          horas?: number | null
+          id?: string
+          observacoes?: string | null
+          os_id?: string | null
+          setor?: Database["public"]["Enums"]["setor_producao"]
+          status?: Database["public"]["Enums"]["apontamento_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "producao_apontamentos_os_id_fkey"
+            columns: ["os_id"]
+            isOneToOne: false
+            referencedRelation: "ordens_servico"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           ativo: boolean
@@ -1053,6 +1350,176 @@ export type Database = {
           id?: string
           nome?: string
           setor?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      sugestoes_melhoria: {
+        Row: {
+          autor_id: string | null
+          autor_nome: string | null
+          categoria: string
+          conflito_com: string | null
+          created_at: string
+          descricao: string
+          ganho_custo_mes: number
+          ganho_papel_folhas: number
+          ganho_tempo_min: number
+          id: string
+          nota_esforco: number
+          nota_impacto: number
+          nota_risco: number
+          parecer: string | null
+          score: number
+          setor: string | null
+          status: Database["public"]["Enums"]["sugestao_status"]
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          autor_id?: string | null
+          autor_nome?: string | null
+          categoria?: string
+          conflito_com?: string | null
+          created_at?: string
+          descricao: string
+          ganho_custo_mes?: number
+          ganho_papel_folhas?: number
+          ganho_tempo_min?: number
+          id?: string
+          nota_esforco?: number
+          nota_impacto?: number
+          nota_risco?: number
+          parecer?: string | null
+          score?: number
+          setor?: string | null
+          status?: Database["public"]["Enums"]["sugestao_status"]
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          autor_id?: string | null
+          autor_nome?: string | null
+          categoria?: string
+          conflito_com?: string | null
+          created_at?: string
+          descricao?: string
+          ganho_custo_mes?: number
+          ganho_papel_folhas?: number
+          ganho_tempo_min?: number
+          id?: string
+          nota_esforco?: number
+          nota_impacto?: number
+          nota_risco?: number
+          parecer?: string | null
+          score?: number
+          setor?: string | null
+          status?: Database["public"]["Enums"]["sugestao_status"]
+          titulo?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sugestoes_melhoria_conflito_com_fkey"
+            columns: ["conflito_com"]
+            isOneToOne: false
+            referencedRelation: "sugestoes_melhoria"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      treinamento_participantes: {
+        Row: {
+          certificado: boolean
+          colaborador_id: string | null
+          colaborador_nome: string
+          created_at: string
+          id: string
+          nota: number | null
+          presente: boolean
+          treinamento_id: string
+        }
+        Insert: {
+          certificado?: boolean
+          colaborador_id?: string | null
+          colaborador_nome: string
+          created_at?: string
+          id?: string
+          nota?: number | null
+          presente?: boolean
+          treinamento_id: string
+        }
+        Update: {
+          certificado?: boolean
+          colaborador_id?: string | null
+          colaborador_nome?: string
+          created_at?: string
+          id?: string
+          nota?: number | null
+          presente?: boolean
+          treinamento_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "treinamento_participantes_colaborador_id_fkey"
+            columns: ["colaborador_id"]
+            isOneToOne: false
+            referencedRelation: "colaboradores"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "treinamento_participantes_treinamento_id_fkey"
+            columns: ["treinamento_id"]
+            isOneToOne: false
+            referencedRelation: "treinamentos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      treinamentos: {
+        Row: {
+          carga_horaria: number
+          conteudo: Json
+          created_at: string
+          data_prevista: string | null
+          data_realizada: string | null
+          descricao: string | null
+          id: string
+          instrutor: string | null
+          obrigatorio: boolean
+          setor: string | null
+          tipo: Database["public"]["Enums"]["treinamento_tipo"]
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          carga_horaria?: number
+          conteudo?: Json
+          created_at?: string
+          data_prevista?: string | null
+          data_realizada?: string | null
+          descricao?: string | null
+          id?: string
+          instrutor?: string | null
+          obrigatorio?: boolean
+          setor?: string | null
+          tipo?: Database["public"]["Enums"]["treinamento_tipo"]
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          carga_horaria?: number
+          conteudo?: Json
+          created_at?: string
+          data_prevista?: string | null
+          data_realizada?: string | null
+          descricao?: string | null
+          id?: string
+          instrutor?: string | null
+          obrigatorio?: boolean
+          setor?: string | null
+          tipo?: Database["public"]["Enums"]["treinamento_tipo"]
+          titulo?: string
           updated_at?: string
         }
         Relationships: []
@@ -1146,6 +1613,12 @@ export type Database = {
         | "concluida"
         | "verificada"
         | "cancelada"
+      apontamento_status:
+        | "em_execucao"
+        | "concluido"
+        | "pronto_limpeza"
+        | "reprovado"
+        | "retrabalho"
       app_role:
         | "master"
         | "diretoria"
@@ -1167,6 +1640,12 @@ export type Database = {
         | "sem_afastamento"
         | "ambiental"
         | "patrimonial"
+      inspecao_resultado:
+        | "pendente"
+        | "aprovado"
+        | "aprovado_condicional"
+        | "reprovado"
+      inspecao_tipo: "recebimento" | "entrada" | "saida" | "processo"
       nc_origem:
         | "auditoria_interna"
         | "auditoria_externa"
@@ -1227,7 +1706,29 @@ export type Database = {
         | "parcial"
         | "recebido"
         | "cancelado"
+      setor_producao:
+        | "aco"
+        | "manta"
+        | "vidros"
+        | "montagem"
+        | "limpeza_envelopamento"
+        | "acabamento"
+      sugestao_status:
+        | "nova"
+        | "em_analise"
+        | "aprovada"
+        | "em_implantacao"
+        | "implantada"
+        | "recusada"
+        | "duplicada"
       titulo_status: "aberto" | "pago" | "parcial" | "vencido" | "cancelado"
+      treinamento_tipo:
+        | "lideranca"
+        | "gestao_pessoal"
+        | "tecnico"
+        | "seguranca"
+        | "iso_9001"
+        | "integracao"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1362,6 +1863,13 @@ export const Constants = {
         "verificada",
         "cancelada",
       ],
+      apontamento_status: [
+        "em_execucao",
+        "concluido",
+        "pronto_limpeza",
+        "reprovado",
+        "retrabalho",
+      ],
       app_role: [
         "master",
         "diretoria",
@@ -1385,6 +1893,13 @@ export const Constants = {
         "ambiental",
         "patrimonial",
       ],
+      inspecao_resultado: [
+        "pendente",
+        "aprovado",
+        "aprovado_condicional",
+        "reprovado",
+      ],
+      inspecao_tipo: ["recebimento", "entrada", "saida", "processo"],
       nc_origem: [
         "auditoria_interna",
         "auditoria_externa",
@@ -1452,7 +1967,32 @@ export const Constants = {
         "recebido",
         "cancelado",
       ],
+      setor_producao: [
+        "aco",
+        "manta",
+        "vidros",
+        "montagem",
+        "limpeza_envelopamento",
+        "acabamento",
+      ],
+      sugestao_status: [
+        "nova",
+        "em_analise",
+        "aprovada",
+        "em_implantacao",
+        "implantada",
+        "recusada",
+        "duplicada",
+      ],
       titulo_status: ["aberto", "pago", "parcial", "vencido", "cancelado"],
+      treinamento_tipo: [
+        "lideranca",
+        "gestao_pessoal",
+        "tecnico",
+        "seguranca",
+        "iso_9001",
+        "integracao",
+      ],
     },
   },
 } as const
