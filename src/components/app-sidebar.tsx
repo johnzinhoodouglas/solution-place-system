@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Shield, ClipboardList, ShieldCheck, HardHat, ShoppingCart, ShoppingBag, DollarSign, FileText } from "lucide-react";
+import { Shield, ClipboardList, ShieldCheck, HardHat, ShoppingCart, ShoppingBag, DollarSign, FileText, Factory, ClipboardCheck, TrendingUp, Users } from "lucide-react";
 
 import {
   Sidebar,
