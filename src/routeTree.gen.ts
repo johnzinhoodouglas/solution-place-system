@@ -16,6 +16,7 @@ import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedAppVendasIndexRouteImport } from './routes/_authenticated/app.vendas.index'
 import { Route as AuthenticatedAppSegurancaIndexRouteImport } from './routes/_authenticated/app.seguranca.index'
 import { Route as AuthenticatedAppRhIndexRouteImport } from './routes/_authenticated/app.rh.index'
+import { Route as AuthenticatedAppReciclaveisIndexRouteImport } from './routes/_authenticated/app.reciclaveis.index'
 import { Route as AuthenticatedAppQualidadeIndexRouteImport } from './routes/_authenticated/app.qualidade.index'
 import { Route as AuthenticatedAppProducaoIndexRouteImport } from './routes/_authenticated/app.producao.index'
 import { Route as AuthenticatedAppOsIndexRouteImport } from './routes/_authenticated/app.os.index'
@@ -66,6 +67,12 @@ const AuthenticatedAppRhIndexRoute = AuthenticatedAppRhIndexRouteImport.update({
   path: '/app/rh/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAppReciclaveisIndexRoute =
+  AuthenticatedAppReciclaveisIndexRouteImport.update({
+    id: '/app/reciclaveis/',
+    path: '/app/reciclaveis/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppQualidadeIndexRoute =
   AuthenticatedAppQualidadeIndexRouteImport.update({
     id: '/app/qualidade/',
@@ -159,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/app/os/': typeof AuthenticatedAppOsIndexRoute
   '/app/producao/': typeof AuthenticatedAppProducaoIndexRoute
   '/app/qualidade/': typeof AuthenticatedAppQualidadeIndexRoute
+  '/app/reciclaveis/': typeof AuthenticatedAppReciclaveisIndexRoute
   '/app/rh/': typeof AuthenticatedAppRhIndexRoute
   '/app/seguranca/': typeof AuthenticatedAppSegurancaIndexRoute
   '/app/vendas/': typeof AuthenticatedAppVendasIndexRoute
@@ -180,6 +188,7 @@ export interface FileRoutesByTo {
   '/app/os': typeof AuthenticatedAppOsIndexRoute
   '/app/producao': typeof AuthenticatedAppProducaoIndexRoute
   '/app/qualidade': typeof AuthenticatedAppQualidadeIndexRoute
+  '/app/reciclaveis': typeof AuthenticatedAppReciclaveisIndexRoute
   '/app/rh': typeof AuthenticatedAppRhIndexRoute
   '/app/seguranca': typeof AuthenticatedAppSegurancaIndexRoute
   '/app/vendas': typeof AuthenticatedAppVendasIndexRoute
@@ -203,6 +212,7 @@ export interface FileRoutesById {
   '/_authenticated/app/os/': typeof AuthenticatedAppOsIndexRoute
   '/_authenticated/app/producao/': typeof AuthenticatedAppProducaoIndexRoute
   '/_authenticated/app/qualidade/': typeof AuthenticatedAppQualidadeIndexRoute
+  '/_authenticated/app/reciclaveis/': typeof AuthenticatedAppReciclaveisIndexRoute
   '/_authenticated/app/rh/': typeof AuthenticatedAppRhIndexRoute
   '/_authenticated/app/seguranca/': typeof AuthenticatedAppSegurancaIndexRoute
   '/_authenticated/app/vendas/': typeof AuthenticatedAppVendasIndexRoute
@@ -226,6 +236,7 @@ export interface FileRouteTypes {
     | '/app/os/'
     | '/app/producao/'
     | '/app/qualidade/'
+    | '/app/reciclaveis/'
     | '/app/rh/'
     | '/app/seguranca/'
     | '/app/vendas/'
@@ -247,6 +258,7 @@ export interface FileRouteTypes {
     | '/app/os'
     | '/app/producao'
     | '/app/qualidade'
+    | '/app/reciclaveis'
     | '/app/rh'
     | '/app/seguranca'
     | '/app/vendas'
@@ -269,6 +281,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/os/'
     | '/_authenticated/app/producao/'
     | '/_authenticated/app/qualidade/'
+    | '/_authenticated/app/reciclaveis/'
     | '/_authenticated/app/rh/'
     | '/_authenticated/app/seguranca/'
     | '/_authenticated/app/vendas/'
@@ -329,6 +342,13 @@ declare module '@tanstack/react-router' {
       path: '/app/rh'
       fullPath: '/app/rh/'
       preLoaderRoute: typeof AuthenticatedAppRhIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/reciclaveis/': {
+      id: '/_authenticated/app/reciclaveis/'
+      path: '/app/reciclaveis'
+      fullPath: '/app/reciclaveis/'
+      preLoaderRoute: typeof AuthenticatedAppReciclaveisIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/app/qualidade/': {
@@ -440,6 +460,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppOsIndexRoute: typeof AuthenticatedAppOsIndexRoute
   AuthenticatedAppProducaoIndexRoute: typeof AuthenticatedAppProducaoIndexRoute
   AuthenticatedAppQualidadeIndexRoute: typeof AuthenticatedAppQualidadeIndexRoute
+  AuthenticatedAppReciclaveisIndexRoute: typeof AuthenticatedAppReciclaveisIndexRoute
   AuthenticatedAppRhIndexRoute: typeof AuthenticatedAppRhIndexRoute
   AuthenticatedAppSegurancaIndexRoute: typeof AuthenticatedAppSegurancaIndexRoute
   AuthenticatedAppVendasIndexRoute: typeof AuthenticatedAppVendasIndexRoute
@@ -461,6 +482,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppOsIndexRoute: AuthenticatedAppOsIndexRoute,
   AuthenticatedAppProducaoIndexRoute: AuthenticatedAppProducaoIndexRoute,
   AuthenticatedAppQualidadeIndexRoute: AuthenticatedAppQualidadeIndexRoute,
+  AuthenticatedAppReciclaveisIndexRoute: AuthenticatedAppReciclaveisIndexRoute,
   AuthenticatedAppRhIndexRoute: AuthenticatedAppRhIndexRoute,
   AuthenticatedAppSegurancaIndexRoute: AuthenticatedAppSegurancaIndexRoute,
   AuthenticatedAppVendasIndexRoute: AuthenticatedAppVendasIndexRoute,
