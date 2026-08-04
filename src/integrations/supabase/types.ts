@@ -76,6 +76,42 @@ export type Database = {
           },
         ]
       }
+      audit_log: {
+        Row: {
+          acao: string
+          antes: Json | null
+          autor_id: string | null
+          autor_nome: string | null
+          created_at: string
+          depois: Json | null
+          id: string
+          registro_id: string | null
+          tabela: string
+        }
+        Insert: {
+          acao: string
+          antes?: Json | null
+          autor_id?: string | null
+          autor_nome?: string | null
+          created_at?: string
+          depois?: Json | null
+          id?: string
+          registro_id?: string | null
+          tabela: string
+        }
+        Update: {
+          acao?: string
+          antes?: Json | null
+          autor_id?: string | null
+          autor_nome?: string | null
+          created_at?: string
+          depois?: Json | null
+          id?: string
+          registro_id?: string | null
+          tabela?: string
+        }
+        Relationships: []
+      }
       clientes: {
         Row: {
           ativo: boolean
@@ -1354,6 +1390,68 @@ export type Database = {
         }
         Relationships: []
       }
+      sucata_movimentos: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          data_movimento: string
+          descricao: string | null
+          destino: string | null
+          id: string
+          kg: number
+          observacoes: string | null
+          os_id: string | null
+          responsavel_nome: string | null
+          setor: string | null
+          tipo: Database["public"]["Enums"]["sucata_tipo"]
+          updated_at: string
+          valor_kg: number
+          valor_total: number | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          data_movimento?: string
+          descricao?: string | null
+          destino?: string | null
+          id?: string
+          kg?: number
+          observacoes?: string | null
+          os_id?: string | null
+          responsavel_nome?: string | null
+          setor?: string | null
+          tipo: Database["public"]["Enums"]["sucata_tipo"]
+          updated_at?: string
+          valor_kg?: number
+          valor_total?: number | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          data_movimento?: string
+          descricao?: string | null
+          destino?: string | null
+          id?: string
+          kg?: number
+          observacoes?: string | null
+          os_id?: string | null
+          responsavel_nome?: string | null
+          setor?: string | null
+          tipo?: Database["public"]["Enums"]["sucata_tipo"]
+          updated_at?: string
+          valor_kg?: number
+          valor_total?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sucata_movimentos_os_id_fkey"
+            columns: ["os_id"]
+            isOneToOne: false
+            referencedRelation: "ordens_servico"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sugestoes_melhoria: {
         Row: {
           autor_id: string | null
@@ -1714,6 +1812,7 @@ export type Database = {
         | "montagem"
         | "limpeza_envelopamento"
         | "acabamento"
+      sucata_tipo: "aco_304" | "lataria" | "vidro" | "manta" | "outros"
       sugestao_status:
         | "nova"
         | "em_analise"
@@ -1976,6 +2075,7 @@ export const Constants = {
         "limpeza_envelopamento",
         "acabamento",
       ],
+      sucata_tipo: ["aco_304", "lataria", "vidro", "manta", "outros"],
       sugestao_status: [
         "nova",
         "em_analise",
