@@ -24,6 +24,7 @@ import { Route as AuthenticatedAppMelhoriaIndexRouteImport } from './routes/_aut
 import { Route as AuthenticatedAppFiscalIndexRouteImport } from './routes/_authenticated/app.fiscal.index'
 import { Route as AuthenticatedAppFinanceiroIndexRouteImport } from './routes/_authenticated/app.financeiro.index'
 import { Route as AuthenticatedAppComprasIndexRouteImport } from './routes/_authenticated/app.compras.index'
+import { Route as AuthenticatedAppAuditoriaIndexRouteImport } from './routes/_authenticated/app.auditoria.index'
 import { Route as AuthenticatedAppSetorSetorRouteImport } from './routes/_authenticated/app.setor.$setor'
 import { Route as AuthenticatedAppQualidadeInspecoesRouteImport } from './routes/_authenticated/app.qualidade.inspecoes'
 import { Route as AuthenticatedAppQualidadeIdRouteImport } from './routes/_authenticated/app.qualidade.$id'
@@ -114,6 +115,12 @@ const AuthenticatedAppComprasIndexRoute =
     path: '/app/compras/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAppAuditoriaIndexRoute =
+  AuthenticatedAppAuditoriaIndexRouteImport.update({
+    id: '/app/auditoria/',
+    path: '/app/auditoria/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppSetorSetorRoute =
   AuthenticatedAppSetorSetorRouteImport.update({
     id: '/app/setor/$setor',
@@ -159,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/app/qualidade/$id': typeof AuthenticatedAppQualidadeIdRoute
   '/app/qualidade/inspecoes': typeof AuthenticatedAppQualidadeInspecoesRoute
   '/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
+  '/app/auditoria/': typeof AuthenticatedAppAuditoriaIndexRoute
   '/app/compras/': typeof AuthenticatedAppComprasIndexRoute
   '/app/financeiro/': typeof AuthenticatedAppFinanceiroIndexRoute
   '/app/fiscal/': typeof AuthenticatedAppFiscalIndexRoute
@@ -181,6 +189,7 @@ export interface FileRoutesByTo {
   '/app/qualidade/$id': typeof AuthenticatedAppQualidadeIdRoute
   '/app/qualidade/inspecoes': typeof AuthenticatedAppQualidadeInspecoesRoute
   '/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
+  '/app/auditoria': typeof AuthenticatedAppAuditoriaIndexRoute
   '/app/compras': typeof AuthenticatedAppComprasIndexRoute
   '/app/financeiro': typeof AuthenticatedAppFinanceiroIndexRoute
   '/app/fiscal': typeof AuthenticatedAppFiscalIndexRoute
@@ -205,6 +214,7 @@ export interface FileRoutesById {
   '/_authenticated/app/qualidade/$id': typeof AuthenticatedAppQualidadeIdRoute
   '/_authenticated/app/qualidade/inspecoes': typeof AuthenticatedAppQualidadeInspecoesRoute
   '/_authenticated/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
+  '/_authenticated/app/auditoria/': typeof AuthenticatedAppAuditoriaIndexRoute
   '/_authenticated/app/compras/': typeof AuthenticatedAppComprasIndexRoute
   '/_authenticated/app/financeiro/': typeof AuthenticatedAppFinanceiroIndexRoute
   '/_authenticated/app/fiscal/': typeof AuthenticatedAppFiscalIndexRoute
@@ -229,6 +239,7 @@ export interface FileRouteTypes {
     | '/app/qualidade/$id'
     | '/app/qualidade/inspecoes'
     | '/app/setor/$setor'
+    | '/app/auditoria/'
     | '/app/compras/'
     | '/app/financeiro/'
     | '/app/fiscal/'
@@ -251,6 +262,7 @@ export interface FileRouteTypes {
     | '/app/qualidade/$id'
     | '/app/qualidade/inspecoes'
     | '/app/setor/$setor'
+    | '/app/auditoria'
     | '/app/compras'
     | '/app/financeiro'
     | '/app/fiscal'
@@ -274,6 +286,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/qualidade/$id'
     | '/_authenticated/app/qualidade/inspecoes'
     | '/_authenticated/app/setor/$setor'
+    | '/_authenticated/app/auditoria/'
     | '/_authenticated/app/compras/'
     | '/_authenticated/app/financeiro/'
     | '/_authenticated/app/fiscal/'
@@ -400,6 +413,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppComprasIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/app/auditoria/': {
+      id: '/_authenticated/app/auditoria/'
+      path: '/app/auditoria'
+      fullPath: '/app/auditoria/'
+      preLoaderRoute: typeof AuthenticatedAppAuditoriaIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/app/setor/$setor': {
       id: '/_authenticated/app/setor/$setor'
       path: '/app/setor/$setor'
@@ -453,6 +473,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppQualidadeIdRoute: typeof AuthenticatedAppQualidadeIdRoute
   AuthenticatedAppQualidadeInspecoesRoute: typeof AuthenticatedAppQualidadeInspecoesRoute
   AuthenticatedAppSetorSetorRoute: typeof AuthenticatedAppSetorSetorRoute
+  AuthenticatedAppAuditoriaIndexRoute: typeof AuthenticatedAppAuditoriaIndexRoute
   AuthenticatedAppComprasIndexRoute: typeof AuthenticatedAppComprasIndexRoute
   AuthenticatedAppFinanceiroIndexRoute: typeof AuthenticatedAppFinanceiroIndexRoute
   AuthenticatedAppFiscalIndexRoute: typeof AuthenticatedAppFiscalIndexRoute
@@ -475,6 +496,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppQualidadeInspecoesRoute:
     AuthenticatedAppQualidadeInspecoesRoute,
   AuthenticatedAppSetorSetorRoute: AuthenticatedAppSetorSetorRoute,
+  AuthenticatedAppAuditoriaIndexRoute: AuthenticatedAppAuditoriaIndexRoute,
   AuthenticatedAppComprasIndexRoute: AuthenticatedAppComprasIndexRoute,
   AuthenticatedAppFinanceiroIndexRoute: AuthenticatedAppFinanceiroIndexRoute,
   AuthenticatedAppFiscalIndexRoute: AuthenticatedAppFiscalIndexRoute,
