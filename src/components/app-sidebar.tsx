@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Shield, ClipboardList, ShieldCheck, HardHat, ShoppingCart, ShoppingBag, DollarSign, FileText, Factory, ClipboardCheck, TrendingUp, Users } from "lucide-react";
+import { Shield, ClipboardList, ShieldCheck, HardHat, ShoppingCart, ShoppingBag, DollarSign, FileText, Factory, ClipboardCheck, TrendingUp, Users, Recycle, History } from "lucide-react";
 
 import {
   Sidebar,
@@ -152,6 +152,11 @@ export function AppSidebar() {
                   <Link to="/app/rh"><Users className="h-4 w-4" /><span>Recursos Humanos</span></Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith("/app/reciclaveis")} tooltip="Recicláveis / Sucata">
+                  <Link to="/app/reciclaveis"><Recycle className="h-4 w-4" /><span>Recicláveis / Sucata</span></Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -202,6 +207,11 @@ export function AppSidebar() {
                     </SidebarMenuItem>
                   );
                 })}
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild isActive={pathname.startsWith("/app/auditoria")} tooltip="Log de auditoria">
+                    <Link to="/app/auditoria"><History className="h-4 w-4" /><span>Log de auditoria</span></Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>

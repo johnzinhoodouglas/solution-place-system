@@ -9,7 +9,6 @@ import {
   DollarSign,
   HardHat,
   FileText,
-  Recycle,
   TrendingUp,
   Truck,
   Users,
@@ -131,13 +130,6 @@ export const SETORES: SetorDef[] = [
     descricao: "Notas fiscais e obrigações regulatórias.",
     icon: FileText,
     roles: ["fiscal"],
-  },
-  {
-    slug: "reciclaveis",
-    label: "Recicláveis / Sucata",
-    descricao: "Aço inox 304, lataria — kg, destino e retorno.",
-    icon: Recycle,
-    roles: ["producao", "qualidade", "financeiro"],
   },
   {
     slug: "melhoria",

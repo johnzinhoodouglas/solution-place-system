@@ -125,23 +125,24 @@ function SetorPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
             <Info className="h-4 w-4 text-primary" />
-            Módulo em construção
+            Visão do setor
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3 text-sm text-muted-foreground">
           <p>
-            Este setor faz parte da <strong>Fase 1 — Fundação</strong> do sistema. As
-            funcionalidades operacionais (registros, formulários, dashboards em tempo real e
-            rastreabilidade da OS) serão liberadas nas próximas fases:
+            Esta é a visão de fluxo do setor. Os módulos operacionais completos estão no
+            menu lateral: Ordens de Serviço, Produção (aço, manta, vidros, montagem,
+            acabamento e limpeza/envelopamento), Inspeções, Qualidade/NCs, Segurança,
+            Vendas, Compras, Financeiro, Fiscal, Recicláveis/Sucata, Melhoria Contínua e
+            Recursos Humanos.
           </p>
-          <ul className="ml-5 list-disc space-y-1 text-xs">
-            <li><strong>Fase 2:</strong> Recepção, OS, timeline, etapas de produção.</li>
-            <li><strong>Fase 3:</strong> Qualidade + Segurança (NCs, EPIs, incidentes).</li>
-            <li><strong>Fase 4:</strong> Vendas, Compras, Financeiro, Fiscal.</li>
-            <li><strong>Fase 5:</strong> Recicláveis, PDCA, log de auditoria, relatórios ISO.</li>
-          </ul>
+          <p className="text-xs">
+            Todo registro fica rastreável na timeline da OS e no log de auditoria
+            (Diretoria/Master), atendendo à ISO 9001:2015.
+          </p>
         </CardContent>
       </Card>
+
     </div>
   );
 }
