@@ -21,6 +21,8 @@ function Dashboard() {
   const [stats, setStats] = useState({
     emProducao: 0,
     entreguesMes: 0,
+    ncsAbertas: 0,
+    sucataKg: 0,
     porEtapa: {} as Record<OsEtapa, number>,
   });
 
@@ -30,7 +32,7 @@ function Dashboard() {
       inicioMes.setDate(1);
       inicioMes.setHours(0, 0, 0, 0);
 
-      const [{ data: emProdData }, { count: entregues }] = await Promise.all([
+      const [{ data: emProdData }, { count: entregues }, { count: ncs }, { data: sucata }] = await Promise.all([
         supabase
           .from("ordens_servico")
           .select("etapa_atual, status")
@@ -40,6 +42,14 @@ function Dashboard() {
           .select("id", { count: "exact", head: true })
           .eq("status", "concluida")
           .gte("data_saida", inicioMes.toISOString()),
+        supabase
+          .from("nao_conformidades")
+          .select("id", { count: "exact", head: true })
+          .not("status", "in", "(fechada,verificada)"),
+        supabase
+          .from("sucata_movimentos")
+          .select("kg")
+          .gte("data_movimento", inicioMes.toISOString().slice(0, 10)),
       ]);
 
       const porEtapa = {} as Record<OsEtapa, number>;
@@ -50,6 +60,8 @@ function Dashboard() {
       setStats({
         emProducao: emProdData?.length ?? 0,
         entreguesMes: entregues ?? 0,
+        ncsAbertas: ncs ?? 0,
+        sucataKg: (sucata ?? []).reduce((acc: number, r: { kg: number }) => acc + Number(r.kg), 0),
         porEtapa,
       });
     })();
@@ -57,9 +69,9 @@ function Dashboard() {
 
   const KPIS = [
     { label: "OS em produção", value: String(stats.emProducao), icon: Activity, tone: "primary" as const },
-    { label: "Não conformidades abertas", value: "0", icon: AlertTriangle, tone: "warning" as const },
+    { label: "Não conformidades abertas", value: String(stats.ncsAbertas), icon: AlertTriangle, tone: "warning" as const },
     { label: "Entregues no mês", value: String(stats.entreguesMes), icon: CheckCircle2, tone: "success" as const },
-    { label: "Sucata reciclada (kg)", value: "0", icon: Recycle, tone: "accent" as const },
+    { label: "Sucata no mês (kg)", value: stats.sucataKg.toLocaleString("pt-BR"), icon: Recycle, tone: "accent" as const },
   ];
 
   return (
