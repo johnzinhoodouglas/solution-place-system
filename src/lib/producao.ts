@@ -52,14 +52,7 @@ export const SUB_SETORES: SubSetorDef[] = [
     slug: "vidros",
     label: "Vidros",
     descricao: "Vidros balísticos, overlap, vigia e teto solar.",
-    escopos: [
-      "Parabrisa",
-      "Vidros das portas",
-      "Vigia",
-      "Overlap",
-      "Teto solar",
-      "Basculantes",
-    ],
+    escopos: ["Parabrisa", "Vidros das portas", "Vigia", "Overlap", "Teto solar", "Basculantes"],
     procedimento: "PO-PRO-03",
   },
   {
@@ -88,20 +81,15 @@ export const SUB_SETORES: SubSetorDef[] = [
     slug: "limpeza_envelopamento",
     label: "Limpeza / Envelopamento",
     descricao: "Limpeza técnica, polimento e envelopamento antes da entrega.",
-    escopos: [
-      "Lavagem externa",
-      "Limpeza interna",
-      "Polimento",
-      "Envelopamento",
-      "Inspeção final",
-    ],
+    escopos: ["Lavagem externa", "Limpeza interna", "Polimento", "Envelopamento", "Inspeção final"],
     procedimento: "PO-PRO-05",
   },
 ];
 
-export const SUB_SETOR_MAP = Object.fromEntries(
-  SUB_SETORES.map((s) => [s.slug, s]),
-) as Record<SetorProducao, SubSetorDef>;
+export const SUB_SETOR_MAP = Object.fromEntries(SUB_SETORES.map((s) => [s.slug, s])) as Record<
+  SetorProducao,
+  SubSetorDef
+>;
 
 export const APONTAMENTO_STATUS_LABEL: Record<ApontamentoStatus, string> = {
   em_execucao: "Em execução",

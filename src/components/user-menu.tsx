@@ -51,9 +51,7 @@ export function UserMenu() {
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel>
           <div className="text-sm font-medium">{name}</div>
-          <div className="truncate text-xs font-normal text-muted-foreground">
-            {user?.email}
-          </div>
+          <div className="truncate text-xs font-normal text-muted-foreground">{user?.email}</div>
           {roles.length > 0 && (
             <div className="mt-1 truncate text-[10px] uppercase tracking-wide text-accent">
               {roles.join(" · ")}

@@ -11,21 +11,39 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { toast } from "sonner";
 import { useCurrentUser } from "@/lib/use-current-user";
 import { podeGerirQualidade } from "@/lib/qsms";
 import {
-  CHECKLIST_PADRAO, INSPECAO_TIPO_LABEL, INSPECAO_RESULTADO_LABEL, INSPECAO_RESULTADO_TONE,
-  type InspecaoTipo, type InspecaoResultado,
+  CHECKLIST_PADRAO,
+  INSPECAO_TIPO_LABEL,
+  INSPECAO_RESULTADO_LABEL,
+  INSPECAO_RESULTADO_TONE,
+  type InspecaoTipo,
+  type InspecaoResultado,
 } from "@/lib/producao";
 import { abrirDocumentoImpressao, escapeHtml } from "@/lib/print-doc";
 
@@ -33,9 +51,16 @@ export const Route = createFileRoute("/_authenticated/app/qualidade/inspecoes")(
   head: () => ({
     meta: [
       { title: "Inspeções da Qualidade — Recebimento, Entrada e Saída | Solution Place" },
-      { name: "description", content: "Inspeção de recebimento de materiais e checklist fotográfico de entrada e saída de veículos blindados, com relatório de inspeção em PDF." },
+      {
+        name: "description",
+        content:
+          "Inspeção de recebimento de materiais e checklist fotográfico de entrada e saída de veículos blindados, com relatório de inspeção em PDF.",
+      },
       { property: "og:title", content: "Inspeções da Qualidade — Solution Place" },
-      { property: "og:description", content: "Checklists fotográficos e relatórios de inspeção conforme ISO 9001:2015." },
+      {
+        property: "og:description",
+        content: "Checklists fotográficos e relatórios de inspeção conforme ISO 9001:2015.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -46,10 +71,19 @@ export const Route = createFileRoute("/_authenticated/app/qualidade/inspecoes")(
 type ChecklistItem = { item: string; ok: boolean | null; obs?: string };
 type Foto = { path: string; nome: string };
 type Inspecao = {
-  id: string; numero: string | null; tipo: InspecaoTipo; resultado: InspecaoResultado;
-  data_inspecao: string; inspetor_nome: string | null; observacoes: string | null;
-  km: number | null; combustivel: string | null; itens_recebidos: string | null;
-  checklist: unknown; fotos: unknown; os_id: string | null;
+  id: string;
+  numero: string | null;
+  tipo: InspecaoTipo;
+  resultado: InspecaoResultado;
+  data_inspecao: string;
+  inspetor_nome: string | null;
+  observacoes: string | null;
+  km: number | null;
+  combustivel: string | null;
+  itens_recebidos: string | null;
+  checklist: unknown;
+  fotos: unknown;
+  os_id: string | null;
   os?: { numero: string; veiculo?: { placa: string; marca: string; modelo: string } | null } | null;
   fornecedor?: { nome: string } | null;
 };
@@ -66,17 +100,26 @@ function InspecoesPage() {
 
   async function loadAll() {
     const [i, o, f] = await Promise.all([
-      supabase.from("inspecoes")
-        .select("id, numero, tipo, resultado, data_inspecao, inspetor_nome, observacoes, km, combustivel, itens_recebidos, checklist, fotos, os_id, os:ordens_servico(numero, veiculo:veiculos(placa, marca, modelo)), fornecedor:fornecedores(nome)")
-        .order("data_inspecao", { ascending: false }).limit(300),
-      supabase.from("ordens_servico").select("id, numero, veiculo_id").order("created_at", { ascending: false }),
+      supabase
+        .from("inspecoes")
+        .select(
+          "id, numero, tipo, resultado, data_inspecao, inspetor_nome, observacoes, km, combustivel, itens_recebidos, checklist, fotos, os_id, os:ordens_servico(numero, veiculo:veiculos(placa, marca, modelo)), fornecedor:fornecedores(nome)",
+        )
+        .order("data_inspecao", { ascending: false })
+        .limit(300),
+      supabase
+        .from("ordens_servico")
+        .select("id, numero, veiculo_id")
+        .order("created_at", { ascending: false }),
       supabase.from("fornecedores").select("id, nome").eq("ativo", true).order("nome"),
     ]);
     setInsp((i.data as Inspecao[]) ?? []);
     setOss((o.data as Os[]) ?? []);
     setForns((f.data as Fornecedor[]) ?? []);
   }
-  useEffect(() => { loadAll(); }, []);
+  useEffect(() => {
+    loadAll();
+  }, []);
 
   return (
     <div className="mx-auto max-w-7xl space-y-6">
@@ -85,7 +128,8 @@ function InspecoesPage() {
         <div>
           <h1 className="text-2xl font-bold">Inspeções da Qualidade</h1>
           <p className="text-sm text-muted-foreground">
-            Recebimento de materiais, entrada e saída de veículos — checklist com fotos e relatório em PDF (ISO 9001:2015, 8.4/8.6).
+            Recebimento de materiais, entrada e saída de veículos — checklist com fotos e relatório
+            em PDF (ISO 9001:2015, 8.4/8.6).
           </p>
         </div>
       </div>
@@ -93,7 +137,9 @@ function InspecoesPage() {
       <Tabs value={tab} onValueChange={(v) => setTab(v as InspecaoTipo)}>
         <TabsList className="flex-wrap">
           {(Object.keys(INSPECAO_TIPO_LABEL) as InspecaoTipo[]).map((t) => (
-            <TabsTrigger key={t} value={t}>{INSPECAO_TIPO_LABEL[t]}</TabsTrigger>
+            <TabsTrigger key={t} value={t}>
+              {INSPECAO_TIPO_LABEL[t]}
+            </TabsTrigger>
           ))}
         </TabsList>
         {(Object.keys(INSPECAO_TIPO_LABEL) as InspecaoTipo[]).map((t) => (
@@ -155,7 +201,14 @@ async function imprimirRelatorio(i: Inspecao) {
 }
 
 function Painel({
-  tipo, lista, oss, forns, pode, userId, inspetor, reload,
+  tipo,
+  lista,
+  oss,
+  forns,
+  pode,
+  userId,
+  inspetor,
+  reload,
 }: {
   tipo: InspecaoTipo;
   lista: Inspecao[];
@@ -181,7 +234,12 @@ function Painel({
   const [saving, setSaving] = useState(false);
 
   function reset() {
-    setOsId(""); setFornId(""); setKm(""); setComb(""); setItens(""); setObs("");
+    setOsId("");
+    setFornId("");
+    setKm("");
+    setComb("");
+    setItens("");
+    setObs("");
     setResultado("aprovado");
     setChecklist(CHECKLIST_PADRAO[tipo].map((item) => ({ item, ok: true, obs: "" })));
     setArquivos([]);
@@ -193,7 +251,11 @@ function Painel({
     for (const file of arquivos) {
       const path = `${tipo}/${Date.now()}-${file.name.replace(/[^\w.-]/g, "_")}`;
       const { error } = await supabase.storage.from("inspecoes").upload(path, file);
-      if (error) { toast.error(`Falha ao enviar ${file.name}: ${error.message}`); setSaving(false); return; }
+      if (error) {
+        toast.error(`Falha ao enviar ${file.name}: ${error.message}`);
+        setSaving(false);
+        return;
+      }
       fotos.push({ path, nome: file.name });
     }
     const { error } = await supabase.from("inspecoes").insert({
@@ -212,9 +274,14 @@ function Painel({
       created_by: userId,
     });
     setSaving(false);
-    if (error) { toast.error(error.message); return; }
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success("Inspeção registrada.");
-    setOpen(false); reset(); reload();
+    setOpen(false);
+    reset();
+    reload();
   }
 
   const naoConformes = checklist.filter((c) => c.ok === false).length;
@@ -227,21 +294,38 @@ function Painel({
           <p className="text-sm text-muted-foreground">{lista.length} registro(s)</p>
         </div>
         {pode && (
-          <Dialog open={open} onOpenChange={(o) => { setOpen(o); if (!o) reset(); }}>
+          <Dialog
+            open={open}
+            onOpenChange={(o) => {
+              setOpen(o);
+              if (!o) reset();
+            }}
+          >
             <DialogTrigger asChild>
-              <Button size="sm"><Plus className="mr-2 h-4 w-4" />Nova inspeção</Button>
+              <Button size="sm">
+                <Plus className="mr-2 h-4 w-4" />
+                Nova inspeção
+              </Button>
             </DialogTrigger>
             <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
-              <DialogHeader><DialogTitle>{INSPECAO_TIPO_LABEL[tipo]}</DialogTitle></DialogHeader>
+              <DialogHeader>
+                <DialogTitle>{INSPECAO_TIPO_LABEL[tipo]}</DialogTitle>
+              </DialogHeader>
               <div className="grid gap-4">
                 <div className="grid gap-4 sm:grid-cols-2">
                   {tipo === "recebimento" ? (
                     <div className="space-y-2">
                       <Label>Fornecedor</Label>
                       <Select value={fornId} onValueChange={setFornId}>
-                        <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecione" />
+                        </SelectTrigger>
                         <SelectContent>
-                          {forns.map((f) => <SelectItem key={f.id} value={f.id}>{f.nome}</SelectItem>)}
+                          {forns.map((f) => (
+                            <SelectItem key={f.id} value={f.id}>
+                              {f.nome}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </div>
@@ -249,9 +333,15 @@ function Painel({
                   <div className="space-y-2">
                     <Label>Ordem de Serviço</Label>
                     <Select value={osId} onValueChange={setOsId}>
-                      <SelectTrigger><SelectValue placeholder="Selecione a OS" /></SelectTrigger>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione a OS" />
+                      </SelectTrigger>
                       <SelectContent>
-                        {oss.map((o) => <SelectItem key={o.id} value={o.id}>{o.numero}</SelectItem>)}
+                        {oss.map((o) => (
+                          <SelectItem key={o.id} value={o.id}>
+                            {o.numero}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
@@ -263,14 +353,22 @@ function Painel({
                       </div>
                       <div className="space-y-2">
                         <Label>Combustível</Label>
-                        <Input value={comb} onChange={(e) => setComb(e.target.value)} placeholder="Ex.: 1/2 tanque" />
+                        <Input
+                          value={comb}
+                          onChange={(e) => setComb(e.target.value)}
+                          placeholder="Ex.: 1/2 tanque"
+                        />
                       </div>
                     </>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label>{tipo === "recebimento" ? "Itens recebidos (material, lote, qtd.)" : "Itens e pertences do cliente"}</Label>
+                  <Label>
+                    {tipo === "recebimento"
+                      ? "Itens recebidos (material, lote, qtd.)"
+                      : "Itens e pertences do cliente"}
+                  </Label>
                   <Textarea value={itens} onChange={(e) => setItens(e.target.value)} rows={2} />
                 </div>
 
@@ -278,20 +376,28 @@ function Painel({
                   <div className="flex items-center justify-between">
                     <Label>Checklist</Label>
                     {naoConformes > 0 && (
-                      <Badge variant="outline" className="bg-destructive/15 text-destructive border-destructive/40">
+                      <Badge
+                        variant="outline"
+                        className="bg-destructive/15 text-destructive border-destructive/40"
+                      >
                         {naoConformes} não conforme(s)
                       </Badge>
                     )}
                   </div>
                   <div className="space-y-2">
                     {checklist.map((c, idx) => (
-                      <div key={c.item} className="grid gap-2 rounded-md border border-border p-2 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+                      <div
+                        key={c.item}
+                        className="grid gap-2 rounded-md border border-border p-2 sm:grid-cols-[1fr_auto_1fr] sm:items-center"
+                      >
                         <span className="text-sm">{c.item}</span>
                         <label className="flex items-center gap-2 text-xs">
                           <Checkbox
                             checked={c.ok === true}
                             onCheckedChange={(v) =>
-                              setChecklist((prev) => prev.map((p, i) => (i === idx ? { ...p, ok: v === true } : p)))
+                              setChecklist((prev) =>
+                                prev.map((p, i) => (i === idx ? { ...p, ok: v === true } : p)),
+                              )
                             }
                           />
                           Conforme
@@ -301,7 +407,9 @@ function Painel({
                           placeholder="Observação"
                           value={c.obs ?? ""}
                           onChange={(e) =>
-                            setChecklist((prev) => prev.map((p, i) => (i === idx ? { ...p, obs: e.target.value } : p)))
+                            setChecklist((prev) =>
+                              prev.map((p, i) => (i === idx ? { ...p, obs: e.target.value } : p)),
+                            )
                           }
                         />
                       </div>
@@ -325,7 +433,10 @@ function Painel({
                       {arquivos.map((f) => (
                         <Badge key={f.name} variant="outline" className="gap-1">
                           {f.name}
-                          <button type="button" onClick={() => setArquivos((prev) => prev.filter((x) => x !== f))}>
+                          <button
+                            type="button"
+                            onClick={() => setArquivos((prev) => prev.filter((x) => x !== f))}
+                          >
                             <X className="h-3 w-3" />
                           </button>
                         </Badge>
@@ -337,11 +448,18 @@ function Painel({
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label>Resultado</Label>
-                    <Select value={resultado} onValueChange={(v) => setResultado(v as InspecaoResultado)}>
-                      <SelectTrigger><SelectValue /></SelectTrigger>
+                    <Select
+                      value={resultado}
+                      onValueChange={(v) => setResultado(v as InspecaoResultado)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
                       <SelectContent>
                         {Object.entries(INSPECAO_RESULTADO_LABEL).map(([k, v]) => (
-                          <SelectItem key={k} value={k}>{v}</SelectItem>
+                          <SelectItem key={k} value={k}>
+                            {v}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -358,7 +476,9 @@ function Painel({
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={salvar} disabled={saving}>{saving ? "Salvando..." : "Registrar inspeção"}</Button>
+                <Button onClick={salvar} disabled={saving}>
+                  {saving ? "Salvando..." : "Registrar inspeção"}
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -380,7 +500,9 @@ function Painel({
             {lista.map((i) => (
               <TableRow key={i.id}>
                 <TableCell className="font-mono text-xs">{i.numero}</TableCell>
-                <TableCell className="whitespace-nowrap">{new Date(i.data_inspecao).toLocaleDateString("pt-BR")}</TableCell>
+                <TableCell className="whitespace-nowrap">
+                  {new Date(i.data_inspecao).toLocaleDateString("pt-BR")}
+                </TableCell>
                 <TableCell>{i.os?.numero ?? i.fornecedor?.nome ?? "—"}</TableCell>
                 <TableCell>{i.inspetor_nome ?? "—"}</TableCell>
                 <TableCell>
@@ -390,7 +512,8 @@ function Painel({
                 </TableCell>
                 <TableCell className="text-right">
                   <Button variant="outline" size="sm" onClick={() => imprimirRelatorio(i)}>
-                    <FileText className="mr-2 h-4 w-4" />PDF
+                    <FileText className="mr-2 h-4 w-4" />
+                    PDF
                   </Button>
                 </TableCell>
               </TableRow>

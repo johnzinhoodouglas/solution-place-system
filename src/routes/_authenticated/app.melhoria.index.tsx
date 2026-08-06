@@ -10,14 +10,28 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { toast } from "sonner";
 import { useCurrentUser } from "@/lib/use-current-user";
@@ -28,9 +42,16 @@ export const Route = createFileRoute("/_authenticated/app/melhoria/")({
   head: () => ({
     meta: [
       { title: "Melhoria Contínua e Lean — Caixa de Sugestões | Solution Place" },
-      { name: "description", content: "Caixa de sugestões analítica com score de impacto, esforço e risco, ganhos estimados e registro de economia (Lean) no sistema ISO 9001:2015." },
+      {
+        name: "description",
+        content:
+          "Caixa de sugestões analítica com score de impacto, esforço e risco, ganhos estimados e registro de economia (Lean) no sistema ISO 9001:2015.",
+      },
       { property: "og:title", content: "Melhoria Contínua e Lean — Solution Place" },
-      { property: "og:description", content: "Sugestões analíticas, PDCA e economia gerada pela digitalização dos processos." },
+      {
+        property: "og:description",
+        content: "Sugestões analíticas, PDCA e economia gerada pela digitalização dos processos.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -39,18 +60,46 @@ export const Route = createFileRoute("/_authenticated/app/melhoria/")({
 });
 
 type Sugestao = {
-  id: string; titulo: string; descricao: string; categoria: string; setor: string | null;
-  autor_nome: string | null; autor_id: string | null;
-  ganho_tempo_min: number; ganho_custo_mes: number; ganho_papel_folhas: number;
-  nota_impacto: number; nota_esforco: number; nota_risco: number; score: number;
-  status: SugestaoStatus; parecer: string | null; created_at: string;
+  id: string;
+  titulo: string;
+  descricao: string;
+  categoria: string;
+  setor: string | null;
+  autor_nome: string | null;
+  autor_id: string | null;
+  ganho_tempo_min: number;
+  ganho_custo_mes: number;
+  ganho_papel_folhas: number;
+  nota_impacto: number;
+  nota_esforco: number;
+  nota_risco: number;
+  score: number;
+  status: SugestaoStatus;
+  parecer: string | null;
+  created_at: string;
 };
 type Economia = {
-  id: string; item: string; categoria: string; quantidade: number; unidade: string;
-  custo_unitario: number; custo_evitado: number; mes: string; origem: string | null;
+  id: string;
+  item: string;
+  categoria: string;
+  quantidade: number;
+  unidade: string;
+  custo_unitario: number;
+  custo_evitado: number;
+  mes: string;
+  origem: string | null;
 };
 
-const CATEGORIAS = ["processo", "qualidade", "seguranca", "custo", "prazo", "papel_zero", "ergonomia", "cliente"];
+const CATEGORIAS = [
+  "processo",
+  "qualidade",
+  "seguranca",
+  "custo",
+  "prazo",
+  "papel_zero",
+  "ergonomia",
+  "cliente",
+];
 
 function MelhoriaPage() {
   const { roles, user, profile } = useCurrentUser();
@@ -66,11 +115,17 @@ function MelhoriaPage() {
     setSugs((s.data as Sugestao[]) ?? []);
     setEcon((e.data as Economia[]) ?? []);
   }
-  useEffect(() => { loadAll(); }, []);
+  useEffect(() => {
+    loadAll();
+  }, []);
 
   const analitico = useMemo(() => {
-    const ganhoMes = sugs.filter((s) => s.status === "implantada").reduce((sum, s) => sum + Number(s.ganho_custo_mes), 0);
-    const potencial = sugs.filter((s) => s.status !== "implantada" && s.status !== "recusada").reduce((sum, s) => sum + Number(s.ganho_custo_mes), 0);
+    const ganhoMes = sugs
+      .filter((s) => s.status === "implantada")
+      .reduce((sum, s) => sum + Number(s.ganho_custo_mes), 0);
+    const potencial = sugs
+      .filter((s) => s.status !== "implantada" && s.status !== "recusada")
+      .reduce((sum, s) => sum + Number(s.ganho_custo_mes), 0);
     const horas = sugs.reduce((sum, s) => sum + Number(s.ganho_tempo_min), 0) / 60;
     const folhas = sugs.reduce((sum, s) => sum + Number(s.ganho_papel_folhas), 0);
     const economia = econ.reduce((sum, e) => sum + Number(e.custo_evitado), 0);
@@ -80,7 +135,11 @@ function MelhoriaPage() {
   const duplicadas = useMemo(() => {
     const mapa = new Map<string, Sugestao[]>();
     for (const s of sugs) {
-      const chave = s.titulo.toLowerCase().replace(/[^a-z0-9à-ú ]/g, "").trim().slice(0, 24);
+      const chave = s.titulo
+        .toLowerCase()
+        .replace(/[^a-z0-9à-ú ]/g, "")
+        .trim()
+        .slice(0, 24);
       mapa.set(chave, [...(mapa.get(chave) ?? []), s]);
     }
     return [...mapa.values()].filter((g) => g.length > 1);
@@ -93,7 +152,8 @@ function MelhoriaPage() {
         <div>
           <h1 className="text-2xl font-bold">Melhoria Contínua (Lean / PDCA)</h1>
           <p className="text-sm text-muted-foreground">
-            Caixa de sugestões analítica: cada ideia é pontuada por impacto, esforço, risco e ganho estimado.
+            Caixa de sugestões analítica: cada ideia é pontuada por impacto, esforço, risco e ganho
+            estimado.
           </p>
         </div>
       </div>
@@ -102,15 +162,20 @@ function MelhoriaPage() {
         <CardContent className="p-4 text-sm">
           <p className="font-semibold">Conceito Lean aplicado</p>
           <p className="mt-1 text-muted-foreground">
-            Eliminar desperdícios (espera, retrabalho, movimentação, estoque, papel, superprocessamento) enquanto o valor
-            percebido pelo cliente aumenta. Toda sugestão gera indicador — o sistema calcula o ganho e prioriza o que
-            entrega mais resultado com menor esforço e risco (ISO 9001:2015 — 10.3 Melhoria contínua).
+            Eliminar desperdícios (espera, retrabalho, movimentação, estoque, papel,
+            superprocessamento) enquanto o valor percebido pelo cliente aumenta. Toda sugestão gera
+            indicador — o sistema calcula o ganho e prioriza o que entrega mais resultado com menor
+            esforço e risco (ISO 9001:2015 — 10.3 Melhoria contínua).
           </p>
         </CardContent>
       </Card>
 
       <div className="grid gap-4 sm:grid-cols-5">
-        <Kpi label="Ganho implantado / mês" value={brl(analitico.ganhoMes)} icon={<Lightbulb className="h-4 w-4" />} />
+        <Kpi
+          label="Ganho implantado / mês"
+          value={brl(analitico.ganhoMes)}
+          icon={<Lightbulb className="h-4 w-4" />}
+        />
         <Kpi label="Potencial em análise / mês" value={brl(analitico.potencial)} />
         <Kpi label="Horas economizadas (est.)" value={analitico.horas.toFixed(1)} />
         <Kpi label="Folhas evitadas" value={analitico.folhas} icon={<Leaf className="h-4 w-4" />} />
@@ -125,7 +190,9 @@ function MelhoriaPage() {
               <p className="font-semibold">Sugestões possivelmente repetidas</p>
               <ul className="mt-1 list-disc pl-4 text-muted-foreground">
                 {duplicadas.map((g) => (
-                  <li key={g[0]!.id}>{g[0]!.titulo} — {g.length} registros semelhantes</li>
+                  <li key={g[0]!.id}>
+                    {g[0]!.titulo} — {g.length} registros semelhantes
+                  </li>
                 ))}
               </ul>
             </div>
@@ -160,7 +227,15 @@ function brl(v: number) {
   return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
-function Kpi({ label, value, icon }: { label: string; value: number | string; icon?: React.ReactNode }) {
+function Kpi({
+  label,
+  value,
+  icon,
+}: {
+  label: string;
+  value: number | string;
+  icon?: React.ReactNode;
+}) {
   return (
     <Card>
       <CardContent className="p-4">
@@ -175,13 +250,30 @@ function Kpi({ label, value, icon }: { label: string; value: number | string; ic
 }
 
 function SecaoSugestoes({
-  sugs, podeAvaliar, userId, autor, reload,
-}: { sugs: Sugestao[]; podeAvaliar: boolean; userId: string | null; autor: string; reload: () => void }) {
+  sugs,
+  podeAvaliar,
+  userId,
+  autor,
+  reload,
+}: {
+  sugs: Sugestao[];
+  podeAvaliar: boolean;
+  userId: string | null;
+  autor: string;
+  reload: () => void;
+}) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
-    titulo: "", descricao: "", categoria: "processo", setor: "",
-    ganho_tempo_min: "0", ganho_custo_mes: "0", ganho_papel_folhas: "0",
-    nota_impacto: "3", nota_esforco: "3", nota_risco: "3",
+    titulo: "",
+    descricao: "",
+    categoria: "processo",
+    setor: "",
+    ganho_tempo_min: "0",
+    ganho_custo_mes: "0",
+    ganho_papel_folhas: "0",
+    nota_impacto: "3",
+    nota_esforco: "3",
+    nota_risco: "3",
   });
   const [saving, setSaving] = useState(false);
 
@@ -206,16 +298,33 @@ function SecaoSugestoes({
       nota_risco: Number(form.nota_risco),
     });
     setSaving(false);
-    if (error) { toast.error(error.message); return; }
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success("Sugestão enviada. Obrigado por contribuir!");
     setOpen(false);
-    setForm({ titulo: "", descricao: "", categoria: "processo", setor: "", ganho_tempo_min: "0", ganho_custo_mes: "0", ganho_papel_folhas: "0", nota_impacto: "3", nota_esforco: "3", nota_risco: "3" });
+    setForm({
+      titulo: "",
+      descricao: "",
+      categoria: "processo",
+      setor: "",
+      ganho_tempo_min: "0",
+      ganho_custo_mes: "0",
+      ganho_papel_folhas: "0",
+      nota_impacto: "3",
+      nota_esforco: "3",
+      nota_risco: "3",
+    });
     reload();
   }
 
   async function mudarStatus(id: string, status: SugestaoStatus) {
     const { error } = await supabase.from("sugestoes_melhoria").update({ status }).eq("id", id);
-    if (error) { toast.error(error.message); return; }
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success("Status atualizado.");
     reload();
   }
@@ -231,56 +340,106 @@ function SecaoSugestoes({
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button size="sm"><Plus className="mr-2 h-4 w-4" />Nova sugestão</Button>
+            <Button size="sm">
+              <Plus className="mr-2 h-4 w-4" />
+              Nova sugestão
+            </Button>
           </DialogTrigger>
           <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
-            <DialogHeader><DialogTitle>Sugestão de melhoria</DialogTitle></DialogHeader>
+            <DialogHeader>
+              <DialogTitle>Sugestão de melhoria</DialogTitle>
+            </DialogHeader>
             <div className="grid gap-4">
               <div className="space-y-2">
                 <Label>Título</Label>
-                <Input value={form.titulo} onChange={(e) => setForm({ ...form, titulo: e.target.value })} maxLength={120} />
+                <Input
+                  value={form.titulo}
+                  onChange={(e) => setForm({ ...form, titulo: e.target.value })}
+                  maxLength={120}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Descrição (situação atual e proposta)</Label>
-                <Textarea rows={4} value={form.descricao} onChange={(e) => setForm({ ...form, descricao: e.target.value })} maxLength={2000} />
+                <Textarea
+                  rows={4}
+                  value={form.descricao}
+                  onChange={(e) => setForm({ ...form, descricao: e.target.value })}
+                  maxLength={2000}
+                />
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Categoria</Label>
-                  <Select value={form.categoria} onValueChange={(v) => setForm({ ...form, categoria: v })}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
+                  <Select
+                    value={form.categoria}
+                    onValueChange={(v) => setForm({ ...form, categoria: v })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
                     <SelectContent>
-                      {CATEGORIAS.map((c) => <SelectItem key={c} value={c}>{c.replace("_", " ")}</SelectItem>)}
+                      {CATEGORIAS.map((c) => (
+                        <SelectItem key={c} value={c}>
+                          {c.replace("_", " ")}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-2">
                   <Label>Setor</Label>
-                  <Input value={form.setor} onChange={(e) => setForm({ ...form, setor: e.target.value })} />
+                  <Input
+                    value={form.setor}
+                    onChange={(e) => setForm({ ...form, setor: e.target.value })}
+                  />
                 </div>
               </div>
               <div className="grid gap-4 sm:grid-cols-3">
                 <div className="space-y-2">
                   <Label>Ganho de tempo (min/mês)</Label>
-                  <Input type="number" value={form.ganho_tempo_min} onChange={(e) => setForm({ ...form, ganho_tempo_min: e.target.value })} />
+                  <Input
+                    type="number"
+                    value={form.ganho_tempo_min}
+                    onChange={(e) => setForm({ ...form, ganho_tempo_min: e.target.value })}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>Ganho financeiro (R$/mês)</Label>
-                  <Input type="number" value={form.ganho_custo_mes} onChange={(e) => setForm({ ...form, ganho_custo_mes: e.target.value })} />
+                  <Input
+                    type="number"
+                    value={form.ganho_custo_mes}
+                    onChange={(e) => setForm({ ...form, ganho_custo_mes: e.target.value })}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>Folhas evitadas/mês</Label>
-                  <Input type="number" value={form.ganho_papel_folhas} onChange={(e) => setForm({ ...form, ganho_papel_folhas: e.target.value })} />
+                  <Input
+                    type="number"
+                    value={form.ganho_papel_folhas}
+                    onChange={(e) => setForm({ ...form, ganho_papel_folhas: e.target.value })}
+                  />
                 </div>
               </div>
               <div className="grid gap-4 sm:grid-cols-3">
-                {([["nota_impacto", "Impacto (1-5)"], ["nota_esforco", "Esforço (1-5)"], ["nota_risco", "Risco (1-5)"]] as const).map(([k, label]) => (
+                {(
+                  [
+                    ["nota_impacto", "Impacto (1-5)"],
+                    ["nota_esforco", "Esforço (1-5)"],
+                    ["nota_risco", "Risco (1-5)"],
+                  ] as const
+                ).map(([k, label]) => (
                   <div className="space-y-2" key={k}>
                     <Label>{label}</Label>
                     <Select value={form[k]} onValueChange={(v) => setForm({ ...form, [k]: v })}>
-                      <SelectTrigger><SelectValue /></SelectTrigger>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
                       <SelectContent>
-                        {[1, 2, 3, 4, 5].map((n) => <SelectItem key={n} value={String(n)}>{n}</SelectItem>)}
+                        {[1, 2, 3, 4, 5].map((n) => (
+                          <SelectItem key={n} value={String(n)}>
+                            {n}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
@@ -288,7 +447,9 @@ function SecaoSugestoes({
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={salvar} disabled={saving}>{saving ? "Enviando..." : "Enviar sugestão"}</Button>
+              <Button onClick={salvar} disabled={saving}>
+                {saving ? "Enviando..." : "Enviar sugestão"}
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -327,15 +488,26 @@ function SecaoSugestoes({
                   <p className="line-clamp-2 text-xs text-muted-foreground">{s.descricao}</p>
                 </TableCell>
                 <TableCell className="text-xs">{s.autor_nome ?? "—"}</TableCell>
-                <TableCell className="text-xs capitalize">{s.categoria.replace("_", " ")}</TableCell>
-                <TableCell className="whitespace-nowrap text-xs">{brl(Number(s.ganho_custo_mes))}</TableCell>
+                <TableCell className="text-xs capitalize">
+                  {s.categoria.replace("_", " ")}
+                </TableCell>
+                <TableCell className="whitespace-nowrap text-xs">
+                  {brl(Number(s.ganho_custo_mes))}
+                </TableCell>
                 <TableCell>
                   {podeAvaliar ? (
-                    <Select value={s.status} onValueChange={(v) => mudarStatus(s.id, v as SugestaoStatus)}>
-                      <SelectTrigger className="h-8 w-[170px] text-xs"><SelectValue /></SelectTrigger>
+                    <Select
+                      value={s.status}
+                      onValueChange={(v) => mudarStatus(s.id, v as SugestaoStatus)}
+                    >
+                      <SelectTrigger className="h-8 w-[170px] text-xs">
+                        <SelectValue />
+                      </SelectTrigger>
                       <SelectContent>
                         {Object.entries(SUGESTAO_STATUS_LABEL).map(([k, v]) => (
-                          <SelectItem key={k} value={k}>{v}</SelectItem>
+                          <SelectItem key={k} value={k}>
+                            {v}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -363,11 +535,21 @@ function SecaoSugestoes({
 
 function SecaoEconomia({ econ, reload }: { econ: Economia[]; reload: () => void }) {
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ item: "", categoria: "papel", quantidade: "0", unidade: "un", custo_unitario: "0", origem: "" });
+  const [form, setForm] = useState({
+    item: "",
+    categoria: "papel",
+    quantidade: "0",
+    unidade: "un",
+    custo_unitario: "0",
+    origem: "",
+  });
   const [saving, setSaving] = useState(false);
 
   async function salvar() {
-    if (!form.item.trim()) { toast.error("Informe o item."); return; }
+    if (!form.item.trim()) {
+      toast.error("Informe o item.");
+      return;
+    }
     setSaving(true);
     const qtd = Number(form.quantidade) || 0;
     const cu = Number(form.custo_unitario) || 0;
@@ -381,10 +563,20 @@ function SecaoEconomia({ econ, reload }: { econ: Economia[]; reload: () => void 
       origem: form.origem || null,
     });
     setSaving(false);
-    if (error) { toast.error(error.message); return; }
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success("Economia registrada.");
     setOpen(false);
-    setForm({ item: "", categoria: "papel", quantidade: "0", unidade: "un", custo_unitario: "0", origem: "" });
+    setForm({
+      item: "",
+      categoria: "papel",
+      quantidade: "0",
+      unidade: "un",
+      custo_unitario: "0",
+      origem: "",
+    });
     reload();
   }
 
@@ -394,47 +586,88 @@ function SecaoEconomia({ econ, reload }: { econ: Economia[]; reload: () => void 
         <CardTitle className="text-base">Economia gerada (digitalização e Lean)</CardTitle>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button size="sm"><Plus className="mr-2 h-4 w-4" />Registrar</Button>
+            <Button size="sm">
+              <Plus className="mr-2 h-4 w-4" />
+              Registrar
+            </Button>
           </DialogTrigger>
           <DialogContent>
-            <DialogHeader><DialogTitle>Registro de economia</DialogTitle></DialogHeader>
+            <DialogHeader>
+              <DialogTitle>Registro de economia</DialogTitle>
+            </DialogHeader>
             <div className="grid gap-4">
               <div className="space-y-2">
                 <Label>Item economizado</Label>
-                <Input value={form.item} onChange={(e) => setForm({ ...form, item: e.target.value })} placeholder="Ex.: impressão de checklist de entrada" />
+                <Input
+                  value={form.item}
+                  onChange={(e) => setForm({ ...form, item: e.target.value })}
+                  placeholder="Ex.: impressão de checklist de entrada"
+                />
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Categoria</Label>
-                  <Select value={form.categoria} onValueChange={(v) => setForm({ ...form, categoria: v })}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
+                  <Select
+                    value={form.categoria}
+                    onValueChange={(v) => setForm({ ...form, categoria: v })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
                     <SelectContent>
-                      {["papel", "retrabalho", "material", "hora_extra", "energia", "logistica"].map((c) => (
-                        <SelectItem key={c} value={c}>{c.replace("_", " ")}</SelectItem>
+                      {[
+                        "papel",
+                        "retrabalho",
+                        "material",
+                        "hora_extra",
+                        "energia",
+                        "logistica",
+                      ].map((c) => (
+                        <SelectItem key={c} value={c}>
+                          {c.replace("_", " ")}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-2">
                   <Label>Unidade</Label>
-                  <Input value={form.unidade} onChange={(e) => setForm({ ...form, unidade: e.target.value })} />
+                  <Input
+                    value={form.unidade}
+                    onChange={(e) => setForm({ ...form, unidade: e.target.value })}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>Quantidade</Label>
-                  <Input type="number" value={form.quantidade} onChange={(e) => setForm({ ...form, quantidade: e.target.value })} />
+                  <Input
+                    type="number"
+                    value={form.quantidade}
+                    onChange={(e) => setForm({ ...form, quantidade: e.target.value })}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>Custo unitário (R$)</Label>
-                  <Input type="number" step="0.01" value={form.custo_unitario} onChange={(e) => setForm({ ...form, custo_unitario: e.target.value })} />
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={form.custo_unitario}
+                    onChange={(e) => setForm({ ...form, custo_unitario: e.target.value })}
+                  />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label>Origem</Label>
-                <Input value={form.origem} onChange={(e) => setForm({ ...form, origem: e.target.value })} placeholder="Setor ou sugestão de origem" />
+                <Input
+                  value={form.origem}
+                  onChange={(e) => setForm({ ...form, origem: e.target.value })}
+                  placeholder="Setor ou sugestão de origem"
+                />
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={salvar} disabled={saving}>{saving ? "Salvando..." : "Salvar"}</Button>
+              <Button onClick={salvar} disabled={saving}>
+                {saving ? "Salvando..." : "Salvar"}
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -454,11 +687,18 @@ function SecaoEconomia({ econ, reload }: { econ: Economia[]; reload: () => void 
             {econ.map((e) => (
               <TableRow key={e.id}>
                 <TableCell className="whitespace-nowrap">
-                  {new Date(e.mes).toLocaleDateString("pt-BR", { month: "2-digit", year: "numeric" })}
+                  {new Date(e.mes).toLocaleDateString("pt-BR", {
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
                 </TableCell>
                 <TableCell>{e.item}</TableCell>
-                <TableCell className="text-xs capitalize">{e.categoria.replace("_", " ")}</TableCell>
-                <TableCell>{Number(e.quantidade)} {e.unidade}</TableCell>
+                <TableCell className="text-xs capitalize">
+                  {e.categoria.replace("_", " ")}
+                </TableCell>
+                <TableCell>
+                  {Number(e.quantidade)} {e.unidade}
+                </TableCell>
                 <TableCell>{brl(Number(e.custo_evitado))}</TableCell>
               </TableRow>
             ))}

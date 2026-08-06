@@ -62,10 +62,9 @@ function Landing() {
             Da recepção à entrega.
           </h1>
           <p className="mt-6 text-lg text-muted-foreground">
-            Plataforma integrada baseada na norma ISO 9001:2015 para controlar vendas,
-            engenharia, compras, produção, qualidade, segurança do trabalho, financeiro,
-            fiscal, recicláveis e melhoria contínua — com rastreabilidade total e
-            dashboards em tempo real por etapa.
+            Plataforma integrada baseada na norma ISO 9001:2015 para controlar vendas, engenharia,
+            compras, produção, qualidade, segurança do trabalho, financeiro, fiscal, recicláveis e
+            melhoria contínua — com rastreabilidade total e dashboards em tempo real por etapa.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg">

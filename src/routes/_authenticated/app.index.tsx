@@ -32,25 +32,26 @@ function Dashboard() {
       inicioMes.setDate(1);
       inicioMes.setHours(0, 0, 0, 0);
 
-      const [{ data: emProdData }, { count: entregues }, { count: ncs }, { data: sucata }] = await Promise.all([
-        supabase
-          .from("ordens_servico")
-          .select("etapa_atual, status")
-          .in("status", ["aberta", "em_andamento", "pausada"]),
-        supabase
-          .from("ordens_servico")
-          .select("id", { count: "exact", head: true })
-          .eq("status", "concluida")
-          .gte("data_saida", inicioMes.toISOString()),
-        supabase
-          .from("nao_conformidades")
-          .select("id", { count: "exact", head: true })
-          .not("status", "in", "(fechada,verificada)"),
-        supabase
-          .from("sucata_movimentos")
-          .select("kg")
-          .gte("data_movimento", inicioMes.toISOString().slice(0, 10)),
-      ]);
+      const [{ data: emProdData }, { count: entregues }, { count: ncs }, { data: sucata }] =
+        await Promise.all([
+          supabase
+            .from("ordens_servico")
+            .select("etapa_atual, status")
+            .in("status", ["aberta", "em_andamento", "pausada"]),
+          supabase
+            .from("ordens_servico")
+            .select("id", { count: "exact", head: true })
+            .eq("status", "concluida")
+            .gte("data_saida", inicioMes.toISOString()),
+          supabase
+            .from("nao_conformidades")
+            .select("id", { count: "exact", head: true })
+            .not("status", "in", "(fechada,verificada)"),
+          supabase
+            .from("sucata_movimentos")
+            .select("kg")
+            .gte("data_movimento", inicioMes.toISOString().slice(0, 10)),
+        ]);
 
       const porEtapa = {} as Record<OsEtapa, number>;
       (emProdData ?? []).forEach((r: { etapa_atual: OsEtapa }) => {
@@ -68,10 +69,30 @@ function Dashboard() {
   }, []);
 
   const KPIS = [
-    { label: "OS em produção", value: String(stats.emProducao), icon: Activity, tone: "primary" as const },
-    { label: "Não conformidades abertas", value: String(stats.ncsAbertas), icon: AlertTriangle, tone: "warning" as const },
-    { label: "Entregues no mês", value: String(stats.entreguesMes), icon: CheckCircle2, tone: "success" as const },
-    { label: "Sucata no mês (kg)", value: stats.sucataKg.toLocaleString("pt-BR"), icon: Recycle, tone: "accent" as const },
+    {
+      label: "OS em produção",
+      value: String(stats.emProducao),
+      icon: Activity,
+      tone: "primary" as const,
+    },
+    {
+      label: "Não conformidades abertas",
+      value: String(stats.ncsAbertas),
+      icon: AlertTriangle,
+      tone: "warning" as const,
+    },
+    {
+      label: "Entregues no mês",
+      value: String(stats.entreguesMes),
+      icon: CheckCircle2,
+      tone: "success" as const,
+    },
+    {
+      label: "Sucata no mês (kg)",
+      value: stats.sucataKg.toLocaleString("pt-BR"),
+      icon: Recycle,
+      tone: "accent" as const,
+    },
   ];
 
   return (
@@ -112,7 +133,9 @@ function Dashboard() {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold">{k.value}</div>
-              <p className="text-xs text-muted-foreground">Dados serão populados nas próximas etapas</p>
+              <p className="text-xs text-muted-foreground">
+                Dados serão populados nas próximas etapas
+              </p>
             </CardContent>
           </Card>
         ))}
@@ -129,7 +152,8 @@ function Dashboard() {
         ) : setoresVisiveis.length === 0 ? (
           <Card className="mt-4">
             <CardContent className="py-8 text-center text-sm text-muted-foreground">
-              Você ainda não tem setor atribuído. Aguarde a Diretoria ou o Master liberar seu acesso.
+              Você ainda não tem setor atribuído. Aguarde a Diretoria ou o Master liberar seu
+              acesso.
             </CardContent>
           </Card>
         ) : (

@@ -1,5 +1,20 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Shield, ClipboardList, ShieldCheck, HardHat, ShoppingCart, ShoppingBag, DollarSign, FileText, Factory, ClipboardCheck, TrendingUp, Users, Recycle, History } from "lucide-react";
+import {
+  Shield,
+  ClipboardList,
+  ShieldCheck,
+  HardHat,
+  ShoppingCart,
+  ShoppingBag,
+  DollarSign,
+  FileText,
+  Factory,
+  ClipboardCheck,
+  TrendingUp,
+  Users,
+  Recycle,
+  History,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -24,9 +39,7 @@ export function AppSidebar() {
 
   const isActive = (path: string) => pathname === path;
 
-  const setoresVisiveis = SETORES.filter((s) =>
-    loading ? false : podeAcessarSetor(roles, s),
-  );
+  const setoresVisiveis = SETORES.filter((s) => (loading ? false : podeAcessarSetor(roles, s)));
 
   const admin = podeIntervir(roles);
 
@@ -76,7 +89,9 @@ export function AppSidebar() {
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              {(roles.includes("qualidade") || roles.includes("diretoria") || roles.includes("master")) && (
+              {(roles.includes("qualidade") ||
+                roles.includes("diretoria") ||
+                roles.includes("master")) && (
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
@@ -90,7 +105,9 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               )}
-              {(roles.includes("seguranca") || roles.includes("diretoria") || roles.includes("master")) && (
+              {(roles.includes("seguranca") ||
+                roles.includes("diretoria") ||
+                roles.includes("master")) && (
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
@@ -104,57 +121,128 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               )}
-              {(roles.includes("vendas") || roles.includes("diretoria") || roles.includes("master")) && (
+              {(roles.includes("vendas") ||
+                roles.includes("diretoria") ||
+                roles.includes("master")) && (
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive={pathname.startsWith("/app/vendas")} tooltip="Vendas">
-                    <Link to="/app/vendas"><ShoppingCart className="h-4 w-4" /><span>Vendas</span></Link>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname.startsWith("/app/vendas")}
+                    tooltip="Vendas"
+                  >
+                    <Link to="/app/vendas">
+                      <ShoppingCart className="h-4 w-4" />
+                      <span>Vendas</span>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               )}
-              {(roles.includes("compras") || roles.includes("diretoria") || roles.includes("master")) && (
+              {(roles.includes("compras") ||
+                roles.includes("diretoria") ||
+                roles.includes("master")) && (
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive={pathname.startsWith("/app/compras")} tooltip="Compras">
-                    <Link to="/app/compras"><ShoppingBag className="h-4 w-4" /><span>Compras</span></Link>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname.startsWith("/app/compras")}
+                    tooltip="Compras"
+                  >
+                    <Link to="/app/compras">
+                      <ShoppingBag className="h-4 w-4" />
+                      <span>Compras</span>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               )}
-              {(roles.includes("financeiro") || roles.includes("diretoria") || roles.includes("master")) && (
+              {(roles.includes("financeiro") ||
+                roles.includes("diretoria") ||
+                roles.includes("master")) && (
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive={pathname.startsWith("/app/financeiro")} tooltip="Financeiro">
-                    <Link to="/app/financeiro"><DollarSign className="h-4 w-4" /><span>Financeiro</span></Link>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname.startsWith("/app/financeiro")}
+                    tooltip="Financeiro"
+                  >
+                    <Link to="/app/financeiro">
+                      <DollarSign className="h-4 w-4" />
+                      <span>Financeiro</span>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               )}
-              {(roles.includes("fiscal") || roles.includes("diretoria") || roles.includes("master")) && (
+              {(roles.includes("fiscal") ||
+                roles.includes("diretoria") ||
+                roles.includes("master")) && (
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive={pathname.startsWith("/app/fiscal")} tooltip="Fiscal">
-                    <Link to="/app/fiscal"><FileText className="h-4 w-4" /><span>Fiscal / NFs</span></Link>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname.startsWith("/app/fiscal")}
+                    tooltip="Fiscal"
+                  >
+                    <Link to="/app/fiscal">
+                      <FileText className="h-4 w-4" />
+                      <span>Fiscal / NFs</span>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               )}
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith("/app/producao")} tooltip="Produção">
-                  <Link to="/app/producao"><Factory className="h-4 w-4" /><span>Produção</span></Link>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname.startsWith("/app/producao")}
+                  tooltip="Produção"
+                >
+                  <Link to="/app/producao">
+                    <Factory className="h-4 w-4" />
+                    <span>Produção</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname === "/app/qualidade/inspecoes"} tooltip="Inspeções">
-                  <Link to="/app/qualidade/inspecoes"><ClipboardCheck className="h-4 w-4" /><span>Inspeções</span></Link>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === "/app/qualidade/inspecoes"}
+                  tooltip="Inspeções"
+                >
+                  <Link to="/app/qualidade/inspecoes">
+                    <ClipboardCheck className="h-4 w-4" />
+                    <span>Inspeções</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith("/app/melhoria")} tooltip="Melhoria Contínua">
-                  <Link to="/app/melhoria"><TrendingUp className="h-4 w-4" /><span>Melhoria Contínua</span></Link>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname.startsWith("/app/melhoria")}
+                  tooltip="Melhoria Contínua"
+                >
+                  <Link to="/app/melhoria">
+                    <TrendingUp className="h-4 w-4" />
+                    <span>Melhoria Contínua</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith("/app/rh")} tooltip="Recursos Humanos">
-                  <Link to="/app/rh"><Users className="h-4 w-4" /><span>Recursos Humanos</span></Link>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname.startsWith("/app/rh")}
+                  tooltip="Recursos Humanos"
+                >
+                  <Link to="/app/rh">
+                    <Users className="h-4 w-4" />
+                    <span>Recursos Humanos</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith("/app/reciclaveis")} tooltip="Recicláveis / Sucata">
-                  <Link to="/app/reciclaveis"><Recycle className="h-4 w-4" /><span>Recicláveis / Sucata</span></Link>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname.startsWith("/app/reciclaveis")}
+                  tooltip="Recicláveis / Sucata"
+                >
+                  <Link to="/app/reciclaveis">
+                    <Recycle className="h-4 w-4" />
+                    <span>Recicláveis / Sucata</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -208,8 +296,15 @@ export function AppSidebar() {
                   );
                 })}
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive={pathname.startsWith("/app/auditoria")} tooltip="Log de auditoria">
-                    <Link to="/app/auditoria"><History className="h-4 w-4" /><span>Log de auditoria</span></Link>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname.startsWith("/app/auditoria")}
+                    tooltip="Log de auditoria"
+                  >
+                    <Link to="/app/auditoria">
+                      <History className="h-4 w-4" />
+                      <span>Log de auditoria</span>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               </SidebarMenu>
