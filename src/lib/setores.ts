@@ -150,9 +150,7 @@ export const SETORES: SetorDef[] = [
 
 export const SETOR_MAP = Object.fromEntries(SETORES.map((s) => [s.slug, s]));
 
-export const NAV_TOP = [
-  { slug: "", label: "Dashboard Geral", icon: LayoutDashboard },
-];
+export const NAV_TOP = [{ slug: "", label: "Dashboard Geral", icon: LayoutDashboard }];
 
 export const NAV_ADMIN = [
   { slug: "usuarios", label: "Usuários & Papéis", icon: Users },

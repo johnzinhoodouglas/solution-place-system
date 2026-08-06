@@ -130,11 +130,10 @@ function SetorPage() {
         </CardHeader>
         <CardContent className="space-y-3 text-sm text-muted-foreground">
           <p>
-            Esta é a visão de fluxo do setor. Os módulos operacionais completos estão no
-            menu lateral: Ordens de Serviço, Produção (aço, manta, vidros, montagem,
-            acabamento e limpeza/envelopamento), Inspeções, Qualidade/NCs, Segurança,
-            Vendas, Compras, Financeiro, Fiscal, Recicláveis/Sucata, Melhoria Contínua e
-            Recursos Humanos.
+            Esta é a visão de fluxo do setor. Os módulos operacionais completos estão no menu
+            lateral: Ordens de Serviço, Produção (aço, manta, vidros, montagem, acabamento e
+            limpeza/envelopamento), Inspeções, Qualidade/NCs, Segurança, Vendas, Compras,
+            Financeiro, Fiscal, Recicláveis/Sucata, Melhoria Contínua e Recursos Humanos.
           </p>
           <p className="text-xs">
             Todo registro fica rastreável na timeline da OS e no log de auditoria
@@ -142,7 +141,6 @@ function SetorPage() {
           </p>
         </CardContent>
       </Card>
-
     </div>
   );
 }

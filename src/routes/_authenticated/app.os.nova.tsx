@@ -146,11 +146,7 @@ function NovaOsPage() {
             <CardTitle className="text-base">Cliente</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-4 sm:grid-cols-2">
-            <Field
-              label="Nome *"
-              v={form.cliente_nome}
-              on={(v) => upd("cliente_nome", v)}
-            />
+            <Field label="Nome *" v={form.cliente_nome} on={(v) => upd("cliente_nome", v)} />
             <Field
               label="CPF/CNPJ"
               v={form.cliente_documento}
@@ -225,12 +221,7 @@ function Field({
   return (
     <div className={className}>
       <Label>{label}</Label>
-      <Input
-        type={type}
-        value={v}
-        onChange={(e) => on(e.target.value)}
-        placeholder={placeholder}
-      />
+      <Input type={type} value={v} onChange={(e) => on(e.target.value)} placeholder={placeholder} />
     </div>
   );
 }

@@ -26,9 +26,7 @@ import { podeIntervir } from "@/lib/setores";
 
 export const Route = createFileRoute("/_authenticated/app/auditoria/")({
   component: AuditoriaPage,
-  errorComponent: ({ error }) => (
-    <p className="text-sm text-destructive">{error.message}</p>
-  ),
+  errorComponent: ({ error }) => <p className="text-sm text-destructive">{error.message}</p>,
 });
 
 type Log = {
@@ -124,17 +122,15 @@ function AuditoriaPage() {
         <div>
           <h1 className="text-2xl font-bold">Log de auditoria</h1>
           <p className="text-sm text-muted-foreground">
-            Rastreabilidade de quem criou, alterou ou excluiu registros — evidência para
-            auditorias ISO 9001:2015 (cláusula 7.5).
+            Rastreabilidade de quem criou, alterou ou excluiu registros — evidência para auditorias
+            ISO 9001:2015 (cláusula 7.5).
           </p>
         </div>
       </div>
 
       <Card>
         <CardHeader className="flex-row flex-wrap items-center justify-between gap-3">
-          <CardTitle className="text-base">
-            Últimos eventos ({lista.length})
-          </CardTitle>
+          <CardTitle className="text-base">Últimos eventos ({lista.length})</CardTitle>
           <div className="flex flex-wrap gap-2">
             <Input
               placeholder="Buscar por autor ou ID"
@@ -177,16 +173,12 @@ function AuditoriaPage() {
                     <TableCell className="whitespace-nowrap text-xs">
                       {new Date(l.created_at).toLocaleString("pt-BR")}
                     </TableCell>
-                    <TableCell className="text-xs">
-                      {TABELA_LABEL[l.tabela] ?? l.tabela}
-                    </TableCell>
+                    <TableCell className="text-xs">{TABELA_LABEL[l.tabela] ?? l.tabela}</TableCell>
                     <TableCell>
                       <Badge
                         variant="outline"
                         className={
-                          l.acao === "delete"
-                            ? "border-destructive/40 text-destructive"
-                            : undefined
+                          l.acao === "delete" ? "border-destructive/40 text-destructive" : undefined
                         }
                       >
                         {ACAO_LABEL[l.acao] ?? l.acao}

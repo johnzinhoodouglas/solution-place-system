@@ -10,7 +10,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+const AUTH_TITLE = "Acessar o sistema — Solution Place";
+const AUTH_DESCRIPTION =
+  "Entre com seu acesso corporativo para usar o sistema de gestão ISO 9001:2015 da Solution Place.";
+
 export const Route = createFileRoute("/auth")({
+  ssr: false,
+  head: () => ({
+    meta: [
+      { title: AUTH_TITLE },
+      { name: "description", content: AUTH_DESCRIPTION },
+      { name: "robots", content: "noindex" },
+      { property: "og:title", content: AUTH_TITLE },
+      { property: "og:description", content: AUTH_DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: AuthPage,
 });
 

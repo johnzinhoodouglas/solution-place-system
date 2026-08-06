@@ -90,9 +90,7 @@ function OsDetailPage() {
   const podeIntervir = roles.includes("master") || roles.includes("diretoria");
   const podeMover =
     podeIntervir ||
-    roles.some((r) =>
-      ["recepcao", "engenharia", "producao", "qualidade"].includes(r),
-    );
+    roles.some((r) => ["recepcao", "engenharia", "producao", "qualidade"].includes(r));
 
   async function load() {
     setBusy(true);
@@ -296,10 +294,7 @@ function OsDetailPage() {
           </CardHeader>
           <CardContent className="space-y-3 text-sm">
             <Info label="Nível de blindagem" v={os.nivel_blindagem} />
-            <Info
-              label="Entrada"
-              v={new Date(os.data_entrada).toLocaleString("pt-BR")}
-            />
+            <Info label="Entrada" v={new Date(os.data_entrada).toLocaleString("pt-BR")} />
             <Info
               label="Previsão de entrega"
               v={
@@ -310,11 +305,7 @@ function OsDetailPage() {
             />
             <Info
               label="Saída"
-              v={
-                os.data_saida
-                  ? new Date(os.data_saida).toLocaleString("pt-BR")
-                  : null
-              }
+              v={os.data_saida ? new Date(os.data_saida).toLocaleString("pt-BR") : null}
             />
             <Separator />
             <Info label="Veículo" v={`${os.veiculo?.marca} ${os.veiculo?.modelo}`} />
@@ -367,10 +358,7 @@ function OsDetailPage() {
 
             <div className="space-y-3">
               {timeline.map((t) => (
-                <div
-                  key={t.id}
-                  className="rounded-md border border-border/60 bg-background/40 p-3"
-                >
+                <div key={t.id} className="rounded-md border border-border/60 bg-background/40 p-3">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <Badge variant="outline" className="border-primary/40 text-primary">
                       {EVENTO_LABEL[t.evento]}
@@ -379,9 +367,7 @@ function OsDetailPage() {
                       {new Date(t.created_at).toLocaleString("pt-BR")}
                     </span>
                   </div>
-                  {t.descricao && (
-                    <p className="mt-2 whitespace-pre-wrap text-sm">{t.descricao}</p>
-                  )}
+                  {t.descricao && <p className="mt-2 whitespace-pre-wrap text-sm">{t.descricao}</p>}
                   {t.autor_nome && (
                     <p className="mt-1 text-xs text-muted-foreground">por {t.autor_nome}</p>
                   )}

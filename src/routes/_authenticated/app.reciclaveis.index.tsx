@@ -1,15 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Recycle, Plus } from "lucide-react";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -48,9 +40,7 @@ import type { AppRole } from "@/lib/setores";
 
 export const Route = createFileRoute("/_authenticated/app/reciclaveis/")({
   component: ReciclaveisPage,
-  errorComponent: ({ error }) => (
-    <p className="text-sm text-destructive">{error.message}</p>
-  ),
+  errorComponent: ({ error }) => <p className="text-sm text-destructive">{error.message}</p>,
 });
 
 type SucataTipo = "aco_304" | "lataria" | "vidro" | "manta" | "outros";
@@ -135,12 +125,8 @@ function ReciclaveisPage() {
     () =>
       TIPOS.map((t) => ({
         tipo: TIPO_LABEL[t],
-        kg: movs
-          .filter((m) => m.tipo === t)
-          .reduce((s, m) => s + Number(m.kg), 0),
-        valor: movs
-          .filter((m) => m.tipo === t)
-          .reduce((s, m) => s + Number(m.valor_total), 0),
+        kg: movs.filter((m) => m.tipo === t).reduce((s, m) => s + Number(m.kg), 0),
+        valor: movs.filter((m) => m.tipo === t).reduce((s, m) => s + Number(m.valor_total), 0),
       })).filter((d) => d.kg > 0 || d.valor > 0),
     [movs],
   );
@@ -156,8 +142,8 @@ function ReciclaveisPage() {
           <div>
             <h1 className="text-2xl font-bold">Recicláveis / Sucata</h1>
             <p className="text-sm text-muted-foreground">
-              Aço inox 304, lataria e demais resíduos — peso, destinação e retorno
-              financeiro (ISO 9001:2015, cláusula 8.5.1 e Lean).
+              Aço inox 304, lataria e demais resíduos — peso, destinação e retorno financeiro (ISO
+              9001:2015, cláusula 8.5.1 e Lean).
             </p>
           </div>
         </div>
@@ -191,9 +177,7 @@ function ReciclaveisPage() {
         ].map((k) => (
           <Card key={k.label}>
             <CardContent className="pt-6">
-              <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                {k.label}
-              </p>
+              <p className="text-xs uppercase tracking-wider text-muted-foreground">{k.label}</p>
               <p className="mt-1 text-2xl font-bold">{k.value}</p>
             </CardContent>
           </Card>
@@ -206,9 +190,7 @@ function ReciclaveisPage() {
         </CardHeader>
         <CardContent className="h-64">
           {porTipo.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              Sem movimentos registrados ainda.
-            </p>
+            <p className="text-sm text-muted-foreground">Sem movimentos registrados ainda.</p>
           ) : (
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={porTipo}>
@@ -438,10 +420,7 @@ function MovForm({
         </div>
         <div>
           <Label>Descrição</Label>
-          <Input
-            value={f.descricao}
-            onChange={(e) => setF({ ...f, descricao: e.target.value })}
-          />
+          <Input value={f.descricao} onChange={(e) => setF({ ...f, descricao: e.target.value })} />
         </div>
         <div>
           <Label>Observações</Label>

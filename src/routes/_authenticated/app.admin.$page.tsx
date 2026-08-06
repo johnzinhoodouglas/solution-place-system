@@ -41,9 +41,7 @@ export const Route = createFileRoute("/_authenticated/app/admin/$page")({
       </Button>
     </div>
   ),
-  errorComponent: ({ error }) => (
-    <p className="text-sm text-destructive">{error.message}</p>
-  ),
+  errorComponent: ({ error }) => <p className="text-sm text-destructive">{error.message}</p>,
 });
 
 function AdminPage() {
@@ -242,7 +240,7 @@ function UsuariosPage() {
             configurado diretamente no banco (via Cloud) executando:
           </p>
           <pre className="overflow-x-auto rounded-md bg-background p-3 text-xs">
-{`INSERT INTO public.user_roles (user_id, role)
+            {`INSERT INTO public.user_roles (user_id, role)
 VALUES ('<uuid-do-usuario>', 'diretoria');`}
           </pre>
         </CardContent>
@@ -270,12 +268,12 @@ function SistemaPage() {
         </CardHeader>
         <CardContent className="space-y-3 text-sm text-muted-foreground">
           <p>
-            Log de auditoria (quem alterou o quê), rotinas de verificação, exportação de
-            relatórios ISO e ferramentas de manutenção serão habilitados na <strong>Fase 5</strong>.
+            Log de auditoria (quem alterou o quê), rotinas de verificação, exportação de relatórios
+            ISO e ferramentas de manutenção serão habilitados na <strong>Fase 5</strong>.
           </p>
           <p>
-            Este acesso permite ao Master inspecionar e corrigir dados em qualquer etapa do
-            processo produtivo.
+            Este acesso permite ao Master inspecionar e corrigir dados em qualquer etapa do processo
+            produtivo.
           </p>
         </CardContent>
       </Card>

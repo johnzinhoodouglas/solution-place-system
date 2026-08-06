@@ -57,6 +57,6 @@ export function escapeHtml(v: unknown) {
 }
 
 export function listaHtml(itens: unknown[]) {
-  if (!itens.length) return "<p class=\"sub\">—</p>";
+  if (!itens.length) return '<p class="sub">—</p>';
   return `<ul>${itens.map((i) => `<li>${escapeHtml(i)}</li>`).join("")}</ul>`;
 }

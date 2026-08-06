@@ -10,19 +10,40 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { toast } from "sonner";
 import { useCurrentUser } from "@/lib/use-current-user";
 import {
-  NC_ORIGEM_LABEL, NC_SEV_LABEL, NC_SEV_TONE, NC_STATUS_LABEL, NC_STATUS_TONE,
-  podeGerirQualidade, type NcOrigem, type NcSeveridade, type NcStatus,
+  NC_ORIGEM_LABEL,
+  NC_SEV_LABEL,
+  NC_SEV_TONE,
+  NC_STATUS_LABEL,
+  NC_STATUS_TONE,
+  podeGerirQualidade,
+  type NcOrigem,
+  type NcSeveridade,
+  type NcStatus,
 } from "@/lib/qsms";
 
 export const Route = createFileRoute("/_authenticated/app/qualidade/")({
@@ -59,7 +80,9 @@ function QualidadeList() {
     setBusy(false);
   }
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+  }, []);
 
   const filtered = rows.filter((r) => {
     if (!q) return true;
@@ -82,9 +105,17 @@ function QualidadeList() {
         {podeCriar && (
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button><Plus className="mr-2 h-4 w-4" /> Nova NC</Button>
+              <Button>
+                <Plus className="mr-2 h-4 w-4" /> Nova NC
+              </Button>
             </DialogTrigger>
-            <NcForm onSaved={() => { setOpen(false); load(); }} userId={user?.id ?? null} />
+            <NcForm
+              onSaved={() => {
+                setOpen(false);
+                load();
+              }}
+              userId={user?.id ?? null}
+            />
           </Dialog>
         )}
       </div>
@@ -94,7 +125,12 @@ function QualidadeList() {
           <CardTitle className="text-base">Lista</CardTitle>
           <div className="relative w-64">
             <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Buscar NC..." value={q} onChange={(e) => setQ(e.target.value)} className="pl-8" />
+            <Input
+              placeholder="Buscar NC..."
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              className="pl-8"
+            />
           </div>
         </CardHeader>
         <CardContent>
@@ -116,7 +152,11 @@ function QualidadeList() {
                 {filtered.map((r) => (
                   <TableRow key={r.id}>
                     <TableCell className="font-mono font-semibold">
-                      <Link to="/app/qualidade/$id" params={{ id: r.id }} className="hover:text-primary">
+                      <Link
+                        to="/app/qualidade/$id"
+                        params={{ id: r.id }}
+                        className="hover:text-primary"
+                      >
                         {r.numero}
                       </Link>
                     </TableCell>
@@ -153,8 +193,16 @@ function QualidadeList() {
   );
 }
 
-const ORIGENS: NcOrigem[] = ["auditoria_interna","auditoria_externa","producao","cliente","fornecedor","inspecao","outro"];
-const SEVS: NcSeveridade[] = ["baixa","media","alta","critica"];
+const ORIGENS: NcOrigem[] = [
+  "auditoria_interna",
+  "auditoria_externa",
+  "producao",
+  "cliente",
+  "fornecedor",
+  "inspecao",
+  "outro",
+];
+const SEVS: NcSeveridade[] = ["baixa", "media", "alta", "critica"];
 
 function NcForm({ onSaved, userId }: { onSaved: () => void; userId: string | null }) {
   const [titulo, setTitulo] = useState("");
@@ -168,8 +216,14 @@ function NcForm({ onSaved, userId }: { onSaved: () => void; userId: string | nul
     e.preventDefault();
     setSaving(true);
     const { error } = await supabase.from("nao_conformidades").insert({
-      numero: "", titulo, descricao: descricao || null, origem, severidade,
-      setor: setor || null, aberta_por: userId, responsavel_id: userId,
+      numero: "",
+      titulo,
+      descricao: descricao || null,
+      origem,
+      severidade,
+      setor: setor || null,
+      aberta_por: userId,
+      responsavel_id: userId,
     });
     setSaving(false);
     if (error) return toast.error(error.message);
@@ -195,28 +249,46 @@ function NcForm({ onSaved, userId }: { onSaved: () => void; userId: string | nul
           <div>
             <Label>Origem</Label>
             <Select value={origem} onValueChange={(v) => setOrigem(v as NcOrigem)}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
-                {ORIGENS.map((o) => <SelectItem key={o} value={o}>{NC_ORIGEM_LABEL[o]}</SelectItem>)}
+                {ORIGENS.map((o) => (
+                  <SelectItem key={o} value={o}>
+                    {NC_ORIGEM_LABEL[o]}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
           <div>
             <Label>Severidade</Label>
             <Select value={severidade} onValueChange={(v) => setSeveridade(v as NcSeveridade)}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
-                {SEVS.map((s) => <SelectItem key={s} value={s}>{NC_SEV_LABEL[s]}</SelectItem>)}
+                {SEVS.map((s) => (
+                  <SelectItem key={s} value={s}>
+                    {NC_SEV_LABEL[s]}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
         </div>
         <div>
           <Label>Setor / área</Label>
-          <Input value={setor} onChange={(e) => setSetor(e.target.value)} placeholder="Ex.: Produção — Blindagem" />
+          <Input
+            value={setor}
+            onChange={(e) => setSetor(e.target.value)}
+            placeholder="Ex.: Produção — Blindagem"
+          />
         </div>
         <DialogFooter>
-          <Button type="submit" disabled={saving}>{saving ? "Salvando..." : "Registrar NC"}</Button>
+          <Button type="submit" disabled={saving}>
+            {saving ? "Salvando..." : "Registrar NC"}
+          </Button>
         </DialogFooter>
       </form>
     </DialogContent>

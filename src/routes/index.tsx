@@ -3,7 +3,21 @@ import { Shield, Factory, TrendingUp, HardHat } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
+const TITLE = "Solution Place — Gestão ISO 9001:2015 para blindagem";
+const DESCRIPTION =
+  "Sistema de gestão da produção de veículos blindados: recepção, engenharia, compras, produção, qualidade, segurança, financeiro, fiscal e melhoria contínua.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   beforeLoad: async () => {
     if (typeof window === "undefined") return;
     const { data } = await supabase.auth.getSession();
@@ -48,10 +62,9 @@ function Landing() {
             Da recepção à entrega.
           </h1>
           <p className="mt-6 text-lg text-muted-foreground">
-            Plataforma integrada baseada na norma ISO 9001:2015 para controlar vendas,
-            engenharia, compras, produção, qualidade, segurança do trabalho, financeiro,
-            fiscal, recicláveis e melhoria contínua — com rastreabilidade total e
-            dashboards em tempo real por etapa.
+            Plataforma integrada baseada na norma ISO 9001:2015 para controlar vendas, engenharia,
+            compras, produção, qualidade, segurança do trabalho, financeiro, fiscal, recicláveis e
+            melhoria contínua — com rastreabilidade total e dashboards em tempo real por etapa.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg">
