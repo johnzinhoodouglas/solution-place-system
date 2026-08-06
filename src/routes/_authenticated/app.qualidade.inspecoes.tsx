@@ -191,7 +191,7 @@ function Painel({
     setSaving(true);
     const fotos: Foto[] = [];
     for (const file of arquivos) {
-      const path = `${tipo}/${Date.now()}-${file.name.replace(/[^\w.\-]/g, "_")}`;
+      const path = `${tipo}/${Date.now()}-${file.name.replace(/[^\w.-]/g, "_")}`;
       const { error } = await supabase.storage.from("inspecoes").upload(path, file);
       if (error) { toast.error(`Falha ao enviar ${file.name}: ${error.message}`); setSaving(false); return; }
       fotos.push({ path, nome: file.name });
