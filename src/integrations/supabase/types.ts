@@ -1012,6 +1012,51 @@ export type Database = {
           },
         ]
       }
+      notificacoes: {
+        Row: {
+          created_at: string
+          id: string
+          lida: boolean
+          link: string | null
+          mensagem: string | null
+          origem_id: string | null
+          origem_tabela: string | null
+          severidade: string
+          tipo: string
+          titulo: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          lida?: boolean
+          link?: string | null
+          mensagem?: string | null
+          origem_id?: string | null
+          origem_tabela?: string | null
+          severidade?: string
+          tipo: string
+          titulo: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          lida?: boolean
+          link?: string | null
+          mensagem?: string | null
+          origem_id?: string | null
+          origem_tabela?: string | null
+          severidade?: string
+          tipo?: string
+          titulo?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       orcamentos: {
         Row: {
           cliente_id: string | null
@@ -1703,6 +1748,20 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      notificar: {
+        Args: {
+          _direto: string
+          _link: string
+          _mensagem: string
+          _registro: string
+          _roles: Database["public"]["Enums"]["app_role"][]
+          _severidade: string
+          _tabela: string
+          _tipo: string
+          _titulo: string
+        }
+        Returns: undefined
       }
     }
     Enums: {
