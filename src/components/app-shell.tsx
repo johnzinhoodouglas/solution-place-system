@@ -17,7 +17,10 @@ export function AppShell({ children }: { children: ReactNode }) {
                 Solution Place · ISO 9001:2015
               </span>
             </div>
-            <UserMenu />
+            <div className="flex items-center gap-1">
+              <NotificationBell />
+              <UserMenu />
+            </div>
           </header>
           <main className="flex-1 p-6">{children}</main>
         </div>
