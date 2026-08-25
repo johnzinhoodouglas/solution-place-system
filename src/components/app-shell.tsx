@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { UserMenu } from "@/components/user-menu";
+import { NotificationBell } from "@/components/notification-bell";
 
 export function AppShell({ children }: { children: ReactNode }) {
   return (
@@ -16,7 +17,10 @@ export function AppShell({ children }: { children: ReactNode }) {
                 Solution Place · ISO 9001:2015
               </span>
             </div>
-            <UserMenu />
+            <div className="flex items-center gap-1">
+              <NotificationBell />
+              <UserMenu />
+            </div>
           </header>
           <main className="flex-1 p-6">{children}</main>
         </div>
