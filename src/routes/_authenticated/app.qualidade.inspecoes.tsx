@@ -473,25 +473,48 @@ function Painel({
                   <div className="flex items-center gap-2">
                     <Input
                       type="file"
-                      accept="image/*"
+                      accept="image/jpeg,image/png,image/webp,image/heic"
                       multiple
-                      onChange={(e) => setArquivos(Array.from(e.target.files ?? []))}
+                      disabled={preparando || saving}
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files ?? []);
+                        e.target.value = "";
+                        void selecionarArquivos(files);
+                      }}
                     />
                     <Upload className="h-4 w-4 text-muted-foreground" />
                   </div>
+                  <p className="text-xs text-muted-foreground">
+                    JPG, PNG ou WebP até {TAMANHO_MAX_MB} MB por foto. As imagens são reduzidas
+                    automaticamente antes do envio.
+                  </p>
+                  {preparando && (
+                    <p className="text-xs text-primary">Preparando e comprimindo as fotos…</p>
+                  )}
                   {arquivos.length > 0 && (
                     <div className="flex flex-wrap gap-2">
                       {arquivos.map((f) => (
-                        <Badge key={f.name} variant="outline" className="gap-1">
-                          {f.name}
+                        <Badge key={f.file.name} variant="outline" className="gap-1">
+                          {f.file.name} · {formatarBytes(f.file.size)}
                           <button
                             type="button"
+                            aria-label={`Remover ${f.file.name}`}
                             onClick={() => setArquivos((prev) => prev.filter((x) => x !== f))}
                           >
                             <X className="h-3 w-3" />
                           </button>
                         </Badge>
                       ))}
+                    </div>
+                  )}
+                  {progresso && progresso.total > 0 && (
+                    <div className="space-y-1">
+                      <Progress value={(progresso.atual / progresso.total) * 100} />
+                      <p className="text-xs text-muted-foreground">
+                        Enviando {Math.min(progresso.atual + 1, progresso.total)} de{" "}
+                        {progresso.total}
+                        {progresso.nome ? ` — ${progresso.nome}` : ""}
+                      </p>
                     </div>
                   )}
                 </div>
