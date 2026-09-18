@@ -283,6 +283,7 @@ function Painel({
     setResultado("aprovado");
     setChecklist(CHECKLIST_PADRAO[tipo].map((item) => ({ item, ok: true, obs: "" })));
     setArquivos([]);
+    setProgresso(null);
   }
 
   async function salvar() {
