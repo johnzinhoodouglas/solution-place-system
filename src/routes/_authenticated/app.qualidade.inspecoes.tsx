@@ -238,8 +238,40 @@ function Painel({
   const [checklist, setChecklist] = useState<ChecklistItem[]>(
     CHECKLIST_PADRAO[tipo].map((item) => ({ item, ok: true, obs: "" })),
   );
-  const [arquivos, setArquivos] = useState<File[]>([]);
+  const [arquivos, setArquivos] = useState<{ file: File; originalBytes: number }[]>([]);
   const [saving, setSaving] = useState(false);
+  const [preparando, setPreparando] = useState(false);
+  const [progresso, setProgresso] = useState<{ atual: number; total: number; nome: string } | null>(
+    null,
+  );
+
+  async function selecionarArquivos(files: File[]) {
+    if (files.length === 0) return;
+    setPreparando(true);
+    const aceitos: { file: File; originalBytes: number }[] = [];
+    for (const file of files) {
+      const erro = validarArquivoImagem(file);
+      if (erro) {
+        toast.error(erro);
+        continue;
+      }
+      const comprimido = await comprimirImagem(file);
+      aceitos.push({ file: comprimido, originalBytes: file.size });
+    }
+    setPreparando(false);
+    if (aceitos.length === 0) return;
+    setArquivos((prev) => [
+      ...prev,
+      ...aceitos.filter((a) => !prev.some((p) => p.file.name === a.file.name)),
+    ]);
+    const antes = aceitos.reduce((s, a) => s + a.originalBytes, 0);
+    const depois = aceitos.reduce((s, a) => s + a.file.size, 0);
+    toast.success(
+      depois < antes
+        ? `${aceitos.length} foto(s) prontas — ${formatarBytes(antes)} reduzidas para ${formatarBytes(depois)}.`
+        : `${aceitos.length} foto(s) prontas (${formatarBytes(depois)}).`,
+    );
+  }
 
   function reset() {
     setOsId("");
