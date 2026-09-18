@@ -46,6 +46,14 @@ import {
   type InspecaoResultado,
 } from "@/lib/producao";
 import { abrirDocumentoImpressao, escapeHtml } from "@/lib/print-doc";
+import {
+  comprimirImagem,
+  formatarBytes,
+  nomeSeguroArquivo,
+  validarArquivoImagem,
+  TAMANHO_MAX_MB,
+} from "@/lib/image-upload";
+import { Progress } from "@/components/ui/progress";
 
 export const Route = createFileRoute("/_authenticated/app/qualidade/inspecoes")({
   head: () => ({
