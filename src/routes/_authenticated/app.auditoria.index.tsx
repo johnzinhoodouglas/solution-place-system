@@ -142,7 +142,11 @@ function AuditoriaPage() {
       if (autor.trim()) q = q.ilike("autor_nome", `%${autor.trim()}%`);
       if (de) q = q.gte("created_at", new Date(`${de}T00:00:00`).toISOString());
       if (ate) q = q.lte("created_at", new Date(`${ate}T23:59:59`).toISOString());
-      if (idsOs) q = q.in("registro_id", idsOs.length > 0 ? idsOs : ["00000000-0000-0000-0000-000000000000"]);
+      if (idsOs)
+        q = q.in(
+          "registro_id",
+          idsOs.length > 0 ? idsOs : ["00000000-0000-0000-0000-000000000000"],
+        );
       return q;
     },
     [tabela, acao, autor, de, ate, idsOs],
