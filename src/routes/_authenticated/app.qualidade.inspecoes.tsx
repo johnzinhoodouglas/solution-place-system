@@ -326,8 +326,9 @@ function Painel({
       created_by: userId,
     });
     setSaving(false);
+    setProgresso(null);
     if (error) {
-      toast.error(error.message);
+      toast.error(`Não foi possível registrar a inspeção: ${error.message}`);
       return;
     }
     toast.success("Inspeção registrada.");
