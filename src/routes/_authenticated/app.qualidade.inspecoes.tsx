@@ -46,6 +46,14 @@ import {
   type InspecaoResultado,
 } from "@/lib/producao";
 import { abrirDocumentoImpressao, escapeHtml } from "@/lib/print-doc";
+import {
+  comprimirImagem,
+  formatarBytes,
+  nomeSeguroArquivo,
+  validarArquivoImagem,
+  TAMANHO_MAX_MB,
+} from "@/lib/image-upload";
+import { Progress } from "@/components/ui/progress";
 
 export const Route = createFileRoute("/_authenticated/app/qualidade/inspecoes")({
   head: () => ({
@@ -230,8 +238,40 @@ function Painel({
   const [checklist, setChecklist] = useState<ChecklistItem[]>(
     CHECKLIST_PADRAO[tipo].map((item) => ({ item, ok: true, obs: "" })),
   );
-  const [arquivos, setArquivos] = useState<File[]>([]);
+  const [arquivos, setArquivos] = useState<{ file: File; originalBytes: number }[]>([]);
   const [saving, setSaving] = useState(false);
+  const [preparando, setPreparando] = useState(false);
+  const [progresso, setProgresso] = useState<{ atual: number; total: number; nome: string } | null>(
+    null,
+  );
+
+  async function selecionarArquivos(files: File[]) {
+    if (files.length === 0) return;
+    setPreparando(true);
+    const aceitos: { file: File; originalBytes: number }[] = [];
+    for (const file of files) {
+      const erro = validarArquivoImagem(file);
+      if (erro) {
+        toast.error(erro);
+        continue;
+      }
+      const comprimido = await comprimirImagem(file);
+      aceitos.push({ file: comprimido, originalBytes: file.size });
+    }
+    setPreparando(false);
+    if (aceitos.length === 0) return;
+    setArquivos((prev) => [
+      ...prev,
+      ...aceitos.filter((a) => !prev.some((p) => p.file.name === a.file.name)),
+    ]);
+    const antes = aceitos.reduce((s, a) => s + a.originalBytes, 0);
+    const depois = aceitos.reduce((s, a) => s + a.file.size, 0);
+    toast.success(
+      depois < antes
+        ? `${aceitos.length} foto(s) prontas — ${formatarBytes(antes)} reduzidas para ${formatarBytes(depois)}.`
+        : `${aceitos.length} foto(s) prontas (${formatarBytes(depois)}).`,
+    );
+  }
 
   function reset() {
     setOsId("");
@@ -243,21 +283,33 @@ function Painel({
     setResultado("aprovado");
     setChecklist(CHECKLIST_PADRAO[tipo].map((item) => ({ item, ok: true, obs: "" })));
     setArquivos([]);
+    setProgresso(null);
   }
 
   async function salvar() {
     setSaving(true);
     const fotos: Foto[] = [];
-    for (const file of arquivos) {
-      const path = `${tipo}/${Date.now()}-${file.name.replace(/[^\w.-]/g, "_")}`;
-      const { error } = await supabase.storage.from("inspecoes").upload(path, file);
+    for (let idx = 0; idx < arquivos.length; idx++) {
+      const { file } = arquivos[idx];
+      setProgresso({ atual: idx, total: arquivos.length, nome: file.name });
+      const path = `${tipo}/${Date.now()}-${nomeSeguroArquivo(file.name)}`;
+      const { error } = await supabase.storage
+        .from("inspecoes")
+        .upload(path, file, { contentType: file.type || "image/jpeg" });
       if (error) {
-        toast.error(`Falha ao enviar ${file.name}: ${error.message}`);
+        const msg = /size|large|exceed/i.test(error.message)
+          ? `"${file.name}" excede o tamanho permitido pelo armazenamento (limite ${TAMANHO_MAX_MB} MB).`
+          : `Não foi possível enviar "${file.name}": ${error.message}`;
+        toast.error(msg);
+        setProgresso(null);
         setSaving(false);
         return;
       }
       fotos.push({ path, nome: file.name });
     }
+    setProgresso(
+      arquivos.length > 0 ? { atual: arquivos.length, total: arquivos.length, nome: "" } : null,
+    );
     const { error } = await supabase.from("inspecoes").insert({
       tipo,
       os_id: osId || null,
@@ -274,8 +326,9 @@ function Painel({
       created_by: userId,
     });
     setSaving(false);
+    setProgresso(null);
     if (error) {
-      toast.error(error.message);
+      toast.error(`Não foi possível registrar a inspeção: ${error.message}`);
       return;
     }
     toast.success("Inspeção registrada.");
@@ -422,25 +475,48 @@ function Painel({
                   <div className="flex items-center gap-2">
                     <Input
                       type="file"
-                      accept="image/*"
+                      accept="image/jpeg,image/png,image/webp,image/heic"
                       multiple
-                      onChange={(e) => setArquivos(Array.from(e.target.files ?? []))}
+                      disabled={preparando || saving}
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files ?? []);
+                        e.target.value = "";
+                        void selecionarArquivos(files);
+                      }}
                     />
                     <Upload className="h-4 w-4 text-muted-foreground" />
                   </div>
+                  <p className="text-xs text-muted-foreground">
+                    JPG, PNG ou WebP até {TAMANHO_MAX_MB} MB por foto. As imagens são reduzidas
+                    automaticamente antes do envio.
+                  </p>
+                  {preparando && (
+                    <p className="text-xs text-primary">Preparando e comprimindo as fotos…</p>
+                  )}
                   {arquivos.length > 0 && (
                     <div className="flex flex-wrap gap-2">
                       {arquivos.map((f) => (
-                        <Badge key={f.name} variant="outline" className="gap-1">
-                          {f.name}
+                        <Badge key={f.file.name} variant="outline" className="gap-1">
+                          {f.file.name} · {formatarBytes(f.file.size)}
                           <button
                             type="button"
+                            aria-label={`Remover ${f.file.name}`}
                             onClick={() => setArquivos((prev) => prev.filter((x) => x !== f))}
                           >
                             <X className="h-3 w-3" />
                           </button>
                         </Badge>
                       ))}
+                    </div>
+                  )}
+                  {progresso && progresso.total > 0 && (
+                    <div className="space-y-1">
+                      <Progress value={(progresso.atual / progresso.total) * 100} />
+                      <p className="text-xs text-muted-foreground">
+                        Enviando {Math.min(progresso.atual + 1, progresso.total)} de{" "}
+                        {progresso.total}
+                        {progresso.nome ? ` — ${progresso.nome}` : ""}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -476,8 +552,12 @@ function Painel({
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={salvar} disabled={saving}>
-                  {saving ? "Salvando..." : "Registrar inspeção"}
+                <Button onClick={salvar} disabled={saving || preparando}>
+                  {preparando
+                    ? "Preparando fotos..."
+                    : saving
+                      ? "Salvando..."
+                      : "Registrar inspeção"}
                 </Button>
               </DialogFooter>
             </DialogContent>
