@@ -288,16 +288,27 @@ function Painel({
   async function salvar() {
     setSaving(true);
     const fotos: Foto[] = [];
-    for (const file of arquivos) {
-      const path = `${tipo}/${Date.now()}-${file.name.replace(/[^\w.-]/g, "_")}`;
-      const { error } = await supabase.storage.from("inspecoes").upload(path, file);
+    for (let idx = 0; idx < arquivos.length; idx++) {
+      const { file } = arquivos[idx];
+      setProgresso({ atual: idx, total: arquivos.length, nome: file.name });
+      const path = `${tipo}/${Date.now()}-${nomeSeguroArquivo(file.name)}`;
+      const { error } = await supabase.storage
+        .from("inspecoes")
+        .upload(path, file, { contentType: file.type || "image/jpeg" });
       if (error) {
-        toast.error(`Falha ao enviar ${file.name}: ${error.message}`);
+        const msg = /size|large|exceed/i.test(error.message)
+          ? `"${file.name}" excede o tamanho permitido pelo armazenamento (limite ${TAMANHO_MAX_MB} MB).`
+          : `Não foi possível enviar "${file.name}": ${error.message}`;
+        toast.error(msg);
+        setProgresso(null);
         setSaving(false);
         return;
       }
       fotos.push({ path, nome: file.name });
     }
+    setProgresso(
+      arquivos.length > 0 ? { atual: arquivos.length, total: arquivos.length, nome: "" } : null,
+    );
     const { error } = await supabase.from("inspecoes").insert({
       tipo,
       os_id: osId || null,
