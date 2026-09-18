@@ -552,8 +552,12 @@ function Painel({
                 </div>
               </div>
               <DialogFooter>
-                <Button onClick={salvar} disabled={saving}>
-                  {saving ? "Salvando..." : "Registrar inspeção"}
+                <Button onClick={salvar} disabled={saving || preparando}>
+                  {preparando
+                    ? "Preparando fotos..."
+                    : saving
+                      ? "Salvando..."
+                      : "Registrar inspeção"}
                 </Button>
               </DialogFooter>
             </DialogContent>
