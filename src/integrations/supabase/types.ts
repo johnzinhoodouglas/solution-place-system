@@ -16,9 +16,11 @@ export type Database = {
     Tables: {
       acoes_corretivas: {
         Row: {
+          aprovacao_status: string
           created_at: string
           created_by: string | null
           eficacia_verificada: boolean
+          escalonamento_nivel: number
           how_como: string | null
           how_much: number | null
           id: string
@@ -33,9 +35,11 @@ export type Database = {
           why: string | null
         }
         Insert: {
+          aprovacao_status?: string
           created_at?: string
           created_by?: string | null
           eficacia_verificada?: boolean
+          escalonamento_nivel?: number
           how_como?: string | null
           how_much?: number | null
           id?: string
@@ -50,9 +54,11 @@ export type Database = {
           why?: string | null
         }
         Update: {
+          aprovacao_status?: string
           created_at?: string
           created_by?: string | null
           eficacia_verificada?: boolean
+          escalonamento_nivel?: number
           how_como?: string | null
           how_much?: number | null
           id?: string
@@ -764,6 +770,7 @@ export type Database = {
           created_at: string
           created_by: string | null
           data_inspecao: string
+          escalonamento_nivel: number
           fornecedor_id: string | null
           fotos: Json
           id: string
@@ -774,6 +781,7 @@ export type Database = {
           numero: string | null
           observacoes: string | null
           os_id: string | null
+          prazo: string | null
           resultado: Database["public"]["Enums"]["inspecao_resultado"]
           tipo: Database["public"]["Enums"]["inspecao_tipo"]
           updated_at: string
@@ -785,6 +793,7 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           data_inspecao?: string
+          escalonamento_nivel?: number
           fornecedor_id?: string | null
           fotos?: Json
           id?: string
@@ -795,6 +804,7 @@ export type Database = {
           numero?: string | null
           observacoes?: string | null
           os_id?: string | null
+          prazo?: string | null
           resultado?: Database["public"]["Enums"]["inspecao_resultado"]
           tipo?: Database["public"]["Enums"]["inspecao_tipo"]
           updated_at?: string
@@ -806,6 +816,7 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           data_inspecao?: string
+          escalonamento_nivel?: number
           fornecedor_id?: string | null
           fotos?: Json
           id?: string
@@ -816,6 +827,7 @@ export type Database = {
           numero?: string | null
           observacoes?: string | null
           os_id?: string | null
+          prazo?: string | null
           resultado?: Database["public"]["Enums"]["inspecao_resultado"]
           tipo?: Database["public"]["Enums"]["inspecao_tipo"]
           updated_at?: string
@@ -848,16 +860,19 @@ export type Database = {
       nao_conformidades: {
         Row: {
           aberta_por: string | null
+          analise_ia: Json | null
           created_at: string
           data_abertura: string
           data_fechamento: string | null
           descricao: string | null
+          escalonamento_nivel: number
           etapa: Database["public"]["Enums"]["os_etapa"] | null
           evidencias: Json
           id: string
           numero: string
           origem: Database["public"]["Enums"]["nc_origem"]
           os_id: string | null
+          prazo: string | null
           responsavel_id: string | null
           setor: string | null
           severidade: Database["public"]["Enums"]["nc_severidade"]
@@ -867,16 +882,19 @@ export type Database = {
         }
         Insert: {
           aberta_por?: string | null
+          analise_ia?: Json | null
           created_at?: string
           data_abertura?: string
           data_fechamento?: string | null
           descricao?: string | null
+          escalonamento_nivel?: number
           etapa?: Database["public"]["Enums"]["os_etapa"] | null
           evidencias?: Json
           id?: string
           numero: string
           origem?: Database["public"]["Enums"]["nc_origem"]
           os_id?: string | null
+          prazo?: string | null
           responsavel_id?: string | null
           setor?: string | null
           severidade?: Database["public"]["Enums"]["nc_severidade"]
@@ -886,16 +904,19 @@ export type Database = {
         }
         Update: {
           aberta_por?: string | null
+          analise_ia?: Json | null
           created_at?: string
           data_abertura?: string
           data_fechamento?: string | null
           descricao?: string | null
+          escalonamento_nivel?: number
           etapa?: Database["public"]["Enums"]["os_etapa"] | null
           evidencias?: Json
           id?: string
           numero?: string
           origem?: Database["public"]["Enums"]["nc_origem"]
           os_id?: string | null
+          prazo?: string | null
           responsavel_id?: string | null
           setor?: string | null
           severidade?: Database["public"]["Enums"]["nc_severidade"]
@@ -909,6 +930,54 @@ export type Database = {
             columns: ["os_id"]
             isOneToOne: false
             referencedRelation: "ordens_servico"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      nc_decisoes: {
+        Row: {
+          acao_id: string | null
+          autor_id: string | null
+          autor_nome: string | null
+          comentario: string | null
+          created_at: string
+          decisao: string
+          id: string
+          nc_id: string
+        }
+        Insert: {
+          acao_id?: string | null
+          autor_id?: string | null
+          autor_nome?: string | null
+          comentario?: string | null
+          created_at?: string
+          decisao: string
+          id?: string
+          nc_id: string
+        }
+        Update: {
+          acao_id?: string | null
+          autor_id?: string | null
+          autor_nome?: string | null
+          comentario?: string | null
+          created_at?: string
+          decisao?: string
+          id?: string
+          nc_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nc_decisoes_acao_id_fkey"
+            columns: ["acao_id"]
+            isOneToOne: false
+            referencedRelation: "acoes_corretivas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "nc_decisoes_nc_id_fkey"
+            columns: ["nc_id"]
+            isOneToOne: false
+            referencedRelation: "nao_conformidades"
             referencedColumns: ["id"]
           },
         ]
@@ -1741,6 +1810,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      escalar_prazos: { Args: never; Returns: number }
       has_any_role: { Args: { _user_id: string }; Returns: boolean }
       has_role: {
         Args: {
@@ -1760,6 +1830,15 @@ export type Database = {
           _tabela: string
           _tipo: string
           _titulo: string
+        }
+        Returns: undefined
+      }
+      registrar_decisao: {
+        Args: {
+          _acao: string
+          _comentario: string
+          _decisao: string
+          _nc: string
         }
         Returns: undefined
       }
