@@ -14,6 +14,7 @@ import {
   Users,
   Recycle,
   History,
+  FileBarChart,
 } from "lucide-react";
 
 import {
@@ -194,6 +195,18 @@ export function AppSidebar() {
                   <Link to="/app/producao">
                     <Factory className="h-4 w-4" />
                     <span>Produção</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === "/app/qualidade/relatorios"}
+                  tooltip="Relatórios ISO"
+                >
+                  <Link to="/app/qualidade/relatorios">
+                    <FileBarChart className="h-4 w-4" />
+                    <span>Relatórios ISO</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
