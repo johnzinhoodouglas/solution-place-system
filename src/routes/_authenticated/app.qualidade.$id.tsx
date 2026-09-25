@@ -736,7 +736,6 @@ function AcaoCard({
       </div>
       <div className="mt-2 grid gap-2 text-xs text-muted-foreground sm:grid-cols-2">
         {a.why && <p><b>Por quê:</b> {a.why}</p>}
-        {a.who && <p><b>Quem:</b> {a.who}</p>}
         {a.where_local && <p><b>Onde:</b> {a.where_local}</p>}
         {a.how_como && <p><b>Como:</b> {a.how_como}</p>}
         {a.when_prazo && (
@@ -885,7 +884,7 @@ function AcaoForm({
       nc_id: ncId,
       what,
       why: why || null,
-      who: who || null,
+      observacoes: who ? `Responsável sugerido: ${who}` : null,
       where_local: whereLocal || null,
       how_como: howComo || null,
       how_much: howMuch ? Number(howMuch) : null,
@@ -914,7 +913,7 @@ function AcaoForm({
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <Label>Quem</Label>
+            <Label>Quem (responsável sugerido)</Label>
             <Input value={who} onChange={(e) => setWho(e.target.value)} />
           </div>
           <div>

@@ -56,7 +56,7 @@ export function NotificationBell() {
       setItens([]);
       return;
     }
-    carregar();
+    supabase.rpc("escalar_prazos").then(() => carregar());
     const canal = supabase
       .channel("notificacoes-usuario")
       .on(
@@ -66,8 +66,10 @@ export function NotificationBell() {
       )
       .subscribe();
     const timer = window.setInterval(carregar, 60000);
+    const esc = window.setInterval(() => supabase.rpc("escalar_prazos"), 30 * 60000);
     return () => {
       window.clearInterval(timer);
+      window.clearInterval(esc);
       supabase.removeChannel(canal);
     };
   }, [user, carregar]);
