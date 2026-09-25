@@ -95,3 +95,27 @@ export function podeGerirQualidade(roles: string[]) {
 export function podeGerirSeguranca(roles: string[]) {
   return roles.includes("seguranca") || roles.includes("diretoria") || roles.includes("master");
 }
+
+export const APROV_LABEL: Record<string, string> = {
+  rascunho: "Rascunho",
+  enviada: "Aguardando Diretoria",
+  ajustes: "Ajustes solicitados",
+  aprovada: "Aprovada",
+};
+
+export const APROV_TONE: Record<string, string> = {
+  rascunho: "bg-muted text-muted-foreground border-border",
+  enviada: "bg-primary/15 text-primary border-primary/40",
+  ajustes: "bg-warning/15 text-warning border-warning/40",
+  aprovada: "bg-success/15 text-success border-success/40",
+  concluida: "bg-success/15 text-success border-success/40",
+  reaberta: "bg-destructive/15 text-destructive border-destructive/40",
+};
+
+export const DECISAO_LABEL: Record<string, string> = {
+  enviada: "Enviada para aprovação",
+  aprovada: "Ação aprovada",
+  ajustes: "Ajustes solicitados",
+  concluida: "NC concluída",
+  reaberta: "NC reaberta",
+};
