@@ -171,7 +171,7 @@ function NcDetail() {
     !!nc.prazo && !fechada && new Date(nc.prazo + "T23:59:59") < new Date();
 
   async function patchNc(patch: Record<string, unknown>, ok = "Atualizado") {
-    const { error } = await supabase.from("nao_conformidades").update(patch).eq("id", id);
+    const { error } = await supabase.from("nao_conformidades").update(patch as never).eq("id", id);
     if (error) return toast.error(error.message);
     toast.success(ok);
     load();
@@ -557,7 +557,7 @@ function DescricaoEvidencias({
   async function salvarEv(lista: Evidencia[], extra: Record<string, unknown> = {}) {
     const { error } = await supabase
       .from("nao_conformidades")
-      .update({ evidencias: lista as never, ...extra })
+      .update({ evidencias: lista, ...extra } as never)
       .eq("id", nc.id);
     if (error) {
       toast.error(error.message);
