@@ -82,6 +82,71 @@ export type Database = {
           },
         ]
       }
+      afastamentos: {
+        Row: {
+          aso_apto: boolean
+          cargo_retorno: string | null
+          colaborador_id: string
+          created_at: string
+          data_inicio: string
+          data_prevista_retorno: string | null
+          data_retorno: string | null
+          id: string
+          integracao_ok: boolean
+          motivo: string
+          observacoes: string | null
+          setor_origem: string | null
+          setor_retorno: string | null
+          status: string
+          treinamento_ok: boolean
+          updated_at: string
+        }
+        Insert: {
+          aso_apto?: boolean
+          cargo_retorno?: string | null
+          colaborador_id: string
+          created_at?: string
+          data_inicio?: string
+          data_prevista_retorno?: string | null
+          data_retorno?: string | null
+          id?: string
+          integracao_ok?: boolean
+          motivo: string
+          observacoes?: string | null
+          setor_origem?: string | null
+          setor_retorno?: string | null
+          status?: string
+          treinamento_ok?: boolean
+          updated_at?: string
+        }
+        Update: {
+          aso_apto?: boolean
+          cargo_retorno?: string | null
+          colaborador_id?: string
+          created_at?: string
+          data_inicio?: string
+          data_prevista_retorno?: string | null
+          data_retorno?: string | null
+          id?: string
+          integracao_ok?: boolean
+          motivo?: string
+          observacoes?: string | null
+          setor_origem?: string | null
+          setor_retorno?: string | null
+          status?: string
+          treinamento_ok?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "afastamentos_colaborador_id_fkey"
+            columns: ["colaborador_id"]
+            isOneToOne: false
+            referencedRelation: "colaboradores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_log: {
         Row: {
           acao: string
@@ -856,6 +921,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      metas_setor: {
+        Row: {
+          created_at: string
+          id: string
+          max_ncs: number
+          mes: string
+          meta_horas: number
+          meta_os: number
+          pct_prazo: number
+          setor: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          max_ncs?: number
+          mes: string
+          meta_horas?: number
+          meta_os?: number
+          pct_prazo?: number
+          setor: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          max_ncs?: number
+          mes?: string
+          meta_horas?: number
+          meta_os?: number
+          pct_prazo?: number
+          setor?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       nao_conformidades: {
         Row: {
