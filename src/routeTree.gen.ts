@@ -13,6 +13,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedAppDiretoriaRouteImport } from './routes/_authenticated/app.diretoria'
 import { Route as AuthenticatedAppVendasIndexRouteImport } from './routes/_authenticated/app.vendas.index'
 import { Route as AuthenticatedAppSegurancaIndexRouteImport } from './routes/_authenticated/app.seguranca.index'
 import { Route as AuthenticatedAppRhIndexRouteImport } from './routes/_authenticated/app.rh.index'
@@ -26,6 +27,8 @@ import { Route as AuthenticatedAppFinanceiroIndexRouteImport } from './routes/_a
 import { Route as AuthenticatedAppComprasIndexRouteImport } from './routes/_authenticated/app.compras.index'
 import { Route as AuthenticatedAppAuditoriaIndexRouteImport } from './routes/_authenticated/app.auditoria.index'
 import { Route as AuthenticatedAppSetorSetorRouteImport } from './routes/_authenticated/app.setor.$setor'
+import { Route as AuthenticatedAppRhSetoresRouteImport } from './routes/_authenticated/app.rh.setores'
+import { Route as AuthenticatedAppRhConcluidosRouteImport } from './routes/_authenticated/app.rh.concluidos'
 import { Route as AuthenticatedAppQualidadeRelatoriosRouteImport } from './routes/_authenticated/app.qualidade.relatorios'
 import { Route as AuthenticatedAppQualidadeInspecoesRouteImport } from './routes/_authenticated/app.qualidade.inspecoes'
 import { Route as AuthenticatedAppQualidadeIdRouteImport } from './routes/_authenticated/app.qualidade.$id'
@@ -52,6 +55,12 @@ const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   path: '/app/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAppDiretoriaRoute =
+  AuthenticatedAppDiretoriaRouteImport.update({
+    id: '/app/diretoria',
+    path: '/app/diretoria',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppVendasIndexRoute =
   AuthenticatedAppVendasIndexRouteImport.update({
     id: '/app/vendas/',
@@ -128,6 +137,18 @@ const AuthenticatedAppSetorSetorRoute =
     path: '/app/setor/$setor',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAppRhSetoresRoute =
+  AuthenticatedAppRhSetoresRouteImport.update({
+    id: '/app/rh/setores',
+    path: '/app/rh/setores',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppRhConcluidosRoute =
+  AuthenticatedAppRhConcluidosRouteImport.update({
+    id: '/app/rh/concluidos',
+    path: '/app/rh/concluidos',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppQualidadeRelatoriosRoute =
   AuthenticatedAppQualidadeRelatoriosRouteImport.update({
     id: '/app/qualidade/relatorios',
@@ -166,6 +187,7 @@ const AuthenticatedAppAdminPageRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/app/diretoria': typeof AuthenticatedAppDiretoriaRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/app/admin/$page': typeof AuthenticatedAppAdminPageRoute
   '/app/os/$id': typeof AuthenticatedAppOsIdRoute
@@ -173,6 +195,8 @@ export interface FileRoutesByFullPath {
   '/app/qualidade/$id': typeof AuthenticatedAppQualidadeIdRoute
   '/app/qualidade/inspecoes': typeof AuthenticatedAppQualidadeInspecoesRoute
   '/app/qualidade/relatorios': typeof AuthenticatedAppQualidadeRelatoriosRoute
+  '/app/rh/concluidos': typeof AuthenticatedAppRhConcluidosRoute
+  '/app/rh/setores': typeof AuthenticatedAppRhSetoresRoute
   '/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
   '/app/auditoria/': typeof AuthenticatedAppAuditoriaIndexRoute
   '/app/compras/': typeof AuthenticatedAppComprasIndexRoute
@@ -190,6 +214,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/app/diretoria': typeof AuthenticatedAppDiretoriaRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/app/admin/$page': typeof AuthenticatedAppAdminPageRoute
   '/app/os/$id': typeof AuthenticatedAppOsIdRoute
@@ -197,6 +222,8 @@ export interface FileRoutesByTo {
   '/app/qualidade/$id': typeof AuthenticatedAppQualidadeIdRoute
   '/app/qualidade/inspecoes': typeof AuthenticatedAppQualidadeInspecoesRoute
   '/app/qualidade/relatorios': typeof AuthenticatedAppQualidadeRelatoriosRoute
+  '/app/rh/concluidos': typeof AuthenticatedAppRhConcluidosRoute
+  '/app/rh/setores': typeof AuthenticatedAppRhSetoresRoute
   '/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
   '/app/auditoria': typeof AuthenticatedAppAuditoriaIndexRoute
   '/app/compras': typeof AuthenticatedAppComprasIndexRoute
@@ -216,6 +243,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/app/diretoria': typeof AuthenticatedAppDiretoriaRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/app/admin/$page': typeof AuthenticatedAppAdminPageRoute
   '/_authenticated/app/os/$id': typeof AuthenticatedAppOsIdRoute
@@ -223,6 +251,8 @@ export interface FileRoutesById {
   '/_authenticated/app/qualidade/$id': typeof AuthenticatedAppQualidadeIdRoute
   '/_authenticated/app/qualidade/inspecoes': typeof AuthenticatedAppQualidadeInspecoesRoute
   '/_authenticated/app/qualidade/relatorios': typeof AuthenticatedAppQualidadeRelatoriosRoute
+  '/_authenticated/app/rh/concluidos': typeof AuthenticatedAppRhConcluidosRoute
+  '/_authenticated/app/rh/setores': typeof AuthenticatedAppRhSetoresRoute
   '/_authenticated/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
   '/_authenticated/app/auditoria/': typeof AuthenticatedAppAuditoriaIndexRoute
   '/_authenticated/app/compras/': typeof AuthenticatedAppComprasIndexRoute
@@ -242,6 +272,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/app/diretoria'
     | '/app/'
     | '/app/admin/$page'
     | '/app/os/$id'
@@ -249,6 +280,8 @@ export interface FileRouteTypes {
     | '/app/qualidade/$id'
     | '/app/qualidade/inspecoes'
     | '/app/qualidade/relatorios'
+    | '/app/rh/concluidos'
+    | '/app/rh/setores'
     | '/app/setor/$setor'
     | '/app/auditoria/'
     | '/app/compras/'
@@ -266,6 +299,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/app/diretoria'
     | '/app'
     | '/app/admin/$page'
     | '/app/os/$id'
@@ -273,6 +307,8 @@ export interface FileRouteTypes {
     | '/app/qualidade/$id'
     | '/app/qualidade/inspecoes'
     | '/app/qualidade/relatorios'
+    | '/app/rh/concluidos'
+    | '/app/rh/setores'
     | '/app/setor/$setor'
     | '/app/auditoria'
     | '/app/compras'
@@ -291,6 +327,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/app/diretoria'
     | '/_authenticated/app/'
     | '/_authenticated/app/admin/$page'
     | '/_authenticated/app/os/$id'
@@ -298,6 +335,8 @@ export interface FileRouteTypes {
     | '/_authenticated/app/qualidade/$id'
     | '/_authenticated/app/qualidade/inspecoes'
     | '/_authenticated/app/qualidade/relatorios'
+    | '/_authenticated/app/rh/concluidos'
+    | '/_authenticated/app/rh/setores'
     | '/_authenticated/app/setor/$setor'
     | '/_authenticated/app/auditoria/'
     | '/_authenticated/app/compras/'
@@ -347,6 +386,13 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app/'
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/diretoria': {
+      id: '/_authenticated/app/diretoria'
+      path: '/app/diretoria'
+      fullPath: '/app/diretoria'
+      preLoaderRoute: typeof AuthenticatedAppDiretoriaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/app/vendas/': {
@@ -440,6 +486,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppSetorSetorRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/app/rh/setores': {
+      id: '/_authenticated/app/rh/setores'
+      path: '/app/rh/setores'
+      fullPath: '/app/rh/setores'
+      preLoaderRoute: typeof AuthenticatedAppRhSetoresRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/rh/concluidos': {
+      id: '/_authenticated/app/rh/concluidos'
+      path: '/app/rh/concluidos'
+      fullPath: '/app/rh/concluidos'
+      preLoaderRoute: typeof AuthenticatedAppRhConcluidosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/app/qualidade/relatorios': {
       id: '/_authenticated/app/qualidade/relatorios'
       path: '/app/qualidade/relatorios'
@@ -486,6 +546,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAppDiretoriaRoute: typeof AuthenticatedAppDiretoriaRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
   AuthenticatedAppAdminPageRoute: typeof AuthenticatedAppAdminPageRoute
   AuthenticatedAppOsIdRoute: typeof AuthenticatedAppOsIdRoute
@@ -493,6 +554,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppQualidadeIdRoute: typeof AuthenticatedAppQualidadeIdRoute
   AuthenticatedAppQualidadeInspecoesRoute: typeof AuthenticatedAppQualidadeInspecoesRoute
   AuthenticatedAppQualidadeRelatoriosRoute: typeof AuthenticatedAppQualidadeRelatoriosRoute
+  AuthenticatedAppRhConcluidosRoute: typeof AuthenticatedAppRhConcluidosRoute
+  AuthenticatedAppRhSetoresRoute: typeof AuthenticatedAppRhSetoresRoute
   AuthenticatedAppSetorSetorRoute: typeof AuthenticatedAppSetorSetorRoute
   AuthenticatedAppAuditoriaIndexRoute: typeof AuthenticatedAppAuditoriaIndexRoute
   AuthenticatedAppComprasIndexRoute: typeof AuthenticatedAppComprasIndexRoute
@@ -509,6 +572,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAppDiretoriaRoute: AuthenticatedAppDiretoriaRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
   AuthenticatedAppAdminPageRoute: AuthenticatedAppAdminPageRoute,
   AuthenticatedAppOsIdRoute: AuthenticatedAppOsIdRoute,
@@ -518,6 +582,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedAppQualidadeInspecoesRoute,
   AuthenticatedAppQualidadeRelatoriosRoute:
     AuthenticatedAppQualidadeRelatoriosRoute,
+  AuthenticatedAppRhConcluidosRoute: AuthenticatedAppRhConcluidosRoute,
+  AuthenticatedAppRhSetoresRoute: AuthenticatedAppRhSetoresRoute,
   AuthenticatedAppSetorSetorRoute: AuthenticatedAppSetorSetorRoute,
   AuthenticatedAppAuditoriaIndexRoute: AuthenticatedAppAuditoriaIndexRoute,
   AuthenticatedAppComprasIndexRoute: AuthenticatedAppComprasIndexRoute,
