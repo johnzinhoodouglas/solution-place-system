@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Users, Plus, GraduationCap } from "lucide-react";
 
@@ -122,6 +122,14 @@ function RhPage() {
             Dados de colaboradores e treinamentos — competência e conscientização (ISO 9001:2015,
             7.2 e 7.3).
           </p>
+        </div>
+        <div className="ml-auto flex flex-wrap gap-2">
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/app/rh/setores">Por setor e recolocação</Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/app/rh/concluidos">Treinamentos concluídos</Link>
+          </Button>
         </div>
       </div>
 
