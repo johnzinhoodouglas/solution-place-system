@@ -13,6 +13,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedAppMetasRouteImport } from './routes/_authenticated/app.metas'
 import { Route as AuthenticatedAppDiretoriaRouteImport } from './routes/_authenticated/app.diretoria'
 import { Route as AuthenticatedAppVendasIndexRouteImport } from './routes/_authenticated/app.vendas.index'
 import { Route as AuthenticatedAppSegurancaIndexRouteImport } from './routes/_authenticated/app.seguranca.index'
@@ -53,6 +54,11 @@ const IndexRoute = IndexRouteImport.update({
 const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   id: '/app/',
   path: '/app/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAppMetasRoute = AuthenticatedAppMetasRouteImport.update({
+  id: '/app/metas',
+  path: '/app/metas',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAppDiretoriaRoute =
@@ -188,6 +194,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/app/diretoria': typeof AuthenticatedAppDiretoriaRoute
+  '/app/metas': typeof AuthenticatedAppMetasRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/app/admin/$page': typeof AuthenticatedAppAdminPageRoute
   '/app/os/$id': typeof AuthenticatedAppOsIdRoute
@@ -215,6 +222,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/app/diretoria': typeof AuthenticatedAppDiretoriaRoute
+  '/app/metas': typeof AuthenticatedAppMetasRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/app/admin/$page': typeof AuthenticatedAppAdminPageRoute
   '/app/os/$id': typeof AuthenticatedAppOsIdRoute
@@ -244,6 +252,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/app/diretoria': typeof AuthenticatedAppDiretoriaRoute
+  '/_authenticated/app/metas': typeof AuthenticatedAppMetasRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/app/admin/$page': typeof AuthenticatedAppAdminPageRoute
   '/_authenticated/app/os/$id': typeof AuthenticatedAppOsIdRoute
@@ -273,6 +282,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/app/diretoria'
+    | '/app/metas'
     | '/app/'
     | '/app/admin/$page'
     | '/app/os/$id'
@@ -300,6 +310,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/app/diretoria'
+    | '/app/metas'
     | '/app'
     | '/app/admin/$page'
     | '/app/os/$id'
@@ -328,6 +339,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/app/diretoria'
+    | '/_authenticated/app/metas'
     | '/_authenticated/app/'
     | '/_authenticated/app/admin/$page'
     | '/_authenticated/app/os/$id'
@@ -386,6 +398,13 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app/'
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/metas': {
+      id: '/_authenticated/app/metas'
+      path: '/app/metas'
+      fullPath: '/app/metas'
+      preLoaderRoute: typeof AuthenticatedAppMetasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/app/diretoria': {
@@ -547,6 +566,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppDiretoriaRoute: typeof AuthenticatedAppDiretoriaRoute
+  AuthenticatedAppMetasRoute: typeof AuthenticatedAppMetasRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
   AuthenticatedAppAdminPageRoute: typeof AuthenticatedAppAdminPageRoute
   AuthenticatedAppOsIdRoute: typeof AuthenticatedAppOsIdRoute
@@ -573,6 +593,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppDiretoriaRoute: AuthenticatedAppDiretoriaRoute,
+  AuthenticatedAppMetasRoute: AuthenticatedAppMetasRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
   AuthenticatedAppAdminPageRoute: AuthenticatedAppAdminPageRoute,
   AuthenticatedAppOsIdRoute: AuthenticatedAppOsIdRoute,

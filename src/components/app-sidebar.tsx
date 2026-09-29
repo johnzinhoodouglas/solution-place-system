@@ -15,6 +15,8 @@ import {
   Recycle,
   History,
   FileBarChart,
+  AlarmClock,
+  Target,
 } from "lucide-react";
 
 import {
@@ -308,6 +310,22 @@ export function AppSidebar() {
                     </SidebarMenuItem>
                   );
                 })}
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild isActive={pathname === "/app/diretoria"} tooltip="Painel de prazos">
+                    <Link to="/app/diretoria">
+                      <AlarmClock className="h-4 w-4" />
+                      <span>Painel de prazos</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild isActive={pathname === "/app/metas"} tooltip="Metas por setor">
+                    <Link to="/app/metas">
+                      <Target className="h-4 w-4" />
+                      <span>Metas por setor</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
