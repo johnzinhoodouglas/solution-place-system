@@ -40,7 +40,7 @@ import type { AppRole } from "@/lib/setores";
 
 export const Route = createFileRoute("/_authenticated/app/reciclaveis/")({
   component: ReciclaveisPage,
-  errorComponent: ({ error }) => <p className="text-sm text-destructive">{error.message}</p>,
+  errorComponent: ({ error }) => <p className="text-sm text-destructive">{(error as Error).message}</p>,
 });
 
 type SucataTipo = "aco_304" | "lataria" | "vidro" | "manta" | "outros";

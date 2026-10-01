@@ -922,6 +922,65 @@ export type Database = {
           },
         ]
       }
+      insumos: {
+        Row: {
+          ativo: boolean
+          categoria: string | null
+          codigo: string | null
+          created_at: string
+          custo_unitario: number
+          estoque: number
+          estoque_minimo: number
+          fornecedor_id: string | null
+          id: string
+          localizacao: string | null
+          nome: string
+          qtd_reposicao: number
+          unidade: string
+          updated_at: string
+        }
+        Insert: {
+          ativo?: boolean
+          categoria?: string | null
+          codigo?: string | null
+          created_at?: string
+          custo_unitario?: number
+          estoque?: number
+          estoque_minimo?: number
+          fornecedor_id?: string | null
+          id?: string
+          localizacao?: string | null
+          nome: string
+          qtd_reposicao?: number
+          unidade?: string
+          updated_at?: string
+        }
+        Update: {
+          ativo?: boolean
+          categoria?: string | null
+          codigo?: string | null
+          created_at?: string
+          custo_unitario?: number
+          estoque?: number
+          estoque_minimo?: number
+          fornecedor_id?: string | null
+          id?: string
+          localizacao?: string | null
+          nome?: string
+          qtd_reposicao?: number
+          unidade?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "insumos_fornecedor_id_fkey"
+            columns: ["fornecedor_id"]
+            isOneToOne: false
+            referencedRelation: "fornecedores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       metas_setor: {
         Row: {
           created_at: string
@@ -957,6 +1016,57 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      movimentos_estoque: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          insumo_id: string
+          observacoes: string | null
+          os_id: string | null
+          quantidade: number
+          responsavel_nome: string | null
+          tipo: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          insumo_id: string
+          observacoes?: string | null
+          os_id?: string | null
+          quantidade: number
+          responsavel_nome?: string | null
+          tipo: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          insumo_id?: string
+          observacoes?: string | null
+          os_id?: string | null
+          quantidade?: number
+          responsavel_nome?: string | null
+          tipo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "movimentos_estoque_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
+            referencedRelation: "insumos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "movimentos_estoque_os_id_fkey"
+            columns: ["os_id"]
+            isOneToOne: false
+            referencedRelation: "ordens_servico"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       nao_conformidades: {
         Row: {

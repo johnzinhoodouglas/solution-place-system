@@ -27,6 +27,7 @@ import { Route as AuthenticatedAppFiscalIndexRouteImport } from './routes/_authe
 import { Route as AuthenticatedAppFinanceiroIndexRouteImport } from './routes/_authenticated/app.financeiro.index'
 import { Route as AuthenticatedAppComprasIndexRouteImport } from './routes/_authenticated/app.compras.index'
 import { Route as AuthenticatedAppAuditoriaIndexRouteImport } from './routes/_authenticated/app.auditoria.index'
+import { Route as AuthenticatedAppAlmoxarifadoIndexRouteImport } from './routes/_authenticated/app.almoxarifado.index'
 import { Route as AuthenticatedAppSetorSetorRouteImport } from './routes/_authenticated/app.setor.$setor'
 import { Route as AuthenticatedAppRhSetoresRouteImport } from './routes/_authenticated/app.rh.setores'
 import { Route as AuthenticatedAppRhConcluidosRouteImport } from './routes/_authenticated/app.rh.concluidos'
@@ -137,6 +138,12 @@ const AuthenticatedAppAuditoriaIndexRoute =
     path: '/app/auditoria/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAppAlmoxarifadoIndexRoute =
+  AuthenticatedAppAlmoxarifadoIndexRouteImport.update({
+    id: '/app/almoxarifado/',
+    path: '/app/almoxarifado/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppSetorSetorRoute =
   AuthenticatedAppSetorSetorRouteImport.update({
     id: '/app/setor/$setor',
@@ -205,6 +212,7 @@ export interface FileRoutesByFullPath {
   '/app/rh/concluidos': typeof AuthenticatedAppRhConcluidosRoute
   '/app/rh/setores': typeof AuthenticatedAppRhSetoresRoute
   '/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
+  '/app/almoxarifado/': typeof AuthenticatedAppAlmoxarifadoIndexRoute
   '/app/auditoria/': typeof AuthenticatedAppAuditoriaIndexRoute
   '/app/compras/': typeof AuthenticatedAppComprasIndexRoute
   '/app/financeiro/': typeof AuthenticatedAppFinanceiroIndexRoute
@@ -233,6 +241,7 @@ export interface FileRoutesByTo {
   '/app/rh/concluidos': typeof AuthenticatedAppRhConcluidosRoute
   '/app/rh/setores': typeof AuthenticatedAppRhSetoresRoute
   '/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
+  '/app/almoxarifado': typeof AuthenticatedAppAlmoxarifadoIndexRoute
   '/app/auditoria': typeof AuthenticatedAppAuditoriaIndexRoute
   '/app/compras': typeof AuthenticatedAppComprasIndexRoute
   '/app/financeiro': typeof AuthenticatedAppFinanceiroIndexRoute
@@ -263,6 +272,7 @@ export interface FileRoutesById {
   '/_authenticated/app/rh/concluidos': typeof AuthenticatedAppRhConcluidosRoute
   '/_authenticated/app/rh/setores': typeof AuthenticatedAppRhSetoresRoute
   '/_authenticated/app/setor/$setor': typeof AuthenticatedAppSetorSetorRoute
+  '/_authenticated/app/almoxarifado/': typeof AuthenticatedAppAlmoxarifadoIndexRoute
   '/_authenticated/app/auditoria/': typeof AuthenticatedAppAuditoriaIndexRoute
   '/_authenticated/app/compras/': typeof AuthenticatedAppComprasIndexRoute
   '/_authenticated/app/financeiro/': typeof AuthenticatedAppFinanceiroIndexRoute
@@ -293,6 +303,7 @@ export interface FileRouteTypes {
     | '/app/rh/concluidos'
     | '/app/rh/setores'
     | '/app/setor/$setor'
+    | '/app/almoxarifado/'
     | '/app/auditoria/'
     | '/app/compras/'
     | '/app/financeiro/'
@@ -321,6 +332,7 @@ export interface FileRouteTypes {
     | '/app/rh/concluidos'
     | '/app/rh/setores'
     | '/app/setor/$setor'
+    | '/app/almoxarifado'
     | '/app/auditoria'
     | '/app/compras'
     | '/app/financeiro'
@@ -350,6 +362,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/rh/concluidos'
     | '/_authenticated/app/rh/setores'
     | '/_authenticated/app/setor/$setor'
+    | '/_authenticated/app/almoxarifado/'
     | '/_authenticated/app/auditoria/'
     | '/_authenticated/app/compras/'
     | '/_authenticated/app/financeiro/'
@@ -498,6 +511,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppAuditoriaIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/app/almoxarifado/': {
+      id: '/_authenticated/app/almoxarifado/'
+      path: '/app/almoxarifado'
+      fullPath: '/app/almoxarifado/'
+      preLoaderRoute: typeof AuthenticatedAppAlmoxarifadoIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/app/setor/$setor': {
       id: '/_authenticated/app/setor/$setor'
       path: '/app/setor/$setor'
@@ -577,6 +597,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppRhConcluidosRoute: typeof AuthenticatedAppRhConcluidosRoute
   AuthenticatedAppRhSetoresRoute: typeof AuthenticatedAppRhSetoresRoute
   AuthenticatedAppSetorSetorRoute: typeof AuthenticatedAppSetorSetorRoute
+  AuthenticatedAppAlmoxarifadoIndexRoute: typeof AuthenticatedAppAlmoxarifadoIndexRoute
   AuthenticatedAppAuditoriaIndexRoute: typeof AuthenticatedAppAuditoriaIndexRoute
   AuthenticatedAppComprasIndexRoute: typeof AuthenticatedAppComprasIndexRoute
   AuthenticatedAppFinanceiroIndexRoute: typeof AuthenticatedAppFinanceiroIndexRoute
@@ -606,6 +627,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppRhConcluidosRoute: AuthenticatedAppRhConcluidosRoute,
   AuthenticatedAppRhSetoresRoute: AuthenticatedAppRhSetoresRoute,
   AuthenticatedAppSetorSetorRoute: AuthenticatedAppSetorSetorRoute,
+  AuthenticatedAppAlmoxarifadoIndexRoute:
+    AuthenticatedAppAlmoxarifadoIndexRoute,
   AuthenticatedAppAuditoriaIndexRoute: AuthenticatedAppAuditoriaIndexRoute,
   AuthenticatedAppComprasIndexRoute: AuthenticatedAppComprasIndexRoute,
   AuthenticatedAppFinanceiroIndexRoute: AuthenticatedAppFinanceiroIndexRoute,

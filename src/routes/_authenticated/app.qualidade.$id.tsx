@@ -76,7 +76,7 @@ export const Route = createFileRoute("/_authenticated/app/qualidade/$id")({
   errorComponent: ({ error }) => (
     <div className="mx-auto max-w-2xl text-center">
       <h2 className="text-xl font-semibold">Erro</h2>
-      <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
+      <p className="mt-2 text-sm text-muted-foreground">{(error as Error).message}</p>
     </div>
   ),
   notFoundComponent: () => <p>NC não encontrada.</p>,
@@ -582,7 +582,7 @@ function DescricaoEvidencias({
         .from("inspecoes")
         .upload(path, file, { contentType: file.type || "image/jpeg" });
       if (error) {
-        toast.error(`Não foi possível enviar "${f.name}": ${error.message}`);
+        toast.error(`Não foi possível enviar "${f.name}": ${(error as Error).message}`);
         continue;
       }
       novas.push({ path, nome: file.name });

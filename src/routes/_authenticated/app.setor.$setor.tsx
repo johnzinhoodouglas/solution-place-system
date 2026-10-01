@@ -28,7 +28,7 @@ export const Route = createFileRoute("/_authenticated/app/setor/$setor")({
   errorComponent: ({ error }) => (
     <div className="mx-auto max-w-2xl text-center">
       <h2 className="text-xl font-semibold">Erro ao carregar setor</h2>
-      <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
+      <p className="mt-2 text-sm text-muted-foreground">{(error as Error).message}</p>
     </div>
   ),
 });

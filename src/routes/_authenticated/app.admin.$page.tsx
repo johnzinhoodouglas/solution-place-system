@@ -41,7 +41,7 @@ export const Route = createFileRoute("/_authenticated/app/admin/$page")({
       </Button>
     </div>
   ),
-  errorComponent: ({ error }) => <p className="text-sm text-destructive">{error.message}</p>,
+  errorComponent: ({ error }) => <p className="text-sm text-destructive">{(error as Error).message}</p>,
 });
 
 function AdminPage() {

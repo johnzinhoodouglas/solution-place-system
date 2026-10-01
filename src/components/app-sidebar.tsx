@@ -17,6 +17,7 @@ import {
   FileBarChart,
   AlarmClock,
   Target,
+  Warehouse,
 } from "lucide-react";
 
 import {
@@ -152,6 +153,24 @@ export function AppSidebar() {
                     <Link to="/app/compras">
                       <ShoppingBag className="h-4 w-4" />
                       <span>Compras</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
+              {(roles.includes("compras") ||
+                roles.includes("producao") ||
+                roles.includes("engenharia") ||
+                roles.includes("diretoria") ||
+                roles.includes("master")) && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname.startsWith("/app/almoxarifado")}
+                    tooltip="Almoxarifado"
+                  >
+                    <Link to="/app/almoxarifado">
+                      <Warehouse className="h-4 w-4" />
+                      <span>Almoxarifado</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
