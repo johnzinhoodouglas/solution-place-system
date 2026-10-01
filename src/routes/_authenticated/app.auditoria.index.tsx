@@ -29,7 +29,7 @@ import { podeIntervir } from "@/lib/setores";
 
 export const Route = createFileRoute("/_authenticated/app/auditoria/")({
   component: AuditoriaPage,
-  errorComponent: ({ error }) => <p className="text-sm text-destructive">{error.message}</p>,
+  errorComponent: ({ error }) => <p className="text-sm text-destructive">{(error as Error).message}</p>,
 });
 
 type Log = {
@@ -188,7 +188,7 @@ function AuditoriaPage() {
   async function exportar() {
     const { data, error } = await montarQuery(false).limit(5000);
     if (error) {
-      toast.error(`Falha ao exportar: ${error.message}`);
+      toast.error(`Falha ao exportar: ${(error as Error).message}`);
       return;
     }
     const linhas = (data as Log[]) ?? [];
